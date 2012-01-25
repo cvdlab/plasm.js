@@ -1,0 +1,17 @@
+{
+  "author": "cvd-lab <cvdlab@email.com> (https://github.com/cvd-lab/)",
+  "name": "plasm.js",
+  "description": "JavaScript Programming Language for Solid Modeling",
+  "version": "0.0.1",
+  "homepage": "https://github.com/cvd-lab/plasm.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cvd-lab/plasm.js.git"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

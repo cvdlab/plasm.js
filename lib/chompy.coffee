@@ -302,21 +302,23 @@ explode = (args) -> (scene) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
+outline = (dim) -> (pol) ->
+	#console.log pol
+	verts = pol.vertices.verts
+	faces_d = pol.faces.cells[dim]
+	#console.log "verts",verts
+	#console.log "faces_d",faces_d
+	new SimplicialComplex(verts,faces_d)
 
 #///////////////////////////////////////////////////////////////////////////////
 
 
-outline = (dim) -> (pol) ->
-	console.log pol
-	verts = pol.vertices.verts
-	faces_d = pol.faces.cells[dim]
-	console.log "verts",verts
-	console.log "faces_d",faces_d
-	new SimplicialComplex(verts,faces_d)
-
+#///////////////////////////////////////////////////////////////////////////////
 
 obj = simplexGrid ([[1],[1],[1]]) 
 obj = outline(2)(obj) ## OK
+
+
 obj = outline(1)(obj) ## KO
 
 obj = simplexGrid ([[1],[1]]) 
@@ -325,15 +327,5 @@ obj = outline(1)(obj) ## KO
 console.log "outverts",obj.vertices.verts
 console.log "outfaces",obj.faces.cells[obj.faces.dim]
 model = viewer.draw(obj) 
-
-###
-
-#obj = t([0],[-1])(simplexGrid([[1,-1,1]]))
-#obj = t([0],[-1])(simplexGrid([[1,-1,1],[1,-1,1]]))
-obj = t([0],[-1])(simplexGrid ([replica(10)([1,-1]),replica(10)([1,-1])]) )
-#obj = t([0],[-1])(simplexGrid([[1,-1,1],[1,-1,1],[1,-1,1]]))
-freeobj = explode([2,2])(free(obj))
-models = (viewer.draw(simplex) for simplex in freeobj);
-models[0].color([1,0,0]).add(models[1]).add(models[2]).add(models[3])
 
 

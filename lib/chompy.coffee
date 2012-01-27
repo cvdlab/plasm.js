@@ -17,7 +17,7 @@ root.bigger = bigger = (a,b) -> if a > b then a else b
 root.smaller = smaller = (a,b) -> if a < b then a else b
 root.biggest = biggest = (args) -> args.reduce bigger #see below
 root.biggest = biggest = (args) -> (insr bigger) args #see above
-root.smallest = smallest = (args) -> (insr smaller) args 
+root.smallest = smallest = (args) -> (insr smaller) args
 root.list = list = (args) -> (cons [id]) args
 root.len = len = (args) -> args.length
 root.reverse = reverse = (args) -> if args.length > 1 then (args[i] for i in [args.length-1..0]) else args
@@ -31,7 +31,7 @@ root.sum = sum = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x+y
 root.sub = sub = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x-y) args else aa(insl (x,y) -> x-y)(trans args)
 root.mul = mul = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x*y) args else aa(insl (x,y) -> x*y)(trans args)
 root.div = div = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x/y) args else aa(insl (x,y) -> x/y)(trans args)
-root.trans = trans = (args) -> 
+root.trans = trans = (args) ->
 	n = args.length; m = args[0].length; args = cat args
 	((args[j*m+i] for j in [0...n]) for i in [0...m])
 root.vect = vect = (binaryop) -> (args) -> aa(binaryop) trans args
@@ -41,7 +41,7 @@ root.isNumber = isNumber = (n) -> (not isNaN parseFloat n) and isFinite n
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.progressive_sum = progressive_sum = (args) -> 
+root.progressive_sum = progressive_sum = (args) ->
 	al [0, (insr (x,y) -> x+y) args[0..i] for i in [0...args.length]]
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -56,11 +56,11 @@ root.type = type = (obj) ->
 	if myClass of classToType
 		return classToType[myClass]
 	return "object"
-root.typedPrint = typedPrint = (args) -> 
+root.typedPrint = typedPrint = (args) ->
 	console.log "#{type args}::#{args}";
 	args
 root.clone = clone = (obj) ->
-	if not obj? or typeof obj isnt 'object' 
+	if not obj? or typeof obj isnt 'object'
 		return obj
 	newInstance = new obj.constructor()
 	for key of obj
@@ -70,7 +70,7 @@ root.clone = clone = (obj) ->
 #///////////////////////////////////////////////////////////////////////////////
 
 root.PRECISION = PRECISION = 1E7
-root.fixedPrecision = fixedPrecision = (number) -> 
+root.fixedPrecision = fixedPrecision = (number) ->
 	int = (if number>0 then floor else ceil) number
 	number = (if number>0 then ceil else floor)(PRECISION * number) / PRECISION
 	if abs(number-int) <= 1.0/PRECISION then int else number
@@ -90,24 +90,24 @@ root.mapcomp = mapcomp = (map1,map2) -> map = {}; map[k] = map2[v] for k,v of ma
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.revert = revert = (cell) -> 
+root.revert = revert = (cell) ->
 	len = cell.length
 	if len >1 then cat [cell[len-1], cell[1...len-1], cell[0]] else cell
-root.remove_duplicates  = remove_duplicates  = (hasDupes) -> 
+root.remove_duplicates  = remove_duplicates  = (hasDupes) ->
 	dict = {}; (dict[code(item)] = item for item in hasDupes \
 		when not dict[code(revert item)]? and not dict[code(item)]?)
-root.rotate = rotate = (cell) -> 
+root.rotate = rotate = (cell) ->
 	if cell.length > 1 then cat [cell[1...cell.length],[cell[0]]] else cell
-root.facets  = facets  = (cell) -> 
+root.facets  = facets  = (cell) ->
 	out = []; for h in [0...cell.length]
 		facet = (k for k,i in cell when i isnt h)
 		out.push  if h%2 is 1 then revert facet else facet
 	out
-root.skeleton  = skeleton  = (h_cells) -> 
+root.skeleton  = skeleton  = (h_cells) ->
 	remove_duplicates cat (facets cell for cell in h_cells)
-root.cell_complex = cell_complex = (d_cells) -> 
-	if d_cells.length > 0  
-		dim = d_cells[0].length-1 
+root.cell_complex = cell_complex = (d_cells) ->
+	if d_cells.length > 0
+		dim = d_cells[0].length-1
 		cells = new Array(dim)
 		cells[dim] = d_cells
 		cells[h-1] = skeleton cells[h] for h in [dim..1]
@@ -115,13 +115,13 @@ root.cell_complex = cell_complex = (d_cells) ->
 	else
 		dim = -1
 		cells = []
-root.mkCellDB  = mkCellDB  = (complex) -> 
+root.mkCellDB  = mkCellDB  = (complex) ->
 	complex = complex or []
 	dictos = []
 	for skel,d in complex
 		dictos[d] = {}; dictos[d][code(cell)] = k for cell,k in skel
 	dictos
-root.homology_maps = homology_maps = (dictos) -> 
+root.homology_maps = homology_maps = (dictos) ->
 	if dictos.length > 0
 		dim = dictos.length-1; d = 1
 		homology = ([] for i in [0..dim])
@@ -129,23 +129,23 @@ root.homology_maps = homology_maps = (dictos) ->
 			skel = dictos[1]
 			for cell of skel
 				simplex = string2numberList cell
-				homology[1].push ([skel[cell], facet[0]] for facet in facets simplex)	
+				homology[1].push ([skel[cell], facet[0]] for facet in facets simplex)
 			homology[1] = cat homology[1]
 			for skel in dictos[2..dim]
-				d += 1; 
+				d += 1;
 				for cell of skel
 					for facet in facets string2numberList cell
 						if dictos[d-1][code(facet)]?
-							key = dictos[d-1][code(facet)] 
-						else 
-							key = dictos[d-1][code(revert(facet))]						
+							key = dictos[d-1][code(facet)]
+						else
+							key = dictos[d-1][code(revert(facet))]
 						homology[d].push [skel[cell], key]
 		homology
 	else []
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.coords_distribute = coords_distribute = (x) -> 
+root.coords_distribute = coords_distribute = (x) ->
 	out = cat( aa(ar)(distr(e)) for e in x)
 
 root.subcomplex = subcomplex = (d,args) ->
@@ -175,28 +175,30 @@ class PointSet
 			@map = []
 			@verts = []
 			@map = 0
-		
+
 	update: (modify) ->
 		@verts[pid] = modify (uncode pcode) for pcode,pid of @dict
 		@dict = {}; (@dict[code(point)] = pid for point,pid in @verts)
-		
-	t: (indices,values) -> 
+
+	t: (indices,values) ->
 		vect = (0 for k in [0..@rn])
 		vect[indices[h]] = values[h] for h in [0...indices.length]
 		@update (point) -> sum([point, vect])
 		@
-		
-	s: (indices,values) -> 
+
+	s: (indices,values) ->
 		vect = (1 for k in [0..@rn])
 		vect[indices[h]] = values[h] for h in [0...indices.length]
-		@update (point) -> mul([point, vect]) 
+		@update (point) -> mul([point, vect])
 		@
-		
+
 	###
-	r: (axes, angle) -> 
-		@update (point) -> id([axes, angle]) 
+	r: (axes, angle) ->
+		@update (point) -> id([axes, angle])
 		@
 	###
+
+root.PointSet = PointSet
 
 class Topology
 	constructor: (vertices,d_cells) ->
@@ -208,9 +210,10 @@ class Topology
 		@homology = homology_maps @dictos
 		@cells = (string2numberList cell for cell of dict for dict in @dictos)
 
+root.Topology = Topology
 
 class SimplicialComplex
-	constructor: (points,d_cells) -> 
+	constructor: (points,d_cells) ->
 		points = points or []
 		d_cells = d_cells or []
 		@vertices = new PointSet(points)
@@ -220,7 +223,7 @@ class SimplicialComplex
 	s: (indices,values) -> @vertices.s(indices,values); @
 
 	r: (axes, angle) ->
-		@vertices.r(axes, angle); 
+		@vertices.r(axes, angle);
 		@
 
 	extrude: (hlist) ->
@@ -236,14 +239,14 @@ class SimplicialComplex
 			simplexes = cells[dim]
 			nverts = verts.length
 			nsteps = lastcoords.length
-			sliced_vertices = (replica nsteps) [verts]			
+			sliced_vertices = (replica nsteps) [verts]
 			vertices = coords_distribute(trans([repeat(nsteps)(verts), lastcoords]))
 			extruded_simplices = []
 			for cell in simplexes
-				vertPtrs = cat([cell, cell.map (x) -> x+nverts])	 
+				vertPtrs = cat([cell, cell.map (x) -> x+nverts])
 				extruded_simplices.push subcomplex(dim+2,vertPtrs)
 			final_simplices = []
-			for i in [0..nsteps] 
+			for i in [0..nsteps]
 				if hlist[i] > 0
 					simplex_layer = shift nverts*i, cat extruded_simplices
 					final_simplices.push simplex_layer
@@ -251,6 +254,7 @@ class SimplicialComplex
 			#console.log  cells
 		new SimplicialComplex(vertices, cells)
 
+root.SimplicialComplex = SimplicialComplex
 #///////////////////////////////////////////////////////////////////////////////
 
 
@@ -281,11 +285,11 @@ root.simplexGrid = simplexGrid = (args) ->
 	for hlist in args[1...args.length]
 		complex = complex.extrude(hlist)
 	complex
-	
+
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.free = free = (obj) -> 
+root.free = free = (obj) ->
 	d = obj.faces.dim
 	simplices = (obj.vertices.verts[k] for k in cell for cell in obj.faces.cells[d])
 	out = []; for simplex in simplices
@@ -317,15 +321,15 @@ root.outline = outline = (dim) -> (pol) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 ###
-obj = simplexGrid ([[1],[1],[1]]) 
+obj = simplexGrid ([[1],[1],[1]])
 obj = outline(2)(obj) ## OK
 
 obj = outline(1)(obj) ## KO
 
-obj = simplexGrid ([[1],[1]]) 
+obj = simplexGrid ([[1],[1]])
 obj = outline(1)(obj) ## KO
 console.log "outverts",obj.vertices.verts
 console.log "outfaces",obj.faces.cells[obj.faces.dim]
-model = viewer.draw(obj) 
+model = viewer.draw(obj)
 
 

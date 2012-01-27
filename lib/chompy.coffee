@@ -1,50 +1,52 @@
-{PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = Math
-apply = (args) ->  [f, x] = args; f.apply(null,[x])
-comp2 = (f,g) -> (x) -> f (g x)
-comp = (flist) -> flist.reduceRight comp2
-cons = (flist) -> (x) -> flist.map (f) -> f x
-cat = (a) -> [].concat a...
-id = (a) -> a
-k = (a) -> (b) -> a
-aa = (f) -> (list) -> list.map (e) -> f e
-distr = (args) -> [list,e] = args; [el,e] for el in list
-distl = (args) -> [e,list] = args; [e,el] for el in list
-insr = (f) -> (seq) -> seq.reduceRight f
-insl = (f) -> (seq) -> seq.reduce f
-bigger = (a,b) -> if a > b then a else b
-smaller = (a,b) -> if a < b then a else b
-biggest = (args) -> args.reduce bigger #see below
-biggest = (args) -> (insr bigger) args #see above
-smallest = (args) -> (insr smaller) args 
-list = (args) -> (cons [id]) args
-len = (args) -> args.length
-reverse = (args) -> if args.length > 1 then (args[i] for i in [args.length-1..0]) else args
-tail = (args) -> if args.length > 0 then args.splice 1, args.length-1 else args
-butlast = (args) -> if args.length > 1 then reverse tail reverse args else []
-al = (args) -> cat args
-ar = (args) -> cat args
-repeat = (n) -> (args) -> (args for i in [0...n])
-replica = (n) -> (args) -> cat (args for i in [0...n])
-sum = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x+y) args else aa(insl (x,y) -> x+y)(trans args)
-sub = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x-y) args else aa(insl (x,y) -> x-y)(trans args)
-mul = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x*y) args else aa(insl (x,y) -> x*y)(trans args)
-div = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x/y) args else aa(insl (x,y) -> x/y)(trans args)
-trans = (args) -> 
+root = exports ? this
+
+{PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = {PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = Math
+root.apply = root.apply = apply = (args) ->  [f, x] = args; f.apply(null,[x])
+root.comp2 = root.comp2 = comp2 = (f,g) -> (x) -> f (g x)
+root.comp = comp = (flist) -> flist.reduceRight comp2
+root.cons = cons = (flist) -> (x) -> flist.map (f) -> f x
+root.cat = cat = (a) -> [].concat a...
+root.id = id = (a) -> a
+root.k = k = (a) -> (b) -> a
+root.aa = aa = (f) -> (list) -> list.map (e) -> f e
+root.distr = distr = (args) -> [list,e] = args; [el,e] for el in list
+root.distl = distl = (args) -> [e,list] = args; [e,el] for el in list
+root.insr = insr = (f) -> (seq) -> seq.reduceRight f
+root.insl = insl = (f) -> (seq) -> seq.reduce f
+root.bigger = bigger = (a,b) -> if a > b then a else b
+root.smaller = smaller = (a,b) -> if a < b then a else b
+root.biggest = biggest = (args) -> args.reduce bigger #see below
+root.biggest = biggest = (args) -> (insr bigger) args #see above
+root.smallest = smallest = (args) -> (insr smaller) args 
+root.list = list = (args) -> (cons [id]) args
+root.len = len = (args) -> args.length
+root.reverse = reverse = (args) -> if args.length > 1 then (args[i] for i in [args.length-1..0]) else args
+root.tail = tail = (args) -> if args.length > 0 then args.splice 1, args.length-1 else args
+root.butlast = butlast = (args) -> if args.length > 1 then reverse tail reverse args else []
+root.al = al = (args) -> cat args
+root.ar = ar = (args) -> cat args
+root.repeat = repeat = (n) -> (args) -> (args for i in [0...n])
+root.replica = replica = (n) -> (args) -> cat (args for i in [0...n])
+root.sum = sum = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x+y) args else aa(insl (x,y) -> x+y)(trans args)
+root.sub = sub = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x-y) args else aa(insl (x,y) -> x-y)(trans args)
+root.mul = mul = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x*y) args else aa(insl (x,y) -> x*y)(trans args)
+root.div = div = (args) -> if typeof args[0] is 'number' then (insl (x,y) -> x/y) args else aa(insl (x,y) -> x/y)(trans args)
+root.trans = trans = (args) -> 
 	n = args.length; m = args[0].length; args = cat args
 	((args[j*m+i] for j in [0...n]) for i in [0...m])
-vect = (binaryop) -> (args) -> aa(binaryop) trans args
-myprint = (string,params) -> console.log string, params, "\n"
-mat = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m])
-isNumber = (n) -> (not isNaN parseFloat n) and isFinite n
+root.vect = vect = (binaryop) -> (args) -> aa(binaryop) trans args
+root.myprint = myprint = (string,params) -> console.log string, params, "\n"
+root.mat = mat = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m])
+root.isNumber = isNumber = (n) -> (not isNaN parseFloat n) and isFinite n
 
 #///////////////////////////////////////////////////////////////////////////////
 
-progressive_sum = (args) -> 
+root.progressive_sum = progressive_sum = (args) -> 
 	al [0, (insr (x,y) -> x+y) args[0..i] for i in [0...args.length]]
 
 #///////////////////////////////////////////////////////////////////////////////
 
-type = (obj) ->
+root.type = type = (obj) ->
 	if obj == undefined or obj == null
 		return String obj
 	classToType = new Object
@@ -54,10 +56,10 @@ type = (obj) ->
 	if myClass of classToType
 		return classToType[myClass]
 	return "object"
-typedPrint = (args) -> 
+root.typedPrint = typedPrint = (args) -> 
 	console.log "#{type args}::#{args}";
 	args
-clone = (obj) ->
+root.clone = clone = (obj) ->
 	if not obj? or typeof obj isnt 'object' 
 		return obj
 	newInstance = new obj.constructor()
@@ -67,43 +69,43 @@ clone = (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-PRECISION = 1E7
-fixedPrecision = (number) -> 
+root.PRECISION = PRECISION = 1E7
+root.fixedPrecision = fixedPrecision = (number) -> 
 	int = (if number>0 then floor else ceil) number
 	number = (if number>0 then ceil else floor)(PRECISION * number) / PRECISION
 	if abs(number-int) <= 1.0/PRECISION then int else number
 
-fcode = (point) -> (aa fixedPrecision) point
-code = (point) -> "[#{fcode point}]"
+root.fcode = fcode = (point) -> (aa fixedPrecision) point
+root.code = code = (point) -> "[#{fcode point}]"
 
-decode = (string) -> +string  # => a number
-uncode = (pointCode) -> (aa decode) pointCode.split(',')
+root.decode = decode = (string) -> +string  # => a number
+root.uncode = uncode = (pointCode) -> (aa decode) pointCode.split(',')
 
-string2numberList = (string) ->
+root.string2numberList = string2numberList = (string) ->
 	if string is '[]' then [] else
 		regex = /[,|\[|\]]/ # regex => "[" or "," or "]"
 		(aa Number) butlast tail string.split(regex)
 
-mapcomp = (map1,map2) -> map = {}; map[k] = map2[v] for k,v of map1
+root.mapcomp = mapcomp = (map1,map2) -> map = {}; map[k] = map2[v] for k,v of map1
 
 #///////////////////////////////////////////////////////////////////////////////
 
-revert = (cell) -> 
+root.revert = revert = (cell) -> 
 	len = cell.length
 	if len >1 then cat [cell[len-1], cell[1...len-1], cell[0]] else cell
-remove_duplicates  = (hasDupes) -> 
+root.remove_duplicates  = remove_duplicates  = (hasDupes) -> 
 	dict = {}; (dict[code(item)] = item for item in hasDupes \
 		when not dict[code(revert item)]? and not dict[code(item)]?)
-rotate = (cell) -> 
+root.rotate = rotate = (cell) -> 
 	if cell.length > 1 then cat [cell[1...cell.length],[cell[0]]] else cell
-facets  = (cell) -> 
+root.facets  = facets  = (cell) -> 
 	out = []; for h in [0...cell.length]
 		facet = (k for k,i in cell when i isnt h)
 		out.push  if h%2 is 1 then revert facet else facet
 	out
-skeleton  = (h_cells) -> 
+root.skeleton  = skeleton  = (h_cells) -> 
 	remove_duplicates cat (facets cell for cell in h_cells)
-cell_complex = (d_cells) -> 
+root.cell_complex = cell_complex = (d_cells) -> 
 	if d_cells.length > 0  
 		dim = d_cells[0].length-1 
 		cells = new Array(dim)
@@ -113,13 +115,13 @@ cell_complex = (d_cells) ->
 	else
 		dim = -1
 		cells = []
-mkCellDB  = (complex) -> 
+root.mkCellDB  = mkCellDB  = (complex) -> 
 	complex = complex or []
 	dictos = []
 	for skel,d in complex
 		dictos[d] = {}; dictos[d][code(cell)] = k for cell,k in skel
 	dictos
-homology_maps = (dictos) -> 
+root.homology_maps = homology_maps = (dictos) -> 
 	if dictos.length > 0
 		dim = dictos.length-1; d = 1
 		homology = ([] for i in [0..dim])
@@ -143,13 +145,13 @@ homology_maps = (dictos) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-coords_distribute = (x) -> 
+root.coords_distribute = coords_distribute = (x) -> 
 	out = cat( aa(ar)(distr(e)) for e in x)
 
-subcomplex = (d,args) ->
+root.subcomplex = subcomplex = (d,args) ->
     (args[i...i+d] for i in [0..args.length-d])
 
-shift = (n, listoflists) -> (x+n for x in seq) for seq in listoflists
+root.shift = shift = (n, listoflists) -> (x+n for x in seq) for seq in listoflists
 
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -252,25 +254,25 @@ class SimplicialComplex
 #///////////////////////////////////////////////////////////////////////////////
 
 
-t = (indices,values) -> (obj) -> (clone obj).t(indices,values)
-s = (indices,values) -> (obj) -> (clone obj).s(indices,values)
+root.t = t = (indices,values) -> (obj) -> (clone obj).t(indices,values)
+root.s = s = (indices,values) -> (obj) -> (clone obj).s(indices,values)
 
 
 #///////////////////////////////////////////////////////////////////////////////
 
 
-centroid = (obj) -> (face) ->
+root.centroid = centroid = (obj) -> (face) ->
 	A = (obj.vertices.verts[v]  for v in face)
 	C = repeat(A.length)(1.0/A.length)
 	point = numeric.dot(C,A)
 
 ###
-obj = new SimplicialComplex [[0,0,0],[1,0,0],[0,1,0],[0,0,1]],[[0,1,2,3]]
+root.obj = obj = new SimplicialComplex [[0,0,0],[1,0,0],[0,1,0],[0,0,1]],[[0,1,2,3]]
 ###
 
 #///////////////////////////////////////////////////////////////////////////////
 
-simplexGrid = (args) ->
+root.simplexGrid = simplexGrid = (args) ->
 	hlist = args[0]
 	lastcoords = progressive_sum aa(abs)(hlist)
 	verts = aa(list)(lastcoords)
@@ -283,7 +285,7 @@ simplexGrid = (args) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-free = (obj) -> 
+root.free = free = (obj) -> 
 	d = obj.faces.dim
 	simplices = (obj.vertices.verts[k] for k in cell for cell in obj.faces.cells[d])
 	out = []; for simplex in simplices
@@ -293,7 +295,7 @@ free = (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-explode = (args) -> (scene) ->
+root.explode = explode = (args) -> (scene) ->
 	face = () -> item.faces.cells[item.faces.dim][0]
 	centers = (centroid(item)(face()) for item in scene)
 	scaledCenters = (mul([args,center]) for center in centers)
@@ -302,7 +304,7 @@ explode = (args) -> (scene) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-outline = (dim) -> (pol) ->
+root.outline = outline = (dim) -> (pol) ->
 	#console.log pol
 	verts = pol.vertices.verts
 	faces_d = pol.faces.cells[dim]
@@ -314,16 +316,14 @@ outline = (dim) -> (pol) ->
 
 
 #///////////////////////////////////////////////////////////////////////////////
-
+###
 obj = simplexGrid ([[1],[1],[1]]) 
 obj = outline(2)(obj) ## OK
-
 
 obj = outline(1)(obj) ## KO
 
 obj = simplexGrid ([[1],[1]]) 
 obj = outline(1)(obj) ## KO
-
 console.log "outverts",obj.vertices.verts
 console.log "outfaces",obj.faces.cells[obj.faces.dim]
 model = viewer.draw(obj) 

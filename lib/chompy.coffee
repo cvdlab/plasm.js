@@ -441,7 +441,7 @@ console.log "boundary_signs =", boundary_signs
 console.log "invertOrientation [0..5]", invertOrientation [0..5]
 obj = simplexGrid ([[1,-1,1,1,-1,1],[1,-1,1,1,-1,1],[1,1]]) 
 console.log boundary(obj)
-model = viewer.draw(skeleton(0) obj.boundary())
+model = viewer.draw(skeleton(1) obj.boundary())
 
 
 ###

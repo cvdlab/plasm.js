@@ -159,12 +159,15 @@ PointSet
 class Topology
 	
 	cell_complex = (d_cells) ->
+		console.log "cell_complex::d_cells ====>>", d_cells
 		if d_cells.length > 0
-			dim = d_cells[0].length-1 ? 0
-			if dim isnt -1
+			dim = d_cells[0].length-1
+			#ASSERT  dim == 0
+			if dim >= 0
 				cells = new Array(dim)
 				cells[dim] = d_cells
-				cells[h-1] = skeltn cells[h] for h in [dim..1]
+				if dim > 0 
+					cells[h-1] = skeltn cells[h] for h in [dim..1]
 				cells
 			else
 				cells = [[]]
@@ -172,6 +175,7 @@ class Topology
 			dim = 0
 			cells = [[]]
 	mkCellDB = (complex) ->
+		console.log "complex ====>>", complex
 		complex = complex or []
 		dictos = []
 		for skel,d in complex
@@ -202,9 +206,12 @@ class Topology
 	constructor: (vertices,d_cells) ->
 		vertices = vertices or []
 		d_cells = d_cells or []
+		console.log "topology::d_cells ===>>", d_cells
 		@dim = if d_cells.length > 0 then d_cells[0].length-1 else -1
 		d_cells = ((vertices.map[k] for k in cell) for cell in d_cells)
-		@dictos = mkCellDB cell_complex d_cells
+		console.log "topology::d_cells remapped===>>", d_cells
+		@dictos = mkCellDB (cell_complex d_cells)
+		console.log "topology::@dictos ===>>", @dictos
 		@homology = homology_maps @dictos
 		@cells = (string2numberList cell for cell of dict for dict in @dictos)
 
@@ -231,7 +238,10 @@ class SimplicialComplex
 	constructor: (points,d_cells) ->
 		points = points or []
 		d_cells = d_cells or []
+		console.log "points ===>>",points
+		console.log "d_cells ===>>",d_cells
 		@vertices = new PointSet(points)
+		console.log "@vertices ===>>",@vertices
 		@faces = new Topology(@vertices,d_cells)
 
 	t: (indices,values) -> @vertices.t(indices,values); @
@@ -277,13 +287,28 @@ class SimplicialComplex
 		new SimplicialComplex(vertices, cells)
 		
 	boundary: () ->
+		
+			
 		d = @faces.dim
+		rn = @vertices.rn
 		console.log "d =", numeric.prettyPrint(d)
 		facets = @faces.cells[d-1]
 		console.log "facets =", numeric.prettyPrint(facets)
 		if d <= 0 then return new SimplicialComplex([], [])
 		vertices = @vertices.verts  # input verts
 		console.log "vertices =", numeric.prettyPrint(vertices)
+
+		simplexMatrix = (cell) -> (ar([vertices[k],1.0]) for k in cell)
+		volume = (cell) ->  numeric.det simplexMatrix(cell)
+		orientation = (d,d_cells) ->
+			console.log "d,d_cells >>>>",d,d_cells
+			console.log "@vertices >>>>",vertices
+			if d == vertices[0].length		# solid complex
+				out = (sign volume(cell) for cell in d_cells)
+			else				# embedded complex
+				out = ("numeric.det(somethingelse)" for cell in d_cells)  # DEBUG (choose minor with det(minor != 0	))
+			out
+
 		dictos = @faces.dictos
 		console.log "dictos =", numeric.prettyPrint(dictos)
 		hom = @faces.homology
@@ -301,15 +326,17 @@ class SimplicialComplex
 		console.log "d_faces =", numeric.prettyPrint(d_faces)
 		d1_faces =  (@faces.cells[d-1][k] for k in boundary_pairs[0])
 		console.log "d1_faces =", numeric.prettyPrint(d1_faces)
-		boundary_signs = orientation(@)(d,d_faces)   
+		boundary_signs = orientation(d,d_faces)   
 		console.log "boundary_signs =", numeric.prettyPrint(boundary_signs)
 		for facet,k in d1_faces 
 			if boundary_signs[k] > 0
 				d1_faces[k] = invertOrientation(facet)
 			else
 				d1_faces[k] = facet
-		console.log "d1_faces =", numeric.prettyPrint(d1_faces)
-		new SimplicialComplex(vertices, d1_faces)
+		console.log "d1_faces =", d1_faces
+		out = new SimplicialComplex(vertices, d1_faces)
+		console.log "out =", out
+		out
 
 SimplicialComplex
 #///////////////////////////////////////////////////////////////////////////////
@@ -366,12 +393,13 @@ explode = (args) -> (scene) ->
 #///////////////////////////////////////////////////////////////////////////////
 
 skeleton = (dim) -> (pol) ->
-	#console.log pol
+	console.log pol
 	verts = pol.vertices.verts
 	faces_d = pol.faces.cells[dim]
-	#console.log "verts",verts
-	#console.log "faces_d",faces_d
-	new SimplicialComplex(verts,faces_d)
+	console.log "verts =",verts
+	console.log "faces_d =",faces_d
+	out2 = new SimplicialComplex(verts,faces_d)
+	console.log "out2 =",out2
 
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -413,7 +441,7 @@ console.log "boundary_signs =", boundary_signs
 console.log "invertOrientation [0..5]", invertOrientation [0..5]
 obj = simplexGrid ([[1,-1,1,1,-1,1],[1,-1,1,1,-1,1],[1,1]]) 
 console.log boundary(obj)
-model = viewer.draw(skeleton(1) obj.boundary())
+model = viewer.draw(skeleton(0) obj.boundary())
 
 
 ###

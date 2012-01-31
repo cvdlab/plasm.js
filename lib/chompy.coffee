@@ -3,8 +3,9 @@ root = exports ? this
 {PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = Math
 
 APPLY = (args) ->  [f, x] = args; f.apply(null,[x])
-COMP2 = (f,g) -> (x) -> f (g x)
-COMP = (flist) -> flist.reduceRight comp2
+COMP = (flist) -> 
+	comp2 = (f,g) -> (x) -> f (g x)
+	flist.reduce comp2
 CONS = (flist) -> (x) -> flist.map (f) -> f x
 CAT = (a) -> [].concat a...
 ID = (a) -> a
@@ -36,8 +37,12 @@ TRANS = (args) ->
 	((args[j*m+i] for j in [0...n]) for i in [0...m])
 VECT = (binaryop) -> (args) -> AA(binaryop) TRANS args
 MYPRINT = (string,params) -> console.log string, params, "\n"
-MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m])
-ISNUMBER = (n) -> (not isNaN parseFloat n) and isFinite n
+MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m]) # mat
+ISNUM = (n) -> (not isNaN parseFloat n) and isFinite n
+ISFUN = (value) -> if typeof value is "function" then true else false
+
+MYPRINT "ISFUN ID =",ISFUN ID
+
 PROGRESSIVE_SUM = (args) ->
 	AL [0, (INSR (x,y) -> x+y) args[0..i] for i in [0...args.length]]
 
@@ -116,13 +121,13 @@ class PointSet
 	t: (indices,values) ->
 		vect = (0 for k in [0..@rn])
 		vect[indices[h]] = values[h] for h in [0...indices.length]
-		@update (point) -> sum([point, vect])
+		@update (point) -> SUM([point, vect])
 		@
 
 	s: (indices,values) ->
 		vect = (1 for k in [0..@rn])
 		vect[indices[h]] = values[h] for h in [0...indices.length]
-		@update (point) -> mul([point, vect])
+		@update (point) -> MUL([point, vect])
 		@
 
 #	r: (axes, angle) ->
@@ -204,6 +209,7 @@ class Topology
 	
 class SimplicialComplex
 
+	###
 	simplexMatrix = (obj) -> (cell) ->
 		out = (AR([obj.vertices.verts[k],1.0]) for k in cell)
 	volume = (obj) -> (cell) ->  numeric.det simplexMatrix(obj)(cell)
@@ -218,6 +224,7 @@ class SimplicialComplex
 		newFacet = clone facet
 		[newFacet[0],newFacet[1]] = [newFacet[1],newFacet[0]]
 		newFacet
+	###
 
 	constructor: (points,d_cells) ->
 		points = points or []
@@ -231,6 +238,8 @@ class SimplicialComplex
 	r: (axes, angle) ->
 		@vertices.r(axes, angle);
 		@
+
+		###	
 
 	extrude: (hlist) ->
 		
@@ -301,6 +310,7 @@ class SimplicialComplex
 				d1_faces[k] = facet
 		out = new SimplicialComplex(vertices, d1_faces)
 		out
+	###
 
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -316,6 +326,42 @@ CENTROID = (obj) -> (face) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
+EXTRUDE = (hlist) -> (obj) -> 
+
+	coords_distribute = (x) ->
+		out = CAT( AA(AR)(DISTR(e)) for e in x)
+	shift = (n, listoflists) -> (x+n for x in seq) for seq in listoflists
+	subcomplex = (d,args) ->
+		(args[i...i+d] for i in [0..args.length-d])
+
+	cells = clone obj.faces.cells
+	dim = clone obj.faces.dim
+	verts = clone obj.vertices.verts
+	lastcoords = PROGRESSIVE_SUM (AA)(abs)(hlist)
+	if dim <= 0
+		cells = [[],[]]
+		vertices = AA(list)(lastcoords)
+		cells[1] = ([i,i+1] for i in [0...hlist.length+1])
+	else
+		simplexes = cells[dim]
+		nverts = verts.length
+		nsteps = lastcoords.length
+		sliced_vertices = (REPLICA nsteps) [verts]
+		vertices = coords_distribute(TRANS([REPEAT(nsteps)(verts), lastcoords]))
+		extruded_simplices = []
+		for cell in simplexes
+			vertPtrs = CAT([cell, cell.map (x) -> x+nverts])
+			extruded_simplices.push subcomplex(dim+2,vertPtrs)
+		final_simplices = []
+		for i in [0..nsteps]
+			if hlist[i] > 0
+				simplex_layer = shift nverts*i, CAT extruded_simplices
+				final_simplices.push simplex_layer
+		cells = CAT final_simplices
+	new SimplicialComplex(vertices, cells)
+
+#///////////////////////////////////////////////////////////////////////////////
+
 SIMPLEXGRID = (args) ->
 	hlist = args[0]
 	lastcoords = PROGRESSIVE_SUM AA(abs)(hlist)
@@ -323,7 +369,7 @@ SIMPLEXGRID = (args) ->
 	cells = ([i,i+1] for i in [0...hlist.length] when hlist[i] > 0 )
 	complex = new SimplicialComplex(verts,cells)
 	for hlist in args[1...args.length]
-		complex = complex.extrude(hlist)
+		complex = EXTRUDE(hlist)(complex)
 	complex
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -340,9 +386,9 @@ FREE = (obj) ->
 
 EXPLODE = (args) -> (scene) ->
 	face = () -> item.faces.cells[item.faces.dim][0]
-	centers = (centroid(item)(face()) for item in scene)
-	scaledCenters = (mul([args,center]) for center in centers)
-	translVectors = (sub(pair) for pair in TRANS([scaledCenters, centers]))
+	centers = (CENTROID(item)(face()) for item in scene)
+	scaledCenters = (MUL([args,center]) for center in centers)
+	translVectors = (SUB(pair) for pair in TRANS([scaledCenters, centers]))
 	scene[k].t([0...v.length],v) for v,k in translVectors
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -360,6 +406,21 @@ BOUNDARY = (pol) ->
 	facets = obj.faces.cells[d-1]
 	if d <= 0 then return new SimplicialComplex([], [])
 	vertices = obj.vertices.verts  # input verts
+	
+	simplexMatrix = (cell) -> (AR([vertices[k],1.0]) for k in cell)
+	sign = (number) -> if number > 0 then 1 else if number isnt 0 then -1
+	volume = (cell) ->  numeric.det simplexMatrix(cell)
+	orientation = (d,d_cells) ->
+		if d == vertices[0].length		# solid complex
+			out = (sign volume(cell) for cell in d_cells)
+		else				# embedded complex
+			out = ("numeric.det(somethingelse)" for cell in d_cells)  # DEBUG (choose minor with det(minor != 0	))
+		out
+	invertOrientation = (facet) ->
+		newFacet = clone facet
+		[newFacet[0],newFacet[1]] = [newFacet[1],newFacet[0]]
+		newFacet
+
 	dictos = obj.faces.dictos
 	hom = obj.faces.homology
 	incidence = (0 for k in [0...facets.length])
@@ -370,7 +431,7 @@ BOUNDARY = (pol) ->
 	boundary_pairs = TRANS([k,father[k]] for k in [0...facets.length] when incidence[k] is 1)
 	d_faces =  (obj.faces.cells[d][k] for k in boundary_pairs[1])
 	facets =  (obj.faces.cells[d-1][k] for k in boundary_pairs[0])
-	boundary_signs = orientation(obj)(d,d_faces)   
+	boundary_signs = orientation(d,d_faces)   
 	for facet,k in facets 
 		if boundary_signs[k] > 0
 			facets[k] = invertOrientation(facet)
@@ -378,14 +439,22 @@ BOUNDARY = (pol) ->
 			facets[k] = facet
 	new SimplicialComplex(vertices,facets)
 
-#///////////////////////////////////////////////////////////////////////////////
-
-obj = SIMPLEXGRID [[1,-1,1,1,-1,1],[1,-1,1,1,-1,1],[1,1]]
-model = viewer.draw(SKELETON(1) BOUNDARY(obj))
 
 #///////////////////////////////////////////////////////////////////////////////
 
 ###
+
+obj = SIMPLEXGRID [[1,-1,1,1,-1,1],[1,-1,1,1,-1,1]]
+model = viewer.draw EXPLODE([1.5,1.5,1.5]) FREE EXTRUDE([1,1]) SKELETON(1) BOUNDARY obj
+#model = viewer.draw COMP([EXTRUDE([1,1]), SKELETON(1), BOUNDARY]) obj
+
+#///////////////////////////////////////////////////////////////////////////////
+
+obj = SIMPLEXGRID [[1,-1,1,1,-1,1],[1,-1,1,1,-1,1],[1,1]]
+model = viewer.draw(SKELETON(3) (obj))
+
+#///////////////////////////////////////////////////////////////////////////////
+
 
 OBJ = simplexGrid ([[1],[1],[1]]) 
 OBJ1 = boundary(obj)

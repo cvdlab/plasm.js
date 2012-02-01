@@ -2,44 +2,44 @@ root = exports ? this
 
 {PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = Math
 
-APPLY = (args) ->  [f, x] = args; f.apply(null,[x])
-COMP = (flist) -> 
+root.APPLY = APPLY = (args) ->  [f, x] = args; f.apply(null,[x])
+root.COMP = COMP = (flist) -> 
 	comp2 = (f,g) -> (x) -> f (g x)
 	flist.reduce comp2
-CONS = (flist) -> (x) -> flist.map (f) -> f x
-CAT = (a) -> [].concat a...
-ID = (a) -> a
-K = (a) -> (b) -> a
-AA = (f) -> (list) -> list.map (e) -> f e
-DISTR = (args) -> [list,e] = args; [el,e] for el in list
-DISTL = (args) -> [e,list] = args; [e,el] for el in list
-INSR = (f) -> (seq) -> seq.reduceRight f
-INSL = (f) -> (seq) -> seq.reduce f
-BIGGER = (a,b) -> if a > b then a else b
-SMALLER = (a,b) -> if a < b then a else b
-BIGGEST = (args) -> (INSR BIGGER) args 
-SMALLEST = (args) -> (INSR SMALLER) args
-LIST = (args) -> (CONS [ID]) args
-LEN = (args) -> args.length
-REVERSE = (args) -> if args.length > 1 then (args[i] for i in [args.length-1..0]) else args
-TAIL = (args) -> if args.length > 0 then args.splice 1, args.length-1 else args
-BUTLAST = (args) -> if args.length > 1 then REVERSE TAIL REVERSE args else []
-AL = (args) -> CAT args
-AR = (args) -> CAT args
-REPEAT = (n) -> (args) -> (args for i in [0...n])
-REPLICA = (n) -> (args) -> CAT (args for i in [0...n])
-SUM = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x+y) args else AA(INSL (x,y) -> x+y)(TRANS args)
-SUB = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x-y) args else AA(INSL (x,y) -> x-y)(TRANS args)
-MUL = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x*y) args else AA(INSL (x,y) -> x*y)(TRANS args)
-DIV = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x/y) args else AA(INSL (x,y) -> x/y)(TRANS args)
-TRANS = (args) ->
+root.CONS = CONS = (flist) -> (x) -> flist.map (f) -> f x
+root.CAT = CAT = (a) -> [].concat a...
+root.ID = ID = (a) -> a
+root.K = K = (a) -> (b) -> a
+root.AA = AA = (f) -> (list) -> list.map (e) -> f e
+root.DISTR = DISTR = (args) -> [list,e] = args; [el,e] for el in list
+root.DISTL = DISTL = (args) -> [e,list] = args; [e,el] for el in list
+root.INSR = INSR = (f) -> (seq) -> seq.reduceRight f
+root.INSL = INSL = (f) -> (seq) -> seq.reduce f
+root.BIGGER = BIGGER = (a,b) -> if a > b then a else b
+root.SMALLER = SMALLER = (a,b) -> if a < b then a else b
+root.BIGGEST = BIGGEST = (args) -> (INSR BIGGER) args 
+root.SMALLEST = SMALLEST = (args) -> (INSR SMALLER) args
+root.LIST = LIST = (args) -> (CONS [ID]) args
+root.LEN = LEN = (args) -> args.length
+root.REVERSE = REVERSE = (args) -> if args.length > 1 then (args[i] for i in [args.length-1..0]) else args
+root.TAIL = TAIL = (args) -> if args.length > 0 then args.splice 1, args.length-1 else args
+root.BUTLAST = BUTLAST = (args) -> if args.length > 1 then REVERSE TAIL REVERSE args else []
+root.AL = AL = (args) -> CAT args
+root.AR = AR = (args) -> CAT args
+root.REPEAT = REPEAT = (n) -> (args) -> (args for i in [0...n])
+root.REPLICA = REPLICA = (n) -> (args) -> CAT (args for i in [0...n])
+root.SUM = SUM = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x+y) args else AA(INSL (x,y) -> x+y)(TRANS args)
+root.SUB = SUB = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x-y) args else AA(INSL (x,y) -> x-y)(TRANS args)
+root.MUL = MUL = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x*y) args else AA(INSL (x,y) -> x*y)(TRANS args)
+root.DIV = DIV = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x/y) args else AA(INSL (x,y) -> x/y)(TRANS args)
+root.TRANS = TRANS = (args) ->
 	n = args.length; m = args[0].length; args = CAT args
 	((args[j*m+i] for j in [0...n]) for i in [0...m])
-VECT = (binaryop) -> (args) -> AA(binaryop) TRANS args
-MYPRINT = (string,params) -> console.log string, params, "\n"
-MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m]) # mat
-ISNUM = (n) -> (not isNaN parseFloat n) and isFinite n
-ISFUN = (value) -> if typeof value is "function" then true else false
+root.VECT = VECT = (binaryop) -> (args) -> AA(binaryop) TRANS args
+root.MYPRINT = MYPRINT = (string,params) -> console.log string, params, "\n"
+root.MAT = MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m]) # mat
+root.ISNUM = ISNUM = (n) -> (not isNaN parseFloat n) and isFinite n
+root.ISFUN = ISFUN = (value) -> if typeof value is "function" then true else false
 
 MYPRINT "ISFUN ID =",ISFUN ID
 
@@ -71,7 +71,7 @@ clone = (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-PRECISION = 1E7
+root.PRECISION = PRECISION = 1E7
 fixedPrecision = (number) ->
 	int = (if number>0 then floor else ceil) number
 	number = (if number>0 then ceil else floor)(PRECISION * number) / PRECISION
@@ -133,6 +133,8 @@ class PointSet
 #	r: (axes, angle) ->
 #		@update (point) -> id([axes, angle])
 #		@
+
+root.PointSet = PointSet
 
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -205,26 +207,11 @@ class Topology
 		@homology = homology_maps @dictos
 		@cells = (string2numberList cell for cell of dict for dict in @dictos)
 
+root.Topology = Topology
+
 #///////////////////////////////////////////////////////////////////////////////
 	
 class SimplicialComplex
-
-	###
-	simplexMatrix = (obj) -> (cell) ->
-		out = (AR([obj.vertices.verts[k],1.0]) for k in cell)
-	volume = (obj) -> (cell) ->  numeric.det simplexMatrix(obj)(cell)
-	sign = (number) -> if number > 0 then 1 else if number isnt 0 then -1
-	orientation = (obj) -> (d,d_cells) ->
-		if d is obj.vertices.rn		# solid complex
-			out = (sign volume(obj)(cell) for cell in d_cells)
-		else				# embedded complex
-			out = ("numeric.det(somethingelse)" for cell in d_cells)  # DEBUG (choose minor with det(minor != 0	))
-		out
-	invertOrientation = (facet) ->
-		newFacet = clone facet
-		[newFacet[0],newFacet[1]] = [newFacet[1],newFacet[0]]
-		newFacet
-	###
 
 	constructor: (points,d_cells) ->
 		points = points or []
@@ -239,78 +226,7 @@ class SimplicialComplex
 		@vertices.r(axes, angle);
 		@
 
-		###	
-
-	extrude: (hlist) ->
-		
-		coords_distribute = (x) ->
-			out = CAT( AA(AR)(DISTR(e)) for e in x)
-		subcomplex = (d,args) ->
-		    (args[i...i+d] for i in [0..args.length-d])
-		shift = (n, listoflists) -> (x+n for x in seq) for seq in listoflists
-		
-		cells = clone @faces.cells
-		dim = clone @faces.dim
-		verts = clone @vertices.verts
-		lastcoords = PROGRESSIVE_SUM (AA)(abs)(hlist)
-		if dim <= 0
-			cells = [[],[]]
-			vertices = AA(list)(lastcoords)
-			cells[1] = ([i,i+1] for i in [0...hlist.length+1])
-		else
-			simplexes = cells[dim]
-			nverts = verts.length
-			nsteps = lastcoords.length
-			sliced_vertices = (REPLICA nsteps) [verts]
-			vertices = coords_distribute(TRANS([REPEAT(nsteps)(verts), lastcoords]))
-			extruded_simplices = []
-			for cell in simplexes
-				vertPtrs = CAT([cell, cell.map (x) -> x+nverts])
-				extruded_simplices.push subcomplex(dim+2,vertPtrs)
-			final_simplices = []
-			for i in [0..nsteps]
-				if hlist[i] > 0
-					simplex_layer = shift nverts*i, CAT extruded_simplices
-					final_simplices.push simplex_layer
-			cells = CAT final_simplices
-		new SimplicialComplex(vertices, cells)
-		
-	boundary: () ->
-		
-		d = @faces.dim
-		rn = @vertices.rn
-		facets = @faces.cells[d-1]
-		if d <= 0 then return new SimplicialComplex([], [])
-		vertices = @vertices.verts  # input verts
-
-		simplexMatrix = (cell) -> (AR([vertices[k],1.0]) for k in cell)
-		volume = (cell) ->  numeric.det simplexMatrix(cell)
-		orientation = (d,d_cells) ->
-			if d == vertices[0].length		# solid complex
-				out = (sign volume(cell) for cell in d_cells)
-			else				# embedded complex
-				out = ("numeric.det(somethingelse)" for cell in d_cells)  # DEBUG (choose minor with det(minor != 0	))
-			out
-
-		dictos = @faces.dictos
-		hom = @faces.homology
-		incidence = (0 for k in [0...facets.length])
-		father = new Array(facets.length)
-		for pair in hom[d]
-			incidence[pair[1]] += 1
-			father[pair[1]] = pair[0]
-		boundary_pairs = TRANS([k,father[k]] for k in [0...facets.length] when incidence[k] is 1)
-		d_faces =  (@faces.cells[d][k] for k in boundary_pairs[1])
-		d1_faces =  (@faces.cells[d-1][k] for k in boundary_pairs[0])
-		boundary_signs = orientation(d,d_faces)   
-		for facet,k in d1_faces 
-			if boundary_signs[k] > 0
-				d1_faces[k] = invertOrientation(facet)
-			else
-				d1_faces[k] = facet
-		out = new SimplicialComplex(vertices, d1_faces)
-		out
-	###
+root.SimplicialComplex = SimplicialComplex
 
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -319,14 +235,14 @@ S = (indices,values) -> (obj) -> (clone obj).s(indices,values)
 
 #///////////////////////////////////////////////////////////////////////////////
 
-CENTROID = (obj) -> (face) ->
+root.CENTROID = CENTROID = (obj) -> (face) ->
 	A = (obj.vertices.verts[v]  for v in face)
 	C = REPEAT(A.length)(1.0/A.length)
 	point = numeric.dot(C,A)
 
 #///////////////////////////////////////////////////////////////////////////////
 
-EXTRUDE = (hlist) -> (obj) -> 
+root.EXTRUDE = EXTRUDE = (hlist) -> (obj) -> 
 
 	coords_distribute = (x) ->
 		out = CAT( AA(AR)(DISTR(e)) for e in x)
@@ -362,7 +278,7 @@ EXTRUDE = (hlist) -> (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-SIMPLEXGRID = (args) ->
+root.SIMPLEXGRID = SIMPLEXGRID = (args) ->
 	hlist = args[0]
 	lastcoords = PROGRESSIVE_SUM AA(abs)(hlist)
 	verts = AA(LIST)(lastcoords)
@@ -374,7 +290,7 @@ SIMPLEXGRID = (args) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-FREE = (obj) ->
+root.FREE = FREE = (obj) ->
 	d = obj.faces.dim
 	simplices = (obj.vertices.verts[k] for k in cell for cell in obj.faces.cells[d])
 	out = []; for simplex in simplices
@@ -384,7 +300,7 @@ FREE = (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-EXPLODE = (args) -> (scene) ->
+root.EXPLODE = EXPLODE = (args) -> (scene) ->
 	face = () -> item.faces.cells[item.faces.dim][0]
 	centers = (CENTROID(item)(face()) for item in scene)
 	scaledCenters = (MUL([args,center]) for center in centers)
@@ -393,14 +309,14 @@ EXPLODE = (args) -> (scene) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-SKELETON = (dim) -> (pol) ->
+root.SKELETON = SKELETON = (dim) -> (pol) ->
 	verts = pol.vertices.verts
 	faces_d = pol.faces.cells[dim]
-	out2 = new SimplicialComplex(verts,faces_d)
+	new SimplicialComplex(verts,faces_d)
 
 #///////////////////////////////////////////////////////////////////////////////
 
-BOUNDARY = (pol) ->
+root.BOUNDARY = BOUNDARY = (pol) ->
 	obj = clone pol
 	d = obj.faces.dim
 	facets = obj.faces.cells[d-1]
@@ -442,10 +358,15 @@ BOUNDARY = (pol) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
+#root.STRUCT = STRUCT = (args) ->
+
+#///////////////////////////////////////////////////////////////////////////////
+
+
 ###
 
 obj = SIMPLEXGRID [[1,-1,1,1,-1,1],[1,-1,1,1,-1,1]]
-model = viewer.draw EXPLODE([1.5,1.5,1.5]) FREE EXTRUDE([1,1]) SKELETON(1) BOUNDARY obj
+model = viewer.draw EXTRUDE([1,1]) BOUNDARY obj
 #model = viewer.draw COMP([EXTRUDE([1,1]), SKELETON(1), BOUNDARY]) obj
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -470,4 +391,5 @@ OBJ = simplexGrid ([[1],[1]])
 OBJ = skeleton(1)(obj) ## KO
 MODEL = viewer.draw(obj)
 
+#################################################################################
 

@@ -230,8 +230,8 @@ root.SimplicialComplex = SimplicialComplex
 
 #///////////////////////////////////////////////////////////////////////////////
 
-T = (indices,values) -> (obj) -> (clone obj).t(indices,values)
-S = (indices,values) -> (obj) -> (clone obj).s(indices,values)
+root.T = T = (indices,values) -> (obj) -> (clone obj).t(indices,values)
+root.S = S = (indices,values) -> (obj) -> (clone obj).s(indices,values)
 
 #///////////////////////////////////////////////////////////////////////////////
 

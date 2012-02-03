@@ -112,6 +112,16 @@ circle = (radius,n=32) ->
 #viewer.draw  MAP([sin,cos])(polyline points)
 
 
+disk = (radius=1,n=32,m=1) ->
+	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(radius/m)]
+	fx = ([u,v]) -> v*sin(u)
+	fy = ([u,v]) -> v*cos(u)
+	MAP( [fx, fy] )(domain)
+
+#MYPRINT "disk(1,4,1) =", disk(1,4,1)
+#viewer.draw disk(1,4,1)
+#viewer.draw disk(2)
+
 graph = (domain) -> (funs) -> MAP(funs)(domain)
 #domain = SIMPLEXGRID [REPEAT(40) 4*PI/40]
 #MYPRINT "domain",domain
@@ -125,52 +135,80 @@ helix = (radius=1,pitch=1,n=24,turns=1) ->
 #viewer.draw helix(radius=0.5,pitch=1.0/4,n=32,turns=6)
 
 
-cart2cyl2d = () -> 
-	fx = ([u,v]) -> cos(u)
-	fy = ([u,v]) -> sin(u)
-	fz = ([u,v]) -> v
-	[fx, fy, fz]
 	
-cart2cyl3d = () -> 
-	fx = ([u,v,w]) -> v*cos(u)
-	fy = ([u,v,w]) -> v*sin(u)
-	fz = ([u,v,w]) -> w
-	[fx, fy, fz]
 
 cylsurface = (r=1, h=1, n=16, m=2) -> 
 	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(1.0/m)]
-	MAP( cart2cyl2d() )( domain ).s([0,1,2],[r,r,h])
+	fx = ([u,v]) -> cos(u)
+	fy = ([u,v]) -> sin(u)
+	fz = ([u,v]) -> v
+	MAP( [fx, fy, fz] )( domain ).s([0,1,2],[r,r,h])
 
 #MYPRINT "cylsurface(r=0.5, h=3, n=32, m=6) =", cylsurface(r=0.5, h=3, n=32, m=6)
 #viewer.draw cylsurface(1,1,16,2)
-viewer.draw cylsurface(r=0.5, h=3, n=32, m=12)
-	
-###	
+#viewer.draw cylsurface()
+#viewer.draw cylsurface(r=0.5, h=3, n=32, m=12)
 
-cart2cyl3d = (point) -> "TODO"
 
-cylsolid = (r=1,h=1,n=16,m=1,p=1) -> "TODO"
 
-cart2torus2d = (r,R) -> (point) -> "TODO"
+cylsolid = (R=1, r=0, h=1, n=16, m=1, p=1) -> 
+	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)((R-r)/m), REPEAT(p)(h/p)]
+	fx = ([u,v,w]) -> v*cos(u)
+	fy = ([u,v,w]) -> v*sin(u)
+	fz = ([u,v,w]) -> w
+	MAP( [fx, fy, fz] )( domain.t([1],[r]) )
 
-torus_surface = (r=1,R=3,n=12,m=8) -> "TODO"
+#MYPRINT "cylsolid(R=1.25,r=1,h=1,n=16,m=1,p=1)  =",cylsolid(R=1.25,r=1,h=1,n=16,m=1,p=1) 
+#viewer.draw SKELETON(1) cylsolid(R=1.25,r=1,h=1,n=16,m=1,p=1) 
+#MYPRINT "cylsolid(R=1.25,r=0,h=1,n=16,m=1,p=1)  =",cylsolid(R=1.25,r=0,h=1,n=16,m=1,p=1) 
+#viewer.draw SKELETON(1) cylsolid(R=1.25,r=0,h=1,n=16,m=1,p=1) 
+#MYPRINT "cylsolid(R=1.25,r=1,h=1,n=16,m=1,p=1)  =",cylsolid(R=1.25,r=1,h=1,n=16,m=1,p=1) 
+#viewer.draw BOUNDARY cylsolid(R=1.25,r=1,h=1,n=32,m=1,p=1) 
+
+
+torus_surface = (r=1, R=3, n=12, m=8) -> 
+	domain = SIMPLEXGRID [ REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m) ]
+	fx = ([u,v]) -> (R + r * cos(v)) * cos(u)
+	fy = ([u,v]) -> (R + r * cos(v)) * sin(u)
+	fz = ([u,v]) -> r * sin(v)
+	MAP( [fx, fy, fz] )( domain )
+
+#viewer.draw torus_surface()
+#viewer.draw torus_surface(r=1, R=3, n=36, m=24)
+
+
 
 cart2torus3d = (r,R) -> (point) -> "TODO"
 
-torus_solid = (r=1,R=3,n=8,m=16,p=1) -> "TODO"
+torus_solid = (r=1,R=3,n=8,m=16,p=1) -> 
+	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m), REPEAT(p)(1/p)]
+	fx = ([u,v,w]) -> (R + r * w * cos(u)) * cos(v)
+	fy = ([u,v,w]) -> (R + r * w * cos(u)) * sin(v)
+	fz = ([u,v,w]) -> r * w * sin(u)
+	MAP( [fx, fy, fz] )( domain )
 
-schlegel = (pol) -> (point) -> "TODO"
+#viewer.draw torus_solid()
+#viewer.draw torus_solid(r=1,R=3,n=8,m=16,p=1)
+#viewer.draw BOUNDARY torus_solid(r=1,R=3,n=8,m=16,p=1)
+#viewer.draw SKELETON(1) BOUNDARY torus_solid(r=1,R=3,n=8,m=16,p=1)
+#viewer.draw SKELETON(0) BOUNDARY torus_solid(r=1,R=3,n=8,m=16,p=1)
 
-intervals = (tip) -> (n) -> "TODO"
 
-graph = (domain) -> (funs) -> (point) -> "TODO"
+###
+schlegel = (pol) -> (point) -> 
 
-circumpherence = (r,nsides=24) -> "TODO"
+
+
+def schlegel(pol):
+	def project(point):
+		return [coord/point[-1] for coord in point[:-1]]
+	verts = [project(v) for v in pol.vertices.points]
+	cells = pol.cells[-2]
+	return PolytopalComplex(verts,cells)
+
 
 
 polygon = (n) -> 
 	points = [[cos(alpha),sin(alpha)]
 			  for alpha in (scipy.linspace(0.0, 2*pi, n+1) + (pi*n)/2)]
 	return trianglefan(points)	
-
-circle2d = (n=32) -> polygon(n)

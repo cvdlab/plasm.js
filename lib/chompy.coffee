@@ -43,8 +43,14 @@ root.ISFUN = ISFUN = (value) -> if typeof value is "function" then true else fal
 
 MYPRINT "ISFUN ID =",ISFUN ID
 
-PROGRESSIVE_SUM = (args) ->
+root.PROGRESSIVE_SUM = PROGRESSIVE_SUM = (args) ->
 	AL [0, (INSR (x,y) -> x+y) args[0..i] for i in [0...args.length]]
+root.SET = SET = (input) ->
+	dict = {}; dict[k] = k for k in input; 
+	(val for key,val of dict)
+
+MYPRINT "SET [1,1,1,2,2,2,3,1,2,3] =",(SET [1,1,1,2,2,2,3,1,2,3]).length
+
 
 #///////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +77,7 @@ clone = (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.PRECISION = PRECISION = 1E7
+root.PRECISION = PRECISION = 1E6
 fixedPrecision = (number) ->
 	int = (if number>0 then floor else ceil) number
 	number = (if number>0 then ceil else floor)(PRECISION * number) / PRECISION
@@ -153,7 +159,7 @@ class Topology
 			facet = (k for k,i in cell when i isnt h)
 			out.push  if h%2 is 1 then revert facet else facet
 		out
-	skeltn = (h_cells) ->
+	skeltn = (h_cells) -> 
 		remove_duplicates CAT (facets cell for cell in h_cells)
 	cell_complex = (d_cells) ->
 		if d_cells.length > 0
@@ -161,7 +167,7 @@ class Topology
 			#ASSERT  dim == 0
 			if dim >= 0
 				cells = new Array(dim)
-				cells[dim] = d_cells
+				cells[dim] = (cell for cell in d_cells when (SET cell).length is cell.length)
 				if dim > 0 
 					cells[h-1] = skeltn cells[h] for h in [dim..1]
 				cells
@@ -390,6 +396,11 @@ OBJ = skeleton(1)(obj) ## KO
 OBJ = simplexGrid ([[1],[1]])
 OBJ = skeleton(1)(obj) ## KO
 MODEL = viewer.draw(obj)
+
+class Set
+	constructor: (candidates) ->
+		@set = {}; @set[elem]=elem for elem in candidates
+
 
 #################################################################################
 

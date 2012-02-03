@@ -139,10 +139,10 @@ helix = (radius=1,pitch=1,n=24,turns=1) ->
 
 cylsurface = (r=1, h=1, n=16, m=2) -> 
 	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(1.0/m)]
-	fx = ([u,v]) -> cos(u)
-	fy = ([u,v]) -> sin(u)
-	fz = ([u,v]) -> v
-	MAP( [fx, fy, fz] )( domain ).s([0,1,2],[r,r,h])
+	fx = ([u,v]) -> r*cos(u)
+	fy = ([u,v]) -> r*sin(u)
+	fz = ([u,v]) -> h*v
+	MAP( [fx, fy, fz] )( domain )
 
 #MYPRINT "cylsurface(r=0.5, h=3, n=32, m=6) =", cylsurface(r=0.5, h=3, n=32, m=6)
 #viewer.draw cylsurface(1,1,16,2)
@@ -189,6 +189,9 @@ torus_solid = (r=1,R=3,n=8,m=16,p=1) ->
 
 #viewer.draw torus_solid()
 #viewer.draw torus_solid(r=1,R=3,n=8,m=16,p=1)
+viewer.draw BOUNDARY torus_solid(r=1,R=3,n=4,m=4,p=1)
+viewer.draw SKELETON(1) BOUNDARY torus_solid(r=1,R=3,n=4,m=4,p=1)
+viewer.draw SKELETON(0) BOUNDARY torus_solid(r=1,R=3,n=4,m=4,p=1)
 #viewer.draw BOUNDARY torus_solid(r=1,R=3,n=8,m=16,p=1)
 #viewer.draw SKELETON(1) BOUNDARY torus_solid(r=1,R=3,n=8,m=16,p=1)
 #viewer.draw SKELETON(0) BOUNDARY torus_solid(r=1,R=3,n=8,m=16,p=1)

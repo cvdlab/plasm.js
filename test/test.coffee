@@ -212,16 +212,20 @@ viewer.draw SKELETON(0) BOUNDARY torus_solid(r=1,R=3,n=4,m=4,p=1)
 #viewer.draw  MAP([ID,cos])(polyline points)
 #console.log "MAP([sin,cos])(polyline points) =", MAP([sin,cos])(polyline points)
 #viewer.draw  MAP([sin,cos])(polyline points)
-#points = [ 
-#    [[0,0,0.1],[1,0,-0.1],[2,0,0.0],[3,0,0.2]], 
-#    [[0,1,-0.4],[1,1,0.1],[2,1,-0.1],[3,1,0.1]], 
-#    [[0,2,0.1],[1,2,0.0],[2,2,0.1],[3,2,0.1]], 
-#    [[0,3,-0.2],[1,3,0.1],[2,3,-0.3],[3,3,0.1]]
-#]
-#console.log "triangle_array(3,3,points)", triangle_array(3,3,points)
-#viewer.draw triangle_array(3,3,points)
-#console.log "BOUNDARY triangle_array(3,3,points)", BOUNDARY triangle_array(3,3,points)
-#viewer.draw BOUNDARY triangle_array(3,3,points)
+###
+###
+points = [ 
+    [[0,0,0.1],[1,0,-0.1],[2,0,0.0],[3,0,0.2]], 
+    [[0,1,-0.4],[1,1,0.1],[2,1,-0.1],[3,1,0.1]], 
+    [[0,2,0.1],[1,2,0.0],[2,2,0.1],[3,2,0.1]], 
+    [[0,3,-0.2],[1,3,0.1],[2,3,-0.3],[3,3,0.1]]
+]
+console.log "TRIANGLE_ARRAY(3,3,points)", TRIANGLE_ARRAY(3,3,points)
+viewer.draw TRIANGLE_ARRAY(3,3,points)
+console.log "BOUNDARY TRIANGLE_ARRAY(3,3,points)", BOUNDARY TRIANGLE_ARRAY(3,3,points)
+viewer.draw BOUNDARY TRIANGLE_ARRAY(3,3,points)
+###
+###
 #points = ([cos(alpha),sin(alpha)] for alpha in numeric.linspace(0.0,2*Math.PI,7))
 #console.log "points =",points
 #points = AA(SUM) DISTR([points, [2.0,1.0]])
@@ -232,18 +236,21 @@ viewer.draw SKELETON(0) BOUNDARY torus_solid(r=1,R=3,n=4,m=4,p=1)
 #viewer.draw BOUNDARY trianglefan points
 #console.log "triangle_strip [[0,0,0],[0,0,1],[1,0,0],[0,1,0],[0,0,0],[0,0,1]]",
 #triangle_strip [[0,0,0],[0,0,1],[1,0,0],[0,1,0],[0,0,0],[0,0,1]]
-#points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
-#console.log "points",points
-#console.log  "triangle_strip(points)",triangle_strip(points)
-#viewer.draw triangle_strip(points)
-#console.log "BOUNDARY triangle_strip(points)",BOUNDARY triangle_strip(points)
-#viewer.draw BOUNDARY triangle_strip(points)
-#console.log "EXTRUDE([1]) triangle_strip(points)",  EXTRUDE([1]) triangle_strip(points)
-#viewer.draw EXTRUDE([1]) triangle_strip(points)
-#console.log "BOUNDARY EXTRUDE([1]) triangle_strip(points)", BOUNDARY EXTRUDE([1]) triangle_strip(points)
-#viewer.draw BOUNDARY EXTRUDE([1]) triangle_strip(points)
-#console.log "BOUNDARY EXTRUDE([1,-1,1]) triangle_strip(points)", BOUNDARY EXTRUDE([1,-1,1]) triangle_strip(points)
-#viewer.draw BOUNDARY EXTRUDE([1,-1,1]) triangle_strip(points)
+###
+###
+points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
+console.log "points",points
+console.log  "TRIANGLE_STRIP(points)",TRIANGLE_STRIP(points)
+viewer.draw TRIANGLE_STRIP(points)
+console.log "BOUNDARY TRIANGLE_STRIP(points)",BOUNDARY TRIANGLE_STRIP(points)
+viewer.draw BOUNDARY TRIANGLE_STRIP(points)
+console.log "EXTRUDE([1]) TRIANGLE_STRIP(points)",  EXTRUDE([1]) TRIANGLE_STRIP(points)
+viewer.draw EXTRUDE([1]) TRIANGLE_STRIP(points)
+console.log "BOUNDARY EXTRUDE([1]) TRIANGLE_STRIP(points)", BOUNDARY EXTRUDE([1]) TRIANGLE_STRIP(points)
+viewer.draw BOUNDARY EXTRUDE([1]) TRIANGLE_STRIP(points)
+console.log "BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)", BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)
+viewer.draw BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)
+###
 #console.log "polyline [[0,0],[1,0],[0,1],[1,1],[0,0,0]]",
 #polyline [[0,0,0],[1,0,0],[0,1,1],[1,1,1],[0,0,0]]
 #console.log "CAT [[(0 for k in [0...3])], idnt(3)] =", CAT [[(0 for k in [0...3])], idnt(3)]

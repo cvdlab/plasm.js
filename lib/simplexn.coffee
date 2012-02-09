@@ -96,12 +96,12 @@ type = (obj) ->
 typedPrint = (args) ->
 	console.log "#{type args}::#{args}";
 	args
-clone = (obj) ->
+root.CLONE = CLONE = (obj) ->
 	if not obj? or typeof obj isnt 'object'
 		return obj
 	newInstance = new obj.constructor()
 	for key of obj
-		newInstance[key] = clone obj[key]
+		newInstance[key] = CLONE obj[key]
 	newInstance
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -116,7 +116,7 @@ fixedPrecision = (number) ->
 	if abs(number-int) <= 1.0/PRECISION then int else number
 
 fcode = (point) -> (AA fixedPrecision) point
-code = (point) -> "[#{fcode point}]"
+root.CODE = CODE = (point) -> "[#{fcode point}]"
 
 decode = (string) -> +string  # => a number
 uncode = (pointCode) -> (AA decode) pointCode.split(',')
@@ -153,24 +153,39 @@ class PointSet
 			@m = 0
 
 	update: (modify) ->
-		@verts[pid] = modify (uncode pcode) for pcode,pid of @dict
-		@dict = {}; (@dict[code(point)] = pid for point,pid in @verts)
+		@verts[pid] = modify (uncode pcode) for pcode,pid of @dict		
+		@dict = {}; (@dict[CODE(point)] = pid for point,pid in @verts)
+
+	embed: (n) -> 
+		@rn += n
+		@update (point) -> CAT([point, REPEAT(n) 0])
+		@
 
 	t: (indices,values) ->
-		vect = (0 for k in [0..@rn])
+		MYPRINT "indices", indices
+		MYPRINT "values", values
+		vect = (0 for k in [0...@rn])
+		MYPRINT "@rn", @rn
+		MYPRINT "0:vect", [vect[0],vect[1],vect[2]]
 		vect[indices[h]] = values[h] for h in [0...indices.length]
+		MYPRINT "1:vect", vect
 		@update (point) -> SUM([point, vect])
 		@
 
 	s: (indices,values) ->
-		vect = (1 for k in [0..@rn])
+		vect = (1 for k in [0...@rn])
 		vect[indices[h]] = values[h] for h in [0...indices.length]
 		@update (point) -> MUL([point, vect])
 		@
 
-#	r: (axes, angle) ->
-#		@update (point) -> id([axes, angle])
-#		@
+	r: (axes, angle) ->
+		mat = numeric.identity(@rn)
+		c = cos angle; s = sin angle
+		[i,j] = axes
+		mat[i][i] = c; mat[i][j] = -s
+		mat[j][i] = s; mat[j][j] = c
+		@update (point) -> numeric.dot(mat, point)
+		@
 
 
 root.PointSet = PointSet
@@ -183,8 +198,8 @@ class Topology
 		len = cell.length
 		if len >1 then CAT [cell[len-1], cell[1...len-1], cell[0]] else cell
 	remove_duplicates = (hasDupes) ->
-		dict = {}; (dict[code(item)] = item for item in hasDupes \
-			when not dict[code(revert item)]? and not dict[code(item)]?)
+		dict = {}; (dict[CODE(item)] = item for item in hasDupes \
+			when not dict[CODE(revert item)]? and not dict[CODE(item)]?)
 	rotate = (cell) ->
 		if cell.length > 1 then CAT [cell[1...cell.length],[cell[0]]] else cell
 	facets = (cell) -> 
@@ -213,7 +228,7 @@ class Topology
 		complex = complex or []
 		dictos = []
 		for skel,d in complex
-			dictos[d] = {}; dictos[d][code(cell)] = k for cell,k in skel
+			dictos[d] = {}; dictos[d][CODE(cell)] = k for cell,k in skel
 		dictos
 	homology_maps = (dictos) ->
 		if dictos.length > 0
@@ -229,10 +244,10 @@ class Topology
 					d += 1;
 					for cell of skel
 						for facet in facets string2numberList cell
-							if dictos[d-1][code(facet)]?
-								key = dictos[d-1][code(facet)]
+							if dictos[d-1][CODE(facet)]?
+								key = dictos[d-1][CODE(facet)]
 							else
-								key = dictos[d-1][code(revert(facet))]
+								key = dictos[d-1][CODE(revert(facet))]
 							homology[d].push [skel[cell], key]
 			homology
 		else []
@@ -269,21 +284,25 @@ class SimplicialComplex
 		@vertices = new PointSet(points)
 		@faces = new Topology(@vertices,d_cells)
 
+	embed: (n) -> @vertices.embed(n); @
 	t: (indices,values) -> @vertices.t(indices,values); @
 	s: (indices,values) -> @vertices.s(indices,values); @
-
-	r: (axes, angle) ->
-		@vertices.r(axes, angle);
-		@
+	r: (axes, angle) -> @vertices.r(axes, angle); @
 
 
 root.SimplicialComplex = SimplicialComplex
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.T = T = (indices,values) -> (obj) -> (clone obj).t(indices,values)
+root.EMBED = EMBED = (n) -> (obj) -> (CLONE obj).embed(n)
 
-root.S = S = (indices,values) -> (obj) -> (clone obj).s(indices,values)
+root.T = T = (indices,values) -> (obj) -> (CLONE obj).t(indices,values)
+
+root.S = S = (indices,values) -> (obj) -> (CLONE obj).s(indices,values)
+
+root.R = R = (axes,angle) -> 
+	MYPRINT "axes, angle =", [axes, angle]
+	(obj) -> (CLONE obj).R(axes, angle)
 
 root.CENTROID = CENTROID = (obj) -> (face) ->
 	A = (obj.vertices.verts[v]  for v in face)
@@ -298,9 +317,9 @@ root.EXTRUDE = EXTRUDE = (hlist) -> (obj) ->
 	subcomplex = (d,args) ->
 		(args[i...i+d] for i in [0..args.length-d])
 
-	cells = clone obj.faces.cells
-	dim = clone obj.faces.dim
-	verts = clone obj.vertices.verts
+	cells = CLONE obj.faces.cells
+	dim = CLONE obj.faces.dim
+	verts = CLONE obj.vertices.verts
 	lastcoords = PROGRESSIVE_SUM (AA)(abs)(hlist)
 	if dim <= 0
 		cells = [[],[]]
@@ -356,7 +375,7 @@ root.SKELETON = SKELETON = (dim) -> (pol) ->
 
 
 root.BOUNDARY = BOUNDARY = (pol) ->
-	obj = clone pol
+	obj = CLONE pol
 	d = obj.faces.dim
 	facets = obj.faces.cells[d-1]
 	if d <= 0 then return new SimplicialComplex([], [])
@@ -372,7 +391,7 @@ root.BOUNDARY = BOUNDARY = (pol) ->
 			out = ("numeric.det(somethingelse)" for cell in d_cells)  # DEBUG (choose minor with det(minor != 0	))
 		out
 	invertOrientation = (facet) ->
-		newFacet = clone facet
+		newFacet = CLONE facet
 		[newFacet[0],newFacet[1]] = [newFacet[1],newFacet[0]]
 		newFacet
 
@@ -418,8 +437,16 @@ root.POLYLINE = POLYLINE = (points) ->
 	new SimplicialComplex(points,cells)
 
 root.TRIANGLE_STRIP = TRIANGLE_STRIP = (points) ->
-	cells = ([k,k+1,k+2] for k in [0...points.length-2])
+	cells = ((if k%2 == 0 then [k,k+1,k+2] else [k+1,k,k+2]) for k in [0...points.length-2])
 	new SimplicialComplex(points,cells)
+
+###
+points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
+console.log "points",points
+console.log  "TRIANGLE_STRIP(points)",TRIANGLE_STRIP(points)
+console.log "BOUNDARY TRIANGLE_STRIP(points)",BOUNDARY TRIANGLE_STRIP(points)
+viewer.draw BOUNDARY TRIANGLE_STRIP(points)
+###
 
 root.TRIANGLEFAN = TRIANGLEFAN = (points) -> 
 	edges = POLYLINE points
@@ -484,17 +511,36 @@ root.TORUSSOLID = TORUSSOLID = (r=1,R=3,n=8,m=16,p=1) ->
 	MAP( [fx, fy, fz] )( domain )
 
 
-
-obj = TORUSSOLID(r=1,R=3,n=18,m=36,p=1)
-viewer.draw BOUNDARY obj
-viewer.draw SKELETON(1) BOUNDARY obj
-viewer.draw SKELETON(0) BOUNDARY obj
-MYPRINT "obj =",obj
-MYPRINT "BOUNDARY obj =",BOUNDARY obj
+###
+viewer.draw CYLSURFACE(r=1, h=1, n=64, m=2)
+viewer.draw BOUNDARY CYLSURFACE(r=1, h=1, n=64, m=2)
 
 
+MYPRINT "CUBOID [1,1,1]", CUBOID [1,1,1]
+MYPRINT "BOUNDARY CUBOID [1,1,1]", BOUNDARY CUBOID [1,1,1]
+viewer.draw BOUNDARY CUBOID [1,1,1]	
 ###
 
+###
+points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
+console.log "points",points
+console.log  "TRIANGLE_STRIP(points)",TRIANGLE_STRIP(points)
+viewer.draw TRIANGLE_STRIP(points)
+console.log "BOUNDARY TRIANGLE_STRIP(points)",BOUNDARY TRIANGLE_STRIP(points)
+viewer.draw BOUNDARY TRIANGLE_STRIP(points)
+###
+
+###
+obj = TORUSSOLID(r=1,R=3,n=18,m=36,p=1)
+obj = ( BOUNDARY obj ).r( [0,2],(PI/4) )
+viewer.draw obj
+viewer.draw SKELETON(1) obj
+viewer.draw SKELETON(0) obj
+MYPRINT "obj =",obj
+MYPRINT "BOUNDARY obj =",obj
+###
+
+###
 root.SCHLEGEL = SCHLEGEL = (pol) -> (point) -> 
 
 

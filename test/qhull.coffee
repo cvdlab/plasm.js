@@ -3,11 +3,6 @@ randomPoints = (rn=2,m=40,scale=2) ->
 	# Return a PointSet instance with n points, each with rn coordinates.
 	new PointSet(Math.random()*scale for k in [0...rn] for point in [0...m])
 
-randomPoints0 = (rn=2,m=40,scale=2) ->
-	# To produce a random PointSet in [0,scale]^rn space.
-	# Return a PointSet instance with n points, each with rn coordinates.
-	new PointSet(AR (Math.random()*scale for k in [0...rn]),0 for point in [0...m])
-
 d_simplex = (verts,cell) ->
 	# To generate a simplex square matrix in homogeneous coordinates.
 	# Return a list of lists of numbers, taken from verts coordinate list.
@@ -28,20 +23,26 @@ affineMapping = (basis) -> (point) ->
 	affine = numeric.dot(mapping, AR [point,1.0])
 
 
-points = randomPoints0(rn=2,m=40,scale=1).t([0,1],[-0.5,-0.5])
-MYPRINT "0:points =", points
+
+
+
+
+points = randomPoints(rn=2,m=40,scale=1)
+points.t([0,1],[-0.5,-0.5])
+# MYPRINT "0:points =", points
 obj = new SimplicialComplex(points.verts, AA(LIST) [0...points.m])
-#viewer.draw obj
+obj.embed(1)
+obj.t([0,1,2],[0,0,1])
 #points = points
 #MYPRINT "1:points =", points
 #obj = new SimplicialComplex(points.verts, AA(LIST) [0...points.m])
-#obj.embed(1)
-#viewer.draw obj
+
+viewer.draw obj
 #MYPRINT "0:obj =", obj
 
-obj.t([0,1,2],[0,0,1])
-viewer.draw obj
-MYPRINT "1:obj =", obj
+#obj.t([0,1,2],[0,0,1])
+#viewer.draw obj
+#MYPRINT "1:obj =", obj
 #.t([2],[1])
 ###
 

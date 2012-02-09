@@ -1,5 +1,5 @@
 (function() {
-  var affineMapping, d_simplex, grading, m, obj, points, randomPoints, randomPoints0, rn, scale, _i, _ref, _results;
+  var affineMapping, d_simplex, grading, m, obj, points, randomPoints, rn, scale, _i, _ref, _results;
 
   randomPoints = function(rn, m, scale) {
     var k, point;
@@ -18,28 +18,6 @@
           }
           return _results2;
         })());
-      }
-      return _results;
-    })());
-  };
-
-  randomPoints0 = function(rn, m, scale) {
-    var k, point;
-    if (rn == null) rn = 2;
-    if (m == null) m = 40;
-    if (scale == null) scale = 2;
-    return new PointSet((function() {
-      var _results;
-      _results = [];
-      for (point = 0; 0 <= m ? point < m : point > m; 0 <= m ? point++ : point--) {
-        _results.push(AR((function() {
-          var _results2;
-          _results2 = [];
-          for (k = 0; 0 <= rn ? k < rn : k > rn; 0 <= rn ? k++ : k--) {
-            _results2.push(Math.random() * scale);
-          }
-          return _results2;
-        })(), 0));
       }
       return _results;
     })());
@@ -76,9 +54,9 @@
     };
   };
 
-  points = randomPoints0(rn = 2, m = 40, scale = 1).t([0, 1], [-0.5, -0.5]);
+  points = randomPoints(rn = 2, m = 40, scale = 1);
 
-  MYPRINT("0:points =", points);
+  points.t([0, 1], [-0.5, -0.5]);
 
   obj = new SimplicialComplex(points.verts, AA(LIST)((function() {
     _results = [];
@@ -86,11 +64,11 @@
     return _results;
   }).apply(this)));
 
+  obj.embed(1);
+
   obj.t([0, 1, 2], [0, 0, 1]);
 
   viewer.draw(obj);
-
-  MYPRINT("1:obj =", obj);
 
   /*
   

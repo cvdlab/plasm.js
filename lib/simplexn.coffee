@@ -119,7 +119,7 @@ fcode = (point) -> (AA fixedPrecision) point
 root.CODE = CODE = (point) -> "[#{fcode point}]"
 
 decode = (string) -> +string  # => a number
-uncode = (pointCode) -> (AA decode) pointCode.split(',')
+uncode = (pointCode) -> (AA decode) pointCode.replace(/[\[\]]/g, '').split(',')
 
 string2numberList = (string) ->
 	if string is '[]' then [] else
@@ -153,8 +153,16 @@ class PointSet
 			@m = 0
 
 	update: (modify) ->
-		@verts[pid] = modify (uncode pcode) for pcode,pid of @dict		
-		@dict = {}; (@dict[CODE(point)] = pid for point,pid in @verts)
+		# for pcode,pid of @dict
+		# 	val = uncode pcode
+		# 	modified = modify val 
+		# 	console.log pcode, val, modified
+		# 	@verts[pid] = modify val
+		@verts[pid] = modify (uncode pcode) for pcode,pid of @dict
+		@dict = {}
+		@dict[CODE(point)] = pid for point,pid in @verts
+
+
 
 	embed: (n) -> 
 		@rn += n
@@ -162,14 +170,10 @@ class PointSet
 		@
 
 	t: (indices,values) ->
-		MYPRINT "indices", indices
-		MYPRINT "values", values
 		vect = (0 for k in [0...@rn])
-		MYPRINT "@rn", @rn
-		MYPRINT "0:vect", [vect[0],vect[1],vect[2]]
 		vect[indices[h]] = values[h] for h in [0...indices.length]
-		MYPRINT "1:vect", vect
 		@update (point) -> SUM([point, vect])
+
 		@
 
 	s: (indices,values) ->

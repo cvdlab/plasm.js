@@ -287,6 +287,7 @@ class SimplicialComplex
 		if filter then [points,d_cells] = vertexFilter(points,d_cells)
 		@vertices = new PointSet(points)
 		@faces = new Topology(@vertices,d_cells)
+		@
 
 	embed: (n) -> @vertices.embed(n); @
 	t: (indices,values) -> @vertices.t(indices,values); @

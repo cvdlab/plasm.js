@@ -1,10 +1,40 @@
 (function() {
-  var affineMapping, blue, closetozero, colors, cyan, extremePoints, grading, green, m, magenta, mapping, obj, points, randomPoints, randomSimplex, red, rn, scale, simplexMatrix, spacePartition, white, yellow, _i, _ref, _ref2, _results,
+  var AQUA, BLACK, BLUE, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, bucket, closetozero, colors, grading, k, m, mapping, model, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, _i, _j, _ref, _ref2, _ref3, _results, _results2,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  _ref = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 1, 1], [1, 0, 1], [1, 1, 0], [1, 1, 1]], red = _ref[0], green = _ref[1], blue = _ref[2], cyan = _ref[3], magenta = _ref[4], yellow = _ref[5], white = _ref[6];
+  WHITE = [1.0, 1.0, 1.0];
 
-  colors = [red, green, blue, cyan, magenta, yellow, white];
+  SILVER = [0.8, 0.8, 0.8];
+
+  GRAY = [0.5, 0.5, 0.5];
+
+  BLACK = [0.0, 0.0, 0.0];
+
+  RED = [1.0, 0.0, 0.0];
+
+  MAROON = [0.5, 0.0, 0.0];
+
+  YELLOW = [1.0, 1.0, 0.0];
+
+  OLIVE = [0.5, 0.5, 0.0];
+
+  LIME = [0.0, 1.0, 0.0];
+
+  GREEN = [0.0, 0.5, 0.0];
+
+  AQUA = [0.0, 1.0, 1.0];
+
+  TEAL = [0.0, 0.5, 0.5];
+
+  BLUE = [0.0, 0.0, 1.0];
+
+  NAVY = [0.0, 0.0, 0.5];
+
+  FUCHSIA = [1.0, 0.0, 1.0];
+
+  PURPLE = [0.5, 0.0, 0.5];
+
+  colors = [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE];
 
   randomPoints = function(rn, m, scale) {
     var k, point;
@@ -90,34 +120,21 @@
     }
   };
 
-  extremePoints = function(points) {
-    return function(coords) {
-      var coordVects, k, maxCoords, point, result, _i, _j, _len, _len2;
-      coordVects = TRANS(points);
-      maxCoords = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = coords.length; _i < _len; _i++) {
-          k = coords[_i];
-          _results.push(Math.max.apply(null, coordVects[k]));
-        }
-        return _results;
-      })();
-      result = [];
-      for (_i = 0, _len = coords.length; _i < _len; _i++) {
-        k = coords[_i];
-        for (_j = 0, _len2 = points.length; _j < _len2; _j++) {
-          point = points[_j];
-          if (point[k] === maxCoords[k]) result.push(point);
-        }
-      }
-      return result;
-    };
-  };
+  /*
+  extremePoints = (points) -> (coords) ->
+  	coordVects = TRANS(points)
+  	maxCoords = (Math.max.apply(null, coordVects[k])  for k in coords)
+  	result = []
+  	for k in coords
+  		for point in points
+  			if point[k] == maxCoords[k]
+  				result.push point
+  	result
+  */
 
   randomSimplex = function(verts, d) {
-    var cell, index, m, mat, _ref2;
-    _ref2 = [[], verts.length], cell = _ref2[0], m = _ref2[1];
+    var cell, index, m, mat, _ref;
+    _ref = [[], verts.length], cell = _ref[0], m = _ref[1];
     while (cell.length <= d) {
       index = Math.round(Math.random() * m);
       if (!(__indexOf.call(cell, index) >= 0)) cell.push(index);
@@ -128,45 +145,66 @@
   };
 
   spacePartition = function(points) {
-    var bucket, d, k, object, referenceCell, referenceSimplex, theMap, tokens, _i, _ref2, _ref3, _ref4, _ref5, _ref6, _results, _results2;
+    var bucket, d, k, m, referenceCell, referenceSimplex, theMap, tokens, _ref;
     d = points[0].length;
+    m = points.length;
     referenceCell = randomSimplex(points, d);
     referenceSimplex = simplexMatrix(points, referenceCell);
     theMap = mapping(referenceSimplex);
     tokens = AA(grading)(affineMapping(theMap)(points));
-    bucket = Array;
-    object = Array;
-    for (k = 0, _ref2 = Math.pow(2, d + 1); 0 <= _ref2 ? k < _ref2 : k > _ref2; 0 <= _ref2 ? k++ : k--) {
+    bucket = {};
+    for (k = 1, _ref = Math.pow(2, d + 1); 1 <= _ref ? k < _ref : k > _ref; 1 <= _ref ? k++ : k--) {
       bucket[k] = [];
     }
-    for (k = 0, _ref3 = points.length; 0 <= _ref3 ? k < _ref3 : k > _ref3; 0 <= _ref3 ? k++ : k--) {
+    for (k = 0; 0 <= m ? k < m : k > m; 0 <= m ? k++ : k--) {
       bucket[tokens[k]].push(points[k]);
     }
-    MYPRINT("bucket ", bucket);
-    for (k = 0, _ref4 = Math.pow(2, d + 1) / 2; 0 <= _ref4 ? k < _ref4 : k > _ref4; 0 <= _ref4 ? k++ : k--) {
-      if (bucket[k] !== []) {
-        object[k] = new SimplicialComplex(bucket[k], AA(LIST)((function() {
-          _results = [];
-          for (var _i = 0, _ref5 = bucket[k].length; 0 <= _ref5 ? _i < _ref5 : _i > _ref5; 0 <= _ref5 ? _i++ : _i--){ _results.push(_i); }
-          return _results;
-        }).apply(this)));
-      }
-    }
-    _results2 = [];
-    for (k = 0, _ref6 = Math.pow(2, d + 1) / 2; 0 <= _ref6 ? k < _ref6 : k > _ref6; 0 <= _ref6 ? k++ : k--) {
-      if (object[k] !== []) _results2.push(viewer.draw(object[k]));
-    }
-    return _results2;
+    return bucket;
   };
 
-  points = randomPoints(rn = 3, m = 5000, scale = 8).t([0, 1, 2], [-4, -4, -4]);
+  /*
+  makeRegionDict = (pointSet,d) ->
+  	# recursive contruction of dictionaries in crowded subregions
+  	regionDict = spacePartition(pointSet)
+  	for key of regionDict
+  		if regionDict[key].length > d+1
+  			if key == (2**(d+1) - 1)
+  				regionDict[key] = selectBasis(regionDict[key])
+  			else
+  				pointSubset = [point[1] for point in regionDict[key]]
+  				regionDict[key] = makeRegionDict(PointSet(pointSubset),d)
+  		else pass
+  	regionDict
+  */
 
-  obj = new SimplicialComplex(points.verts, AA(LIST)((function() {
+  rn = 2;
+
+  points = randomPoints(rn, m = 5000, scale = 8).t((function() {
     _results = [];
-    for (var _i = 0, _ref2 = points.m; 0 <= _ref2 ? _i < _ref2 : _i > _ref2; 0 <= _ref2 ? _i++ : _i--){ _results.push(_i); }
+    for (var _i = 0; 0 <= rn ? _i < rn : _i > rn; 0 <= rn ? _i++ : _i--){ _results.push(_i); }
     return _results;
-  }).apply(this)));
+  }).apply(this), REPEAT(rn)(-scale / 2));
 
-  MYPRINT("spacePartition(points) =", spacePartition(obj.vertices.verts));
+  object = [];
+
+  bucket = spacePartition(points.verts);
+
+  MYPRINT("bucket", bucket);
+
+  for (k = 1, _ref = Math.pow(2, rn + 1); 1 <= _ref ? k < _ref : k > _ref; 1 <= _ref ? k++ : k--) {
+    if ((bucket[k] != null) && bucket[k].length > 0) {
+      object.push(new SimplicialComplex(bucket[k], AA(LIST)((function() {
+        _results2 = [];
+        for (var _j = 0, _ref2 = bucket[k].length; 0 <= _ref2 ? _j < _ref2 : _j > _ref2; 0 <= _ref2 ? _j++ : _j--){ _results2.push(_j); }
+        return _results2;
+      }).apply(this))));
+    }
+  }
+
+  model = viewer.draw(object);
+
+  for (k = 1, _ref3 = model.length; 1 <= _ref3 ? k < _ref3 : k > _ref3; 1 <= _ref3 ? k++ : k--) {
+    model[k].color(colors[k]);
+  }
 
 }).call(this);

@@ -1,6 +1,22 @@
-[red,green,blue,cyan,magenta,yellow,white] = [[1,0,0],[0,1,0],[0,0,1],[0,1,1],[1,0,1],[1,1,0],[1,1,1]]
-colors = [red,green,blue,cyan,magenta,yellow,white]
-
+# Internet colors and color names
+WHITE = [ 1.0 , 1.0 , 1.0 ]
+SILVER = [ 0.8 , 0.8 , 0.8 ]
+GRAY = [ 0.5 , 0.5 , 0.5 ]
+BLACK = [ 0.0 , 0.0 , 0.0 ]
+RED = [ 1.0 , 0.0 , 0.0 ]
+MAROON = [ 0.5 , 0.0 , 0.0 ]
+YELLOW = [ 1.0 , 1.0 , 0.0 ]
+OLIVE = [ 0.5 , 0.5 , 0.0 ]
+LIME = [ 0.0 , 1.0 , 0.0 ]
+GREEN = [ 0.0 , 0.5 , 0.0 ]
+AQUA = [ 0.0 , 1.0 , 1.0 ]
+TEAL = [ 0.0 , 0.5 , 0.5 ]
+BLUE = [ 0.0 , 0.0 , 1.0 ]
+NAVY = [ 0.0 , 0.0 , 0.5 ]
+FUCHSIA = [ 1.0 , 0.0 , 1.0 ]
+PURPLE = [ 0.5 , 0.0 , 0.5 ]
+colors = [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, GRAY, BLACK, 
+OLIVE, GREEN, TEAL, NAVY, PURPLE]
 
 randomPoints = (rn=2,m=40,scale=2) ->
 	# To produce a random PointSet in [0,scale]^rn space.
@@ -42,6 +58,7 @@ MYPRINT "basis =",AA(CODE)(standardBasis)
 
 closetozero = (number) -> if Math.abs(number) < 1.0E-5 then true else false
 
+###
 extremePoints = (points) -> (coords) ->
 	coordVects = TRANS(points)
 	maxCoords = (Math.max.apply(null, coordVects[k])  for k in coords)
@@ -51,6 +68,7 @@ extremePoints = (points) -> (coords) ->
 			if point[k] == maxCoords[k]
 				result.push point
 	result
+###
 
 randomSimplex = (verts,d) ->
 	[cell,m] = [[], verts.length]
@@ -64,29 +82,55 @@ randomSimplex = (verts,d) ->
 	
 spacePartition = (points) ->
 	# To extract a reference simplex from a list of 'points'.
-	# Return a partition of the set into d 'buckets' of 'close' points.
+	# Return a partition of the set into d 'bucket' of 'close' points.
 	d = points[0].length
+	m = points.length
 	referenceCell = randomSimplex(points,d)
 	referenceSimplex = simplexMatrix(points,referenceCell)
 	theMap = mapping(referenceSimplex)
 	tokens = AA(grading)(affineMapping(theMap)(points))
-	bucket = Array
-	object = Array
-	bucket[k] = [] for k in [0...Math.pow(2,d+1)]
-	for k in [0...points.length]
-		bucket[tokens[k]].push points[k] 
-	MYPRINT "bucket ",bucket
-	for k in [0...Math.pow(2,d+1)/2]
-		if bucket[k] isnt []
-			object[k] = new SimplicialComplex(bucket[k], AA(LIST) [0...bucket[k].length])
-	viewer.draw object[k] for k in [0...Math.pow(2,d+1)/2] when object[k] isnt []
+	bucket = {}; bucket[k] = [] for k in [1...Math.pow(2,d+1)]
+	bucket[tokens[k]].push points[k] for k in [0...m]
+	bucket 
 
 
+makeRegionDict = (pointSet,d) ->
+	# recursive contruction of dictionaries in crowded subregions
+	regionDict = spacePartition(pointSet)
+	# change the keys -- here?
+	for key of regionDict
+		if regionDict[key].length > d+1
+			pointSubset = regionDict[key]
+			regionDict[key] = makeRegionDict(pointSubset,d)
+		else # add a zero to the key
+	regionDict
 
-points = randomPoints(rn=3,m=5000,scale=8).t([0,1,2],[-4,-4,-4])
-obj = new SimplicialComplex(points.verts, AA(LIST) [0...points.m])
-#model = viewer.draw obj
-#model.color(red)
-MYPRINT "spacePartition(points) =", spacePartition(obj.vertices.verts)
+###
+makeRegionDict = (pointSet,d) ->
+	# recursive contruction of dictionaries in crowded subregions
+	regionDict = spacePartition(pointSet)
+	for key of regionDict
+		if regionDict[key].length > d+1
+			if key == (Math.pow(2,d+1))
+				regionDict[key] = selectBasis(regionDict[key])
+			else
+				pointSubset = [point[1] for point in regionDict[key]]
+				regionDict[key] = makeRegionDict(PointSet(pointSubset),d)
+		else pass
+	regionDict
+###
+
+
+rn = 2
+points = randomPoints(rn,m=5000,scale=8).t( [0...rn], REPEAT(rn)(-scale/2) )
+object = []
+bucket = spacePartition(points.verts)
+MYPRINT "bucket",bucket
+for k in [1...Math.pow(2,rn+1)]
+	if bucket[k]? and bucket[k].length > 0 
+		object.push new SimplicialComplex(bucket[k], AA(LIST)([0...bucket[k].length]))
+model = viewer.draw object
+model[k].color(colors[k]) for k in [1...model.length]
+
 
 

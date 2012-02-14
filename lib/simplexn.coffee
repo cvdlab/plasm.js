@@ -81,6 +81,34 @@ root.SET = SET = (input) ->
 	dict = {}; dict[k] = k for k in input; 
 	(val for key,val of dict)
 
+root.TREE = TREE = (f) -> 
+	uncurriedTree = (fun,List) ->
+		len = List.length
+		if len is 1 then return List[0]
+		k = floor (len/2)
+		fun( CAT [uncurriedTree(fun, List[0...k]), uncurriedTree(fun, List[k...len])] )
+	(x) -> uncurriedTree(f,x)
+
+
+###
+sum = ([a,b]) -> a+b
+MYPRINT "TREE(sum) [1,2,3,4,5,6] =", TREE(sum)([1,2,3,4,5,6])
+MYPRINT "TREE(sum) [1,2,3,4,5,6,7] =", TREE(sum)([1,2,3,4,5,6,7])
+MYPRINT "TREE(sum) [1,2] =", TREE(sum)([1,2])
+MYPRINT "TREE(sum) [1] =", TREE(sum)([1])
+###
+
+root.CART2 = CART2 = (listOfLists) -> CAT(AA(DISTL)(DISTR(listOfLists)))
+F1 = (listOfLists) -> AA(AA(LIST))(listOfLists)
+# CART = CART = (listOfList) -> TREE( COMP([AA(CAT), CART2]) ) ( F1(listOfList) )
+
+
+MYPRINT "AA(AA(LIST))([[1, 2, 3], ['a', 'b']])",AA(AA(LIST))([[1, 2, 3], ['a', 'b']])
+MYPRINT "CART2 [[1, 2, 3], ['a', 'b']] =", CART2 [[1, 2, 3], ['a', 'b']] 
+MYPRINT "F1([[1, 2, 3], ['a', 'b']])", F1([[1, 2, 3], ['a', 'b']])
+# MYPRINT "CART([[1, 2, 3], ['a', 'b'],[10,11]]) =", CART([[1, 2, 3], ['a', 'b'],[10,11]]) # => KO
+
+
 #///////////////////////////////////////////////////////////////////////////////
 
 type = (obj) ->
@@ -106,7 +134,7 @@ root.CLONE = CLONE = (obj) ->
 
 #///////////////////////////////////////////////////////////////////////////////
 
-root.PRECISION = PRECISION = 1E11
+root.PRECISION = PRECISION = 1E9
 
 fixedPrecision = (number) ->
 	#int = (if number>0 then floor else ceil) number
@@ -486,35 +514,84 @@ root.GRAPH = GRAPH = (domain) -> (funs) -> MAP(funs)(domain)
 root.HELIX = HELIX = (radius=1,pitch=1,n=24,turns=1) -> 
 	domain = INTERVALS(2*PI*turns)(n*turns)
 	GRAPH( domain )( [sin, cos, ID] ).s([0,1,2],[radius,radius,pitch/(2*PI)])
+	
+root.QUADMESH = QUADMESH = (pointMat) -> 
+	m = pointMat.length
+	n = pointMat[0].length
+	pairSeq = CART2 [[0...m-1],[0...n-1]]
+	cells = []
+	address = ([i,j]) -> n*i + j 
+	for pair in pairSeq
+		[i,j] = pair
+		t1 = AA(address) [[i,j],[i+1,j],[i+1,j+1]]
+		t2 = AA(address) [[i,j],[i+1,j+1],[i,j+1]]
+		cells.push t1,t2
+	verts = CAT pointMat
+	new SimplicialComplex(verts,cells)
 
+root.LINSPACE2D = LINSPACE2D = (sizes) -> (subsets) -> 
+	MYPRINT "sizes =",sizes
+	MYPRINT "subsets =",subsets
+	[a,b] = sizes
+	[n,m] = subsets
+	pointMat = AA(DISTL) DISTR AA(PROGRESSIVE_SUM) [REPEAT(n)(a/n), REPEAT(m)(b/m)]
+	MYPRINT "pointMat =",pointMat
+	QUADMESH(pointMat) 
+
+root.LINSPACE3D = LINSPACE3D = (sizes) -> (subsets) -> 
+	[a,b,c] = sizes
+	[n,m,p] = subsets
+	domain2d = LINSPACE2D([a,b])([n,m])
+	hLists = PROGRESSIVE_SUM REPEAT(p)(c/p)
+	EXTRUDE(hLists) domain2d
+	
 root.CYLSURFACE = CYLSURFACE = (r=1, h=1, n=16, m=2) -> 
-	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(1.0/m)]
+	domain = LINSPACE2D([2*PI, 1.0]) [n,m]
+	# domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(1.0/m)]
 	fx = ([u,v]) -> r*cos(u)
 	fy = ([u,v]) -> r*sin(u)
 	fz = ([u,v]) -> h*v
 	MAP( [fx, fy, fz] )( domain )
 
+
+#MYPRINT "LINSPACE2D([1,1])([1,1]) =", LINSPACE2D([1,1])([1,1]) 
+#viewer.draw CYLSURFACE(r=1, h=8, n=32, m=4)
+#MYPRINT "LINSPACE3D([1,1,1])([1,1,1]) =", LINSPACE3D([1,1,1])([1,1,1]) 
+#viewer.draw LINSPACE3D([1,1,1])([1,1,1])
+
+
 root.CYLSOLID = CYLSOLID = (R=1, r=0, h=1, n=16, m=1, p=1) -> 
-	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)((R-r)/m), REPEAT(p)(h/p)]
+	domain = LINSPACE3D([2*PI, R-r, h]) [n,m,p]
+	#domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)((R-r)/m), REPEAT(p)(h/p)]
 	fx = ([u,v,w]) -> v*cos(u)
-	fy = ([u,v,w]) -> v*sin(u)
+	fy = ([u,v,w]) -> -v*sin(u)
 	fz = ([u,v,w]) -> w
 	MAP( [fx, fy, fz] )( domain.t([1],[r]) )
+	
+#viewer.draw BOUNDARY CYLSOLID()
 
 root.TORUSSURFACE = TORUSSURFACE = (r=1, R=3, n=12, m=8) -> 
-	domain = SIMPLEXGRID [ REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m) ]
+	domain = LINSPACE2D([2*PI, 2*PI]) [n,m]
+	#domain = SIMPLEXGRID [ REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m) ]
 	fx = ([u,v]) -> (R + r * cos(v)) * cos(u)
 	fy = ([u,v]) -> (R + r * cos(v)) * sin(u)
 	fz = ([u,v]) -> r * sin(v)
 	MAP( [fx, fy, fz] )( domain )
 
+#viewer.draw TORUSSURFACE()
+
+
 root.TORUSSOLID = TORUSSOLID = (r=1,R=3,n=8,m=16,p=1) -> 
-	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m), REPEAT(p)(1/p)]
+	domain = LINSPACE3D([2*PI, 2*PI, 1]) [n,m,p]
+	#domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m), REPEAT(p)(1/p)]
 	fx = ([u,v,w]) -> (R + r * w * cos(u)) * cos(v)
-	fy = ([u,v,w]) -> (R + r * w * cos(u)) * sin(v)
+	fy = ([u,v,w]) -> (R + r * w * cos(u)) * -sin(v)
 	fz = ([u,v,w]) -> r * w * sin(u)
 	MAP( [fx, fy, fz] )( domain )
 
+viewer.draw BOUNDARY TORUSSOLID()
+viewer.draw SKELETON(0) BOUNDARY TORUSSOLID()
+viewer.draw SKELETON(1) BOUNDARY TORUSSOLID()
 
 ###
 viewer.draw CYLSURFACE(r=1, h=1, n=64, m=2)

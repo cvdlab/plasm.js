@@ -220,10 +220,10 @@ points = [
     [[0,2,0.1],[1,2,0.0],[2,2,0.1],[3,2,0.1]], 
     [[0,3,-0.2],[1,3,0.1],[2,3,-0.3],[3,3,0.1]]
 ]
-console.log "TRIANGLE_ARRAY(3,3,points)", TRIANGLE_ARRAY(3,3,points)
-viewer.draw TRIANGLE_ARRAY(3,3,points)
-console.log "BOUNDARY TRIANGLE_ARRAY(3,3,points)", BOUNDARY TRIANGLE_ARRAY(3,3,points)
-viewer.draw BOUNDARY TRIANGLE_ARRAY(3,3,points)
+console.log "TRIANGLEARRAY(3,3,points)", TRIANGLEARRAY(3,3,points)
+viewer.draw TRIANGLEARRAY(3,3,points)
+console.log "BOUNDARY TRIANGLEARRAY(3,3,points)", BOUNDARY TRIANGLEARRAY(3,3,points)
+viewer.draw BOUNDARY TRIANGLEARRAY(3,3,points)
 ###
 ###
 #points = ([cos(alpha),sin(alpha)] for alpha in numeric.linspace(0.0,2*Math.PI,7))
@@ -240,16 +240,16 @@ viewer.draw BOUNDARY TRIANGLE_ARRAY(3,3,points)
 ###
 points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
 console.log "points",points
-console.log  "TRIANGLE_STRIP(points)",TRIANGLE_STRIP(points)
-viewer.draw TRIANGLE_STRIP(points)
-console.log "BOUNDARY TRIANGLE_STRIP(points)",BOUNDARY TRIANGLE_STRIP(points)
-viewer.draw BOUNDARY TRIANGLE_STRIP(points)
-console.log "EXTRUDE([1]) TRIANGLE_STRIP(points)",  EXTRUDE([1]) TRIANGLE_STRIP(points)
-viewer.draw EXTRUDE([1]) TRIANGLE_STRIP(points)
-console.log "BOUNDARY EXTRUDE([1]) TRIANGLE_STRIP(points)", BOUNDARY EXTRUDE([1]) TRIANGLE_STRIP(points)
-viewer.draw BOUNDARY EXTRUDE([1]) TRIANGLE_STRIP(points)
-console.log "BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)", BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)
-viewer.draw BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)
+console.log  "TRIANGLESTRIP(points)",TRIANGLESTRIP(points)
+viewer.draw TRIANGLESTRIP(points)
+console.log "BOUNDARY TRIANGLESTRIP(points)",BOUNDARY TRIANGLESTRIP(points)
+viewer.draw BOUNDARY TRIANGLESTRIP(points)
+console.log "EXTRUDE([1]) TRIANGLESTRIP(points)",  EXTRUDE([1]) TRIANGLESTRIP(points)
+viewer.draw EXTRUDE([1]) TRIANGLESTRIP(points)
+console.log "BOUNDARY EXTRUDE([1]) TRIANGLESTRIP(points)", BOUNDARY EXTRUDE([1]) TRIANGLESTRIP(points)
+viewer.draw BOUNDARY EXTRUDE([1]) TRIANGLESTRIP(points)
+console.log "BOUNDARY EXTRUDE([1,-1,1]) TRIANGLESTRIP(points)", BOUNDARY EXTRUDE([1,-1,1]) TRIANGLESTRIP(points)
+viewer.draw BOUNDARY EXTRUDE([1,-1,1]) TRIANGLESTRIP(points)
 ###
 #console.log "polyline [[0,0],[1,0],[0,1],[1,1],[0,0,0]]",
 #polyline [[0,0,0],[1,0,0],[0,1,1],[1,1,1],[0,0,0]]
@@ -263,3 +263,62 @@ viewer.draw BOUNDARY EXTRUDE([1,-1,1]) TRIANGLE_STRIP(points)
 #MYPRINT "idnt(3) =", idnt(3)
 #MYPRINT "idnt(4) =", idnt(4)
 #MYPRINT "idnt(1) =", idnt(1)
+
+###
+sum = ([a,b]) -> a+b
+MYPRINT "TREE(sum) [1,2,3,4,5,6] =", TREE(sum)([1,2,3,4,5,6])
+MYPRINT "TREE(sum) [1,2,3,4,5,6,7] =", TREE(sum)([1,2,3,4,5,6,7])
+MYPRINT "TREE(sum) [1,2] =", TREE(sum)([1,2])
+MYPRINT "TREE(sum) [1] =", TREE(sum)([1])
+###
+###
+MYPRINT "AA(AA(LIST))([[1, 2, 3], ['a', 'b']])",AA(AA(LIST))([[1, 2, 3], ['a', 'b']])
+MYPRINT "CART2 [[1, 2, 3], ['a', 'b']] =", CART2 [[1, 2, 3], ['a', 'b']] 
+MYPRINT "F1([[1, 2, 3], ['a', 'b']])", F1([[1, 2, 3], ['a', 'b']])
+# MYPRINT "CART([[1, 2, 3], ['a', 'b'],[10,11]]) =", CART([[1, 2, 3], ['a', 'b'],[10,11]]) # => KO
+###
+###
+points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
+console.log "points",points
+console.log  "TRIANGLESTRIP(points)",TRIANGLESTRIP(points)
+console.log "BOUNDARY TRIANGLESTRIP(points)",BOUNDARY TRIANGLESTRIP(points)
+viewer.draw BOUNDARY TRIANGLESTRIP(points)
+###
+###
+MYPRINT "LINSPACE2D() =", LINSPACE2D() 
+viewer.draw CYLSURFACE(r=1, h=8, n=32, m=4)
+MYPRINT "LINSPACE3D([1,1,1,1,1,1]) =", LINSPACE3D() 
+viewer.draw LINSPACE3D()
+###
+###
+viewer.draw BOUNDARY CYLSOLID()
+viewer.draw TORUSSURFACE()
+viewer.draw BOUNDARY TORUSSOLID()
+viewer.draw SKELETON(0) BOUNDARY TORUSSOLID()
+viewer.draw SKELETON(1) BOUNDARY TORUSSOLID()
+###
+###
+viewer.draw CYLSURFACE(r=1, h=1, n=64, m=2)
+viewer.draw BOUNDARY CYLSURFACE(r=1, h=1, n=64, m=2)
+MYPRINT "CUBOID [1,1,1]", CUBOID [1,1,1]
+MYPRINT "BOUNDARY CUBOID [1,1,1]", BOUNDARY CUBOID [1,1,1]
+viewer.draw BOUNDARY CUBOID [1,1,1]	
+###
+###
+points = [[0,3],[1,2],[3,3],[2,2],[3,0],[2,1],[0,0],[1,1],[0,3],[1,2]]
+console.log "points",points
+console.log  "TRIANGLESTRIP(points)",TRIANGLESTRIP(points)
+viewer.draw TRIANGLESTRIP(points)
+console.log "BOUNDARY TRIANGLESTRIP(points)",BOUNDARY TRIANGLESTRIP(points)
+viewer.draw BOUNDARY TRIANGLESTRIP(points)
+###
+###
+obj = TORUSSOLID(r=1,R=3,n=18,m=36,p=1)
+obj = ( BOUNDARY obj ).r( [0,2],(PI/4) )
+viewer.draw obj
+viewer.draw SKELETON(1) obj
+viewer.draw SKELETON(0) obj
+MYPRINT "obj =",obj
+MYPRINT "BOUNDARY obj =",obj
+###
+

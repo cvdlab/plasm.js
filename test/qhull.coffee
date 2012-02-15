@@ -22,17 +22,18 @@ d2h = (d) -> d.toString 36
 h2d = (h) -> parseInt h,36
 keysConcat = (key,keys) -> ((pair.join "") for pair in DISTL([key, keys]))
 
-MYPRINT "(d2h 7000237) is '461f1' =", (d2h 7000237) is "461f1"
-MYPRINT '(h2d "461f1") is 7000237 =', (h2d "461f1") is 7000237
-MYPRINT "d2h 28 =", d2h 28
-MYPRINT 'h2d "S" =', h2d "S"
-MYPRINT 'keysConcat "W",["A", "B", "0", "9", "F", "A"] =', keysConcat "W",["A", "B", "0", "9", "F", "A"]
-MYPRINT 'keysConcat "E06HW",["A", "B", "0", "9", "F", "A"] =', keysConcat "E06HW",["A", "B", "0", "9", "F", "A"]
-MYPRINT '(AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"]) =', (AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"])
-numCodes = [846829594, 846829595, 846829584, 846829593, 846829599, 846829594]
-MYPRINT "(d2h(code%36) for code in numCodes) =", (d2h (code%36) for code in numCodes)
-
 ###
+PRINT "(d2h 7000237) is '461f1' =", (d2h 7000237) is "461f1"
+PRINT '(h2d "461f1") is 7000237 =', (h2d "461f1") is 7000237
+PRINT "d2h 28 =", d2h 28
+PRINT 'h2d "S" =', h2d "S"
+PRINT 'keysConcat "W",["A", "B", "0", "9", "F", "A"] =', keysConcat "W",["A", "B", "0", "9", "F", "A"]
+PRINT 'keysConcat "E06HW",["A", "B", "0", "9", "F", "A"] =', keysConcat "E06HW",["A", "B", "0", "9", "F", "A"]
+PRINT '(AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"]) =', (AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"])
+numCodes = [846829594, 846829595, 846829584, 846829593, 846829599, 846829594]
+PRINT "(d2h(code%36) for code in numCodes) =", (d2h (code % 36) for code in numCodes)
+###
+
 randomPoints = (rn=2,m=40,scale=2) ->
 	# To produce a random PointSet in [0,scale]^rn space.
 	# Return a PointSet instance with n points, each with rn coordinates.
@@ -57,7 +58,6 @@ affineMapping = (mapping) -> (cartesianPoints) ->
 	# Return the coded string of affine coordinates.
 	homogeneousPoints = (AR [point,1] for point in cartesianPoints)
 	affinePoints = numeric.dot(homogeneousPoints,mapping)
-
 
 closetozero = (number) -> if Math.abs(number) < 1.0E-2 then true else false
 
@@ -87,7 +87,7 @@ spacePartition = (points) ->
 			bucket[tokens[k]].push points[k] 
 	[bucket,theMap] 
 
-##
+
 makeRegionDict = (pointSet,d) ->
 	merge = (obj1,obj2) -> obj1[key] = obj2[key] for key of obj2; obj1
 	[bucket,theMap] = spacePartition(pointSet) # first buckets
@@ -111,7 +111,7 @@ makeRegionDict = (pointSet,d) ->
 					newBuckets[newKey] = bucket[key]
 		bucket = CLONE newBuckets
 	newBuckets
-##
+
 
 ##
 rn = 2
@@ -129,10 +129,10 @@ model = viewer.draw object
 model[k].color(colors[k]) for k in [1...model.length]
 ##
 
-MYPRINT "**** points.m =", points.m
+PRINT "**** points.m =", points.m
 
 Bucket = makeRegionDict(points.verts, rn)
-MYPRINT "**** Bucket =", Bucket
+PRINT "**** Bucket =", Bucket
 n = 0
 for key of Bucket
 	if Bucket[key]? and Bucket[key].length > 0 
@@ -147,7 +147,7 @@ for key of Bucket
 model = viewer.draw object
 model[k].color(colors[k%7]) for k in [0...model.length]
 
-MYPRINT "n =", n
+PRINT "n =", n
 ###
 
 

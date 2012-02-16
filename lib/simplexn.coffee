@@ -1,154 +1,165 @@
-# ///////////////////////////////////////////////////////////////////////////////
-# simplexn.coffee
-# a prototype geometric kernel for plasm.js
-# JavaScript Programming Language for Solid Modeling
-# Copyright (c) 2011-2012 cvd-lab <cvdlab@email.com> (https://github.com/cvd-lab/)
-# Universitò Roma Tre
-# MIT License
-# ///////////////////////////////////////////////////////////////////////////////
+# **simplexn.coffee** is
+# a prototype geometric kernel for plasm.js, 
+# the *JavaScript Programming Language for Solid Modeling*
+#
+# Copyright (c) 2011-2012 Università Roma Tre, CVD-lab <cvdlab@email.com>
+#
+# The source for [Plasm.js](https://github.com/cvd-lab/) is available on GitHub,
+# and released under the MIT license.
+# <HR>
 
 # To make the qualified symbols visible to the root object (typically Window)
+###
 root = exports ? this
 
-# imported symbols from Math object
+# Imported symbols from Math object
 {PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = Math
 
-# APPLY returns the result of the application expression f(x)
+# <HR>
+
+#### Operators for [FL-style](http://en.wikipedia.org/wiki/FL_(programming_language&#41;) [programming](http://en.wikipedia.org/wiki/Function-level_programming)
+
+#
+# **APPLY** returns the result of the application expression `f(x)`
 root.APPLY = APPLY = (args) ->  [f, x] = args; f.apply(null,[x])
 
-# COMP composition. Returns the composition of the functions in the argument
-root.COMP = COMP = (flist) -> 
+# **COMP** composition. Returns the composition of the `funs` array in the argument
+root.COMP = COMP = (funs) -> 
 	comp2 = (f,g) -> (x) -> f (g x)
-	flist.reduce comp2
+	funs.reduce comp2
 
-# CONS construction. Applies a function array [f_1, ..., f_n] to the x argument,
-# producing the array of application values: [f_1(x), ..., f_n(x)]
+# **CONS** construction. Applies a function array `[f_1, ..., f_n]` to the `x` argument,
+# producing the array of application values: `[f_1(x), ..., f_n(x)]`
 root.CONS = CONS = (flist) -> (x) -> flist.map (f) -> f x
 
-# CAT catenates an array of arrays, by eliminating a level of nesting
+# **CAT** catenates `args`, an array of arrays, by eliminating a level of nesting
 root.CAT = CAT = (args) -> [].concat args...
 
-# ID returns the arg argument unchanged
+# **ID** returns the `arg` argument unchanged
 root.ID = ID = (arg) -> arg
 
-# K constant functional that always returns the first argument, for any value of the second one
+# **K** constant functional that always returns the first argument (`a`), for any value of the second one (`b`)
 root.K = K = (a) -> (b) -> a
 
-# AA applies fun to each element of the args array
+# **AA** applies `fun` to each element of `array`
 root.AA = AA = (fun) -> (array) -> array.map (e) -> fun e
 
-# DISTR distribute right. Returns the pair sequence with the elements of array and x
-root.DISTR = DISTR = (args) -> [array,x] = args; [el,x] for el in array
+# **DISTR** distribute right. Returns the `pair` sequence with the elements of `array` and `x`
+root.DISTR = DISTR = (pair) -> [array,x] = pair; [el,x] for el in array
 
-# DISTL distribute left. Returns the pair sequence with x and the elements of seq
-root.DISTL = DISTL = (args) -> [x,array] = args; [x,el] for el in array
+# **DISTL** distribute left. Returns the `pair` sequence with `x` and the elements of `array`
+root.DISTL = DISTL = (pair) -> [x,array] = pair; [x,el] for el in array
 
-# INSR insert right combinator, allowing to apply a binary operator f to n arguments:
-root.INSR = INSR = (f) -> (array) -> array.reduceRight f
+# **INSR** insert right combinator, allowing to apply a binary operator `op` to an `array` of n arguments
+root.INSR = INSR = (op) -> (array) -> array.reduceRight op
 
-# INSL insert left combinator, allowing to apply a binary operator f to n arguments:
-root.INSL = INSL = (f) -> (array) -> array.reduce f
+# **INSL** insert left combinator, allowing to apply a binary operator `op` to an `array` of n arguments
+root.INSL = INSL = (op) -> (array) -> array.reduce op
 
-# Bigger is a binary operator that returns the greater of arguments
+# **TREE**  applies a binary operator `op` to an `array` of n arguments
+root.TREE = TREE = (op) -> 
+	tree = (fun,array) ->
+		len = array.length
+		if len is 1 then return array[0]
+		k = floor (len/2)
+		fun( CAT [tree(fun, array[0...k]), tree(fun, array[k...len])] )
+	(array) -> tree(op,array)
+
+# **BIGGER** is a binary operator that returns the greater of arguments
 root.BIGGER = BIGGER = (a,b) -> if a > b then a else b
 
-# Smaller binary operator that returns the smaller argument (in a proper ordering!)
+# **SMALLER** binary operator that returns the smaller argument (in a proper ordering!)
 root.SMALLER = SMALLER = (a,b) -> if a < b then a else b
 
-# Biggest binary operator that returns the greatest of args values
+# **BIGGEST** binary operator that returns the greatest of `args` values
 root.BIGGEST = BIGGEST = (args) -> (INSR BIGGER) args 
 
-# Smallest returns the smallest element of the args input sequence
+# **SMALLEST** returns the smallest element of the `args` input sequence
 root.SMALLEST = SMALLEST = (args) -> (INSR SMALLER) args
 
-# LIST returns an array containing arg. Alias for CONS([ID])
+# **LIST** returns an array containing `arg`. Alias for`CONS([ID])`
 root.LIST = LIST = (arg) -> (CONS [ID]) arg
 
-# LEN returns the length of the array given as argument
+# **LEN** returns the length of the array `args`
 root.LEN = LEN = (args) -> args.length
 
-# REVERSE returns an array in reverse order
+# **REVERSE** returns the `args` array in reverse order
 root.REVERSE = REVERSE = (args) -> if args.length > 1 then (args[i] for i in [args.length-1..0]) else args
 
-# TAIL returns the non-empty argument array but its first element
+# **TAIL** returns the non-empty `args` array but its *first* element
 root.TAIL = TAIL = (args) -> if args.length > 0 then args.splice 1, args.length-1 else args
 
-# BUTLAST returns the non-empty argument array but its last element
+# **BUTLAST** returns the non-empty `args` array but its *last* element
 root.BUTLAST = BUTLAST = (args) -> if args.length > 1 then REVERSE TAIL REVERSE args else []
 
-# AL append left. appends elem on the left of array
+# **AL** append left. appends `elem` on the left of `array`
 root.AL = AL = (args) -> [array, elem] = args; CAT [array, elem]
 
-# AR append right. appends elem on the right of seq
-root.AR = AR = (args) -> CAT args
+# **AR** append right. appends `elem` on the right of `seq`
+root.AR = AR = (args) -> [elem, array] = args;  CAT [elem, array]
 
-# repetition operator. Returns an array with n repetitions of arg
+# **REPEAT** repetition operator. Returns an array with `n` repetitions of `arg`
 root.REPEAT = REPEAT = (n) -> (args) -> (args for i in [0...n])
 
-# array repetition operator (with catenation). 
-# REPLICA(n)(array) is equivalent to COMP([CAT,REPEAT])(array)
+# **REPLICA** array repetition operator (with catenation). 
+# `REPLICA(n)(array)` is equivalent to `COMP([CAT,REPEAT(n)])(array)`
 root.REPLICA = REPLICA = (n) -> (args) -> CAT (args for i in [0...n])
 
-# Arithmetic operation (summation) between numbers or number arrays
+# **SUM** arithmetic operation between numbers or number arrays
 root.SUM = SUM = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x+y) args else AA(INSL (x,y) -> x+y)(TRANS args)
 
-# Arithmetic operation (subtraction) between numbers or number arrays
+# **SUB** arithmetic operation between numbers or number arrays
 root.SUB = SUB = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x-y) args else AA(INSL (x,y) -> x-y)(TRANS args)
 
-# Arithmetic operation (multiplication) between numbers or number arrays
+# **MUL** arithmetic operation between numbers or number arrays
 root.MUL = MUL = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x*y) args else AA(INSL (x,y) -> x*y)(TRANS args)
 
-# Arithmetic operation (division) between numbers or number arrays
+# **DIV** arithmetic operation between numbers or number arrays
 root.DIV = DIV = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x/y) args else AA(INSL (x,y) -> x/y)(TRANS args)
 
-# TRANS transposes an array of arrays of the same length. (like matrix transposition)
+# **TRANS** transposes `args` (an array of arrays of the same length), like *matrix* transposition
 root.TRANS = TRANS = (args) ->
 	n = args.length; m = args[0].length; args = CAT args
 	((args[j*m+i] for j in [0...n]) for i in [0...m])
 
-# VECT type casting binary operations
+# **VECT** type casting *binary* operations
 root.VECT = VECT = (binaryop) -> (args) -> AA(binaryop) TRANS args
 
-# MAT transform a linear array into an array of arrays with m rows and n columns
+# **MAT** transform a linear array `args` into an array of arrays with `m` rows and `n` columns
 root.MAT = MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m]) # mat
 
-# ISNUM predicate that tests if n is a number
+# **ISNUM** predicate to test if `n` is a number
 root.ISNUM = ISNUM = (n) -> (not isNaN parseFloat n) and isFinite n
 
-# ISFUN predicate that tests if arg is a function
+# **ISFUN** predicate to test if `arg` is a function
 root.ISFUN = ISFUN = (arg) -> if typeof arg is "function" then true else false
 
-# PROGRESSIVE_SUM returns the incremental sum of args starting from 0
+# **PROGRESSIVE_SUM** returns the incremental sum of `args` starting from 0
 root.PROGRESSIVE_SUM = PROGRESSIVE_SUM = (args) ->
 	AL [0, (INSR (x,y) -> x+y) args[0..i] for i in [0...args.length]]
 
-# SET transforms an array with possibly repeated elements to one without repetitions
+# **SET** transforms an `array` with possibly repeated elements to one without repetitions
 root.SET = SET = (array) ->
 	dict = {}; dict[k] = k for k in array; 
 	(val for key,val of dict)
 
-# TREE recursively applies a binary function f to an array of arguments
-root.TREE = TREE = (f) -> 
-	uncurriedTree = (fun,array) ->
-		len = array.length
-		if len is 1 then return array[0]
-		k = floor (len/2)
-		fun( CAT [uncurriedTree(fun, array[0...k]), uncurriedTree(fun, array[k...len])] )
-	(array) -> uncurriedTree(f,array)
-
-# Cart returns the Cartesian product of two sequences
+# **CART2** returns the Cartesian product of two sequences
 root.CART2 = CART2 = (listOfLists) -> CAT(AA(DISTL)(DISTR(listOfLists)))
 F1 = (listOfLists) -> AA(AA(LIST))(listOfLists)
-# CART = CART = (listOfList) -> TREE( COMP([AA(CAT), CART2]) ) ( F1(listOfList) )
+# **CART** = CART = (listOfList) -> TREE( COMP([AA(CAT), CART2]) ) ( F1(listOfList) )
 
-#///////////////////////////////////////////////////////////////////////////////
 
-# Some utility functions
 
-# PRINT returns arg and prints its value to console.log. It may be used to debugging
+
+# <HR> 
+
+#### Some utility functions
+
+# **PRINT** returns arg and prints its value to `console.log`. It may be used for debugging
 root.PRINT = PRINT = (string,params) -> console.log string, params, "\n"
 
-# CLONE makes a deep copy of the obj argument
+# **CLONE** makes a deep copy of the `obj` argument. A CoffeeScript `type` function from 
+# [CoffeeScript Cookbook](http://coffeescriptcookbook.com/chapters/classes_and_objects/cloning)
 root.CLONE = CLONE = (obj) ->
 	if not obj? or typeof obj isnt 'object'
 		return obj
@@ -157,7 +168,8 @@ root.CLONE = CLONE = (obj) ->
 		newInstance[key] = CLONE obj[key]
 	newInstance
 
-# 
+# Another `type` function from 
+# [CoffeeScript Cookbook](http://coffeescriptcookbook.com/chapters/classes_and_objects/type-function)
 type = (obj) ->
 	if obj == undefined or obj == null
 		return String obj
@@ -173,31 +185,59 @@ typedPrint = (args) ->
 	console.log "#{type args}::#{args}";
 	args
 
-#///////////////////////////////////////////////////////////////////////////////
+# <HR> 
+#### Symbolic from/to numeric
 
-# Symbolic coding/decoding of numeric information
+# Scaling factor to be used for numeric to symbolic conversions
+root.PRECISION = PRECISION = +("1E#{digits}")
 
-root.PRECISION = PRECISION = 1E9
+# number of decimal digits of stored data
+digits = 9
+
+# To transform a floating-point `number` ìnto a fixed-precision value
 fixedPrecision = (number) ->
 	int = round number
 	number = round(PRECISION * number) / PRECISION
 	if abs(number-int) <= 1.0/PRECISION then int else number
+
+# The coordinate representation of a `point` is transformed to fixed-precision
 fcode = (point) -> (AA fixedPrecision) point
+
+# **CODE** is a function transforming a `point` representation into a symbolic format
 root.CODE = CODE = (point) -> "[#{fcode point}]"
+
+# Numeric decoding of the `string` representation of a number
 decode = (string) -> +string  # => a number
+
+# Numeric decoding of `pointCode`, the *string* representation of a *d-dimensional* point
 uncode = (pointCode) -> (AA decode) pointCode.replace(/[\[\]]/g, '').split(',')
+
+# Transformation from the `string` representation of a number list to a standard array of numbers
 string2numberList = (string) ->
 	if string is '[]' then [] else
 		regex = /[,|\[|\]]/ # regex => "[" or "," or "]"
 		(AA Number) BUTLAST TAIL string.split(regex)
 
-#///////////////////////////////////////////////////////////////////////////////
+# <HR> 
+#### PointSet class
 
+# The class used to represent a *set of points*, providing numeric to symbolic conversion, 
+#	storage and fast retrieval.
 class PointSet
 	
+	# binary composition of maps, i.e. of dictionaries ...
 	mapcomp = (map1,map2) -> MAP = {}; MAP[k] = map2[v] for k,v of map1
 	
+	# Intance constructor. The input parameter `point` is an array of arrays of numbers 
+	# (i.e. the coordinate matrix) of the class instance in [row-major order](http://en.wikipedia.org/wiki/Row-major_order).
+	# The constructor defines:
 	constructor: (points) ->
+		# *	the dimension `@rn` of the space points, *i.e.* their number of coordinates;
+		# *	a dictionary `@dict` of distinct points, mapping the symbolic representation of a point into the integer *point index*;
+		# *	a `@map` translating from input indexes of points (possibly repeated)  to internal point ids (without repetitions):
+		#  	-	mainly useful to *automatically* glue the discrtete representation of closed manifolds along the boundary of their topological maps
+		# *	the array `@verts` containing the numeric representation (in fixed-precision) of the class instance;
+		# *	the number `@m` of distinct points in the class instance
 		points = points or []
 		if points.length > 0
 			@rn = points[0].length
@@ -217,30 +257,38 @@ class PointSet
 			@verts = []
 			@m = 0
 
+	# Method used to update the coordinates in all points of a `Pointset` instance.
+	# The input parameter `modify` is a function.
 	update: (modify) ->
 		@verts[pid] = modify (uncode pcode) for pcode,pid of @dict
 		@dict = {}
 		@dict[CODE(point)] = pid for point,pid in @verts
 
-
+	# Method used to embed the `Pointset` instance in the subspace *x_{rn} = x_{rn+1} = ... = x_{rn+n-1} = 0*
+	# of the Euclidean space *E^{rn+n}*, i.e. to add *n* zero coordinates to all points
 	embed: (n) -> 
 		@rn += n
 		@update (point) -> CAT([point, REPEAT(n) 0])
 		@
 
-	t: (indices,values) ->
+	# Method used to translate the `Pointset` instance.
+	# The coordinates specified by `indices` are affected by the transformation `parameters`
+	t: (indices, parameters) ->
 		vect = (0 for k in [0...@rn])
-		vect[indices[h]] = values[h] for h in [0...indices.length]
+		vect[indices[h]] = parameters[h] for h in [0...indices.length]
 		@update (point) -> SUM([point, vect])
-
 		@
 
-	s: (indices,values) ->
+	# Method used to scale the `Pointset` instance.
+	# The coordinates specified by `indices` are affected by the transformation `parameters`
+	s: (indices, parameters) ->
 		vect = (1 for k in [0...@rn])
-		vect[indices[h]] = values[h] for h in [0...indices.length]
+		vect[indices[h]] = parameters[h] for h in [0...indices.length]
 		@update (point) -> MUL([point, vect])
 		@
 
+	# Method used to rotate the `Pointset` instance.
+	# The *two* coordinates specified by `axes` are rotated by `angle` about the origin.
 	r: (axes, angle) ->
 		mat = numeric.identity(@rn)
 		c = cos angle; s = sin angle
@@ -254,9 +302,31 @@ class PointSet
 # 
 root.PointSet = PointSet
 
-#///////////////////////////////////////////////////////////////////////////////
 
+# <HR> 
+#### Topology class
+
+# The class is used to store the topological relations between the *d*-cells of a simplicial complex, 
+# for all values of *d* between 0 and the intrinsic dimension of the complex
 class Topology
+	
+	# Intance constructor. The input parameters `vertices` and cells respectively denote a PointSet instance and
+	# an array of arrays of vertex ids specifying the complex cells of highest dimension
+	# The constructor defines:
+	constructor: (vertices,d_cells) ->
+		# *	the dimension `@dim` of the simplicial complex (also denoted *d* in the following);
+		# *	a a array `@dictos` of *d+1* dictionaries specifyng the ;
+		# *	the array `@homology` containing the numeric representation (in fixed-precision) of the class instance;
+		# *	the array `@cells` containing the numeric representation (in fixed-precision) of the class instance;
+		vertices = vertices or []
+		d_cells = d_cells or []
+		@dim = if d_cells.length > 0 then d_cells[0].length-1 else -1
+		d_cells = ((vertices.map[k] for k in cell) for cell in d_cells)
+		d_cells = (cell for cell in d_cells when (SET cell).length is cell.length)
+		@dictos = mkCellDB (cell_complex d_cells)
+		@homology = homology_maps @dictos
+		@cells = (string2numberList cell for cell of dict for dict in @dictos)
+
 	
 	revert = (cell) ->
 		len = cell.length
@@ -316,16 +386,6 @@ class Topology
 			homology
 		else []
 	
-	constructor: (vertices,d_cells) ->
-		vertices = vertices or []
-		d_cells = d_cells or []
-		@dim = if d_cells.length > 0 then d_cells[0].length-1 else -1
-		d_cells = ((vertices.map[k] for k in cell) for cell in d_cells)
-		d_cells = (cell for cell in d_cells when (SET cell).length is cell.length)
-		@dictos = mkCellDB (cell_complex d_cells)
-		@homology = homology_maps @dictos
-		@cells = (string2numberList cell for cell of dict for dict in @dictos)
-
 root.Topology = Topology
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -357,28 +417,28 @@ root.SimplicialComplex = SimplicialComplex
 
 #///////////////////////////////////////////////////////////////////////////////
 
-# EMBED embeds a d-polyhedron into the subspace xd+1 = ··· = xd+n = 0 of E^d+n
+# **EMBED** embeds a d-polyhedron into the subspace xd+1 = ··· = xd+n = 0 of E^d+n
 root.EMBED = EMBED = (n) -> (obj) -> (CLONE obj).embed(n)
 
-# T dim-indep. translation tensor. indices of the coordinates affected by the transformation
+# **T** dim-indep. translation tensor. indices of the coordinates affected by the transformation
 root.T = T = (indices,values) -> (obj) -> (CLONE obj).t(indices,values)
 
-# S dim-indep. scaling tensor. indices of the coordinates affected by the transformation
+# **S** dim-indep. scaling tensor. indices of the coordinates affected by the transformation
 root.S = S = (indices,values) -> (obj) -> (CLONE obj).s(indices,values)
 
-# R dim-indep. rotation tensor. axes is the coordinate pair affected by the transformation. 
+# **R** dim-indep. rotation tensor. axes is the coordinate pair affected by the transformation. 
 # The rotation angle is given in radians
 root.R = R = (axes,angle) -> 
 	PRINT "axes, angle =", [axes, angle]
 	(obj) -> (CLONE obj).R(axes, angle)
 
-# CENTROID returns a point, i.e. the barycenter of obj
+# **CENTROID** returns a point, i.e. the barycenter of obj
 root.CENTROID = CENTROID = (obj) -> (face) ->
 	A = (obj.vertices.verts[v]  for v in face)
 	C = REPEAT(A.length)(1.0/A.length)
 	point = numeric.dot(C,A)
 
-# EXTRUDE return a simplicial d+1-complex triangulating the d-dimensional obj. 
+# **EXTRUDE** return a simplicial d+1-complex triangulating the d-dimensional obj. 
 # hlist is a list of displacements, where negative numbers stand for empty spaces
 root.EXTRUDE = EXTRUDE = (hlist) -> (obj) -> 
 
@@ -414,7 +474,7 @@ root.EXTRUDE = EXTRUDE = (hlist) -> (obj) ->
 		cells = CAT final_simplices
 	new SimplicialComplex(vertices, cells)
 
-# SIMPLEXGRID returns a d-dimensional grid of simplices
+# **SIMPLEXGRID** returns a d-dimensional grid of simplices
 root.SIMPLEXGRID = SIMPLEXGRID = (args) ->
 	hlist = args[0]
 	lastcoords = PROGRESSIVE_SUM AA(abs)(hlist)
@@ -425,7 +485,7 @@ root.SIMPLEXGRID = SIMPLEXGRID = (args) ->
 		complex = EXTRUDE(hlist)(complex)
 	complex
 
-# FREE transforms a simplicial d-complex into a list of simplicial complexes (one for d-simplex)
+# **FREE** transforms a simplicial d-complex into a list of simplicial complexes (one for d-simplex)
 root.FREE = FREE = (obj) ->
 	d = obj.faces.dim
 	simplices = (obj.vertices.verts[k] for k in cell for cell in obj.faces.cells[d])
@@ -434,7 +494,7 @@ root.FREE = FREE = (obj) ->
 		out.push outsimplex
 	out
 
-# EXPLODE generates an exploded copy of a simplicial complex scene
+# **EXPLODE** generates an exploded copy of a simplicial complex scene
 root.EXPLODE = EXPLODE = (args) -> (scene) ->
 	face = () -> item.faces.cells[item.faces.dim][0]
 	centers = (CENTROID(item)(face()) for item in scene)
@@ -442,14 +502,14 @@ root.EXPLODE = EXPLODE = (args) -> (scene) ->
 	translVectors = (SUB(pair) for pair in TRANS([scaledCenters, centers]))
 	scene[k].t([0...v.length],v) for v,k in translVectors
 
-# SKELETON returns the dim -dimensional skeleton of a simplicial complex obj
+# **SKELETON** returns the dim -dimensional skeleton of a simplicial complex obj
 root.SKELETON = SKELETON = (dim) -> (obj) ->
 	verts = obj.vertices.verts
 	faces_d = obj.faces.cells[dim]
 	new SimplicialComplex(verts,faces_d)
 
 
-# BOUNDARY returns the oriented (d-1)-simplicial complex of a simplicial d-complex pol
+# **BOUNDARY** returns the oriented (d-1)-simplicial complex of a simplicial d-complex pol
 root.BOUNDARY = BOUNDARY = (pol) ->
 	obj = CLONE pol
 	d = obj.faces.dim
@@ -498,20 +558,20 @@ root.BOUNDARY = BOUNDARY = (pol) ->
 # Idnt identity matrix constructor
 root.IDNT = IDNT = (d) -> numeric.identity(d)
 
-# CUBOID dimension-independent interval generator. 
+# **CUBOID** dimension-independent interval generator. 
 # sides is the sequence of side sizes on coordinate directions
 root.CUBOID = CUBOID = (sides) -> SIMPLEXGRID AA(LIST)(sides)
 
-# CUBE generator of the d-hexahedron of unit sides, with a vertex on the origin
+# **CUBE** generator of the d-hexahedron of unit sides, with a vertex on the origin
 root.CUBE = CUBE = (d) -> CUBOID(REPEAT(d) [1])
 
-# SIMPLEX generator of the simplex σ^d ≡ conv({e_i} ∪ {0}) ⊂ R^d,1≤i≤d
+# **SIMPLEX** generator of the simplex σ^d ≡ conv({e_i} ∪ {0}) ⊂ R^d,1≤i≤d
 root.SIMPLEX = SIMPLEX = (d) -> 
 	vertices = CAT [[(0 for k in [0...d])], IDNT(d)]
 	cells = [[0..d]]
 	new SimplicialComplex(vertices, cells)
 
-# POLYLINE generator of 1D connected complexes from the points sequence
+# **POLYLINE** generator of 1D connected complexes from the points sequence
 root.POLYLINE = POLYLINE = (points) -> 
 	cells = ([k,k+1] for k in [0...points.length-1])
 	new SimplicialComplex(points,cells)
@@ -521,7 +581,7 @@ root.TRIANGLESTRIP = TRIANGLESTRIP = (points) ->
 	cells = ((if k%2 == 0 then [k,k+1,k+2] else [k+1,k,k+2]) for k in [0...points.length-2])
 	new SimplicialComplex(points,cells)
 
-# TRIANGLEFAN multidimensional primitive with the first element of verts as pivot
+# **TRIANGLEFAN** multidimensional primitive with the first element of verts as pivot
 root.TRIANGLEFAN = TRIANGLEFAN = (points) -> 
 	edges = POLYLINE points
 	center = CENTROID(edges)([0...edges.vertices.m])
@@ -529,41 +589,41 @@ root.TRIANGLEFAN = TRIANGLEFAN = (points) ->
 	cells = (AR [edge, [points.length-1]] for edge in edges.faces.cells[1])
 	new SimplicialComplex(points,cells)
 
-# TRIANGLEARRAY generator of a mesh of triangles from a matrix of d-dimesional points
+# **TRIANGLEARRAY** generator of a mesh of triangles from a matrix of d-dimesional points
 root.TRIANGLEARRAY = TRIANGLEARRAY = (m,n,points) -> 
 	out = SIMPLEXGRID [REPEAT(m)(1),REPEAT(n)(1)]
 	new SimplicialComplex(CAT(points),out.faces.cells[2])
 
-# INTERVALS constructor of a uniform partition of the 1D interval [0, tip] with n segments
+# **INTERVALS** constructor of a uniform partition of the 1D interval [0, tip] with n segments
 root.INTERVALS = INTERVALS = (tip) -> (n) -> SIMPLEXGRID [REPEAT(n) tip/n]
 
-# MAP simplicial mapping. It maps an array of coordinate funs over a simplicial complex pol. 
+# **MAP** simplicial mapping. It maps an array of coordinate funs over a simplicial complex pol. 
 root.MAP = MAP = (funs) -> (pol) ->
 	points = (CONS(funs) v for v in pol.vertices.verts)
 	d_cells = pol.faces.cells[pol.faces.dim]
 	new SimplicialComplex(points, d_cells)
 
-# CIRCLE returns o linear approximation of the 2D circle of given radius with n segments
+# **CIRCLE** returns o linear approximation of the 2D circle of given radius with n segments
 root.CIRCLE = CIRCLE = (radius,n=32) ->
 	domain = SIMPLEXGRID [REPEAT(n) 2*PI/n]
 	MAP([sin,cos])(domain).s([0,1],[radius,radius]) 
 
-# DISK returns on approx. with triangles of the 2D circle of given radius
+# **DISK** returns on approx. with triangles of the 2D circle of given radius
 root.DISK = DISK = (radius=1,n=32,m=1) ->
 	domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(radius/m)]
 	fx = ([u,v]) -> v*sin(u)
 	fy = ([u,v]) -> v*cos(u)
 	MAP( [fx, fy] )(domain)
 
-# GRAPH returns a simplicial approximation of the map of funs over the domain
+# **GRAPH** returns a simplicial approximation of the map of funs over the domain
 root.GRAPH = GRAPH = (domain) -> (funs) -> MAP(funs)(domain)
 
-# HELIX returns a type of smooth space curve, i.e. a curve in three-dimensional space.
+# **HELIX** returns a type of smooth space curve, i.e. a curve in three-dimensional space.
 root.HELIX = HELIX = (radius=1,pitch=1,n=24,turns=1) -> 
 	domain = INTERVALS(2*PI*turns)(n*turns)
 	GRAPH( domain )( [sin, cos, ID] ).s([0,1,2],[radius,radius,pitch/(2*PI)])
 
-# QUADMESH generator of a mesh of triangles from a matrix of d-dimesional points
+# **QUADMESH** generator of a mesh of triangles from a matrix of d-dimesional points
 root.QUADMESH = QUADMESH = (pointMat) -> 
 	m = pointMat.length
 	n = pointMat[0].length
@@ -592,7 +652,7 @@ root.LINSPACE3D = LINSPACE3D = (a=1,b=1,c=1,n=1,m=1,p=1) ->
 	hLists = PROGRESSIVE_SUM REPEAT(p)(c/p)
 	EXTRUDE(hLists) domain2d
 
-# CYLSURFACE produces a cylindrical surface of radius r and heigth h
+# **CYLSURFACE** produces a cylindrical surface of radius r and heigth h
 root.CYLSURFACE = CYLSURFACE = (r=1, h=1, n=16, m=2) -> 
 	domain = LINSPACE2D [2*PI, 1.0, n, m]
 	# domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)(1.0/m)]
@@ -601,7 +661,7 @@ root.CYLSURFACE = CYLSURFACE = (r=1, h=1, n=16, m=2) ->
 	fz = ([u,v]) -> h*v
 	MAP( [fx, fy, fz] )( domain )
 
-# CYLSOLID produces a solid cylinder possibly with a cylindrical hole of radius r
+# **CYLSOLID** produces a solid cylinder possibly with a cylindrical hole of radius r
 root.CYLSOLID = CYLSOLID = (R=1, r=0, h=1, n=16, m=1, p=1) -> 
 	domain = LINSPACE3D [2*PI, R-r, h, n, m, p]
 	#domain = SIMPLEXGRID [REPEAT(n)(2*PI/n), REPEAT(m)((R-r)/m), REPEAT(p)(h/p)]
@@ -610,7 +670,7 @@ root.CYLSOLID = CYLSOLID = (R=1, r=0, h=1, n=16, m=1, p=1) ->
 	fz = ([u,v,w]) -> w
 	MAP( [fx, fy, fz] )( domain.t([1],[r]) )
 	
-# TORUSSURFACE produces a toroidal surface of radiuses r,R approximated with n x m x 2 triangles
+# **TORUSSURFACE** produces a toroidal surface of radiuses r,R approximated with n x m x 2 triangles
 root.TORUSSURFACE = TORUSSURFACE = (r=1, R=3, n=12, m=8) -> 
 	domain = LINSPACE2D [2*PI, 2*PI, n, m]
 	#domain = SIMPLEXGRID [ REPEAT(n)(2*PI/n), REPEAT(m)(2*PI/m) ]
@@ -628,22 +688,3 @@ root.TORUSSOLID = TORUSSOLID = (r=1,R=3,n=8,m=16,p=1) ->
 	fz = ([u,v,w]) -> r * w * sin(u)
 	MAP( [fx, fy, fz] )( domain )
 
-
-###
-root.SCHLEGEL = SCHLEGEL = (pol) -> (point) -> 
-
-
-
-def SCHLEGEL(pol):
-	def project(point):
-		return [coord/point[-1] for coord in point[:-1]]
-	verts = [project(v) for v in pol.vertices.points]
-	cells = pol.cells[-2]
-	return PolytopalComplex(verts,cells)
-
-
-# 
-root.POLYGON = POLYGON = (n) -> 
-	points = [[cos(alpha),sin(alpha)]
-			  for alpha in (scipy.linspace(0.0, 2*pi, n+1) + (pi*n)/2)]
-	return TRIANGLEFAN(points)	

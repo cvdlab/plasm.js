@@ -1,294 +1,158 @@
 (function() {
-  var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, colors, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, n, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, theMap, _i, _j, _k, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _results, _results2, _results3,
-    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  WHITE = [1.0, 1.0, 1.0];
-
-  SILVER = [0.8, 0.8, 0.8];
-
-  GRAY = [0.5, 0.5, 0.5];
-
-  BLACK = [0.0, 0.0, 0.0];
-
-  RED = [1.0, 0.0, 0.0];
-
-  MAROON = [0.5, 0.0, 0.0];
-
-  YELLOW = [1.0, 1.0, 0.0];
-
-  OLIVE = [0.5, 0.5, 0.0];
-
-  LIME = [0.0, 1.0, 0.0];
-
-  GREEN = [0.0, 0.5, 0.0];
-
-  AQUA = [0.0, 1.0, 1.0];
-
-  TEAL = [0.0, 0.5, 0.5];
-
-  BLUE = [0.0, 0.0, 1.0];
-
-  NAVY = [0.0, 0.0, 0.5];
-
-  FUCHSIA = [1.0, 0.0, 1.0];
-
-  PURPLE = [0.5, 0.0, 0.5];
-
-  colors = [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE];
-
-  d2h = function(d) {
-    return d.toString(36);
-  };
-
-  h2d = function(h) {
-    return parseInt(h, 36);
-  };
-
-  keysConcat = function(key, keys) {
-    var pair, _i, _len, _ref, _results;
-    _ref = DISTL([key, keys]);
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pair = _ref[_i];
-      _results.push(pair.join(""));
-    }
-    return _results;
-  };
+  console.log("ciao", "ciao");
 
   /*
-  PRINT "(d2h 7000237) is '461f1' =", (d2h 7000237) is "461f1"
-  PRINT '(h2d "461f1") is 7000237 =', (h2d "461f1") is 7000237
-  PRINT "d2h 28 =", d2h 28
-  PRINT 'h2d "S" =', h2d "S"
-  PRINT 'keysConcat "W",["A", "B", "0", "9", "F", "A"] =', keysConcat "W",["A", "B", "0", "9", "F", "A"]
-  PRINT 'keysConcat "E06HW",["A", "B", "0", "9", "F", "A"] =', keysConcat "E06HW",["A", "B", "0", "9", "F", "A"]
-  PRINT '(AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"]) =', (AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"])
-  numCodes = [846829594, 846829595, 846829584, 846829593, 846829599, 846829594]
-  PRINT "(d2h(code%36) for code in numCodes) =", (d2h (code % 36) for code in numCodes)
+  
+  # Internet colors and color names
+  
+  WHITE	= [ 1.0 , 1.0 , 1.0 ]
+  SILVER 	= [ 0.8 , 0.8 , 0.8 ]
+  GRAY 	= [ 0.5 , 0.5 , 0.5 ]
+  BLACK 	= [ 0.0 , 0.0 , 0.0 ]
+  RED 	= [ 1.0 , 0.0 , 0.0 ]
+  MAROON 	= [ 0.5 , 0.0 , 0.0 ]
+  YELLOW 	= [ 1.0 , 1.0 , 0.0 ]
+  OLIVE 	= [ 0.5 , 0.5 , 0.0 ]
+  LIME 	= [ 0.0 , 1.0 , 0.0 ]
+  GREEN 	= [ 0.0 , 0.5 , 0.0 ]
+  AQUA 	= [ 0.0 , 1.0 , 1.0 ]
+  TEAL 	= [ 0.0 , 0.5 , 0.5 ]
+  BLUE 	= [ 0.0 , 0.0 , 1.0 ]
+  NAVY 	= [ 0.0 , 0.0 , 0.5 ]
+  FUCHSIA	= [ 1.0 , 0.0 , 1.0 ]
+  PURPLE 	= [ 0.5 , 0.0 , 0.5 ]
+  
+  colors 	= [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, 
+  			GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE]
+  
+  d2h = (d) -> d.toString 36
+  h2d = (h) -> parseInt h,36
+  keysConcat = (key,keys) -> ((pair.join "") for pair in DISTL([key, keys]))
+  
+  randomPoints = (rn=2,m=40,scale=2) ->
+  	# To produce a random PointSet in [0,scale]^rn space.
+  	# Return a PointSet instance with n points, each with rn coordinates.
+  	new PointSet(Math.random()*scale for k in [0...rn] for point in [0...m])
+  
+  simplexMatrix = (verts,cell) ->
+  	# To generate a simplex square matrix in homogeneous coordinates.
+  	# Return a list of lists of numbers, taken from verts coordinate list.
+  	(AR [verts[k],1] for k in cell)
+  
+  grading = (point) ->
+  	# To compute the "grade" of a point in affine coordinates.
+  	# Return a binary number (d+1 bits) that gives a classification of a
+  	# d-point in affine coordinates in the proper "tiling" of d-space.
+  	grade = (x) -> if x >= 0.0 then '1' else '0'
+  	d2h (parseInt (AA(grade)(point).join ""),2)
+  	
+  mapping = (basis) -> if numeric.det(basis) then numeric.inv(basis) else basis
+  
+  affineMapping = (mapping) -> (cartesianPoints) ->
+  	# To compute the affine coordinates of a Cartesian point w.r.t. a reference simplex.
+  	# Return the coded string of affine coordinates.
+  	homogeneousPoints = (AR [point,1] for point in cartesianPoints)
+  	affinePoints = numeric.dot(homogeneousPoints,mapping)
+  
+  closetozero = (number) -> if Math.abs(number) < 1.0E-2 then true else false
+  
+  randomSimplex = (verts,d) ->
+  	isSquare = (mat) -> if mat.length == mat[0].length then true else false
+  	[cell,m] = [[], verts.length]
+  	while cell.length <= d
+  		index = Math.round (Math.random() * m)
+  		if not (index in cell) then cell.push index
+  		mat = simplexMatrix(verts,cell)
+  		if cell.length == d+1 and isSquare(mat) and closetozero(numeric.det(mat))
+  			cell = []
+  	cell
+  
+  
+  spacePartition = (points) ->
+  	# To extract a reference simplex from a list of 'points'.
+  	# Return a partition of the set into d 'bucket' of 'close' points.
+  	d = points[0].length
+  	m = points.length
+  	referenceCell = randomSimplex(points,d)
+  	referenceSimplex = simplexMatrix(points,referenceCell)
+  	theMap = mapping(referenceSimplex)
+  	tokens = AA(grading)(affineMapping(theMap)(points))
+  	bucket = {}; bucket[d2h k] = [] for k in [1...Math.pow(2,d+1)]
+  	for k in [0...m]
+  		if tokens[k]? and points[k]? and bucket[tokens[k]]?
+  			bucket[tokens[k]].push points[k] 
+  	[bucket,theMap] 
+  
+  
+  makeRegionDict = (pointSet,d) ->
+  	merge = (obj1,obj2) -> obj1[key] = obj2[key] for key of obj2; obj1
+  	[bucket,theMap] = spacePartition(pointSet) # first buckets
+  	tosplit = true
+  	while tosplit
+  		tosplit = false
+  		newBuckets = {}
+  		for key of bucket
+  			newBucket = {}
+  			if bucket[key].length > (d+1)*30
+  				tosplit = true
+  				points = CLONE bucket[key]
+  				[buckets,theMap] = spacePartition(points)
+  				keys = (k for k of buckets)
+  				newKeys = keysConcat(key,keys)
+  				newBucket[newKeys[k]] = buckets[keys[k]] for k in [0...keys.length]
+  				merge(newBuckets,newBucket)
+  			else # add a zero to the key
+  				if bucket[key].length > 0
+  					newKey = keysConcat(key,["0"])
+  					newBuckets[newKey] = bucket[key]
+  		bucket = CLONE newBuckets
+  	newBuckets
+  
+  
+  ##
+  viewer.draw CYLSURFACE(r=1, h=1, n=64, m=2)
+  viewer.draw BOUNDARY CYLSURFACE(r=1, h=1, n=64, m=2)
+  MYPRINT "CUBOID [1,1,1]", CUBOID [1,1,1]
+  MYPRINT "BOUNDARY CUBOID [1,1,1]", BOUNDARY CUBOID [1,1,1]
+  viewer.draw BOUNDARY CUBOID [1,1,1]	
+  ##
+  
+  ##
+  rn = 2
+  points = randomPoints(rn, m=2000*Math.pow(2,rn), scale=8).t( [0...rn], REPEAT(rn)(-scale/2) )
+  object = []
+  
+  ##
+  [Bucket,theMap] = spacePartition(points.verts)
+  for k in [1...Math.pow(2,rn+1)]
+  	key = d2h k
+  	if Bucket[key]? and Bucket[key].length > 0 
+  		object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
+  		#object.push POLYLINE(Bucket[key])
+  model = viewer.draw object
+  model[k].color(colors[k]) for k in [1...model.length]
+  ##
+  
+  PRINT "**** points.m =", points.m
+  
+  Bucket = makeRegionDict(points.verts, rn)
+  PRINT "**** Bucket =", Bucket
+  n = 0
+  for key of Bucket
+  	if Bucket[key]? and Bucket[key].length > 0 
+  		#object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
+  		n += Bucket[key].length
+  		if Bucket[key].length > 2
+  				object.push TRIANGLESTRIP(Bucket[key])
+  		else if Bucket[key].length > 1
+  			object.push POLYLINE(Bucket[key])
+  		else 
+  			object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
+  model = viewer.draw object
+  model[k].color(colors[k%7]) for k in [0...model.length]
+  
+  PRINT "n =", n
   */
-
-  randomPoints = function(rn, m, scale) {
-    var k, point;
-    if (rn == null) rn = 2;
-    if (m == null) m = 40;
-    if (scale == null) scale = 2;
-    return new PointSet((function() {
-      var _results;
-      _results = [];
-      for (point = 0; 0 <= m ? point < m : point > m; 0 <= m ? point++ : point--) {
-        _results.push((function() {
-          var _results2;
-          _results2 = [];
-          for (k = 0; 0 <= rn ? k < rn : k > rn; 0 <= rn ? k++ : k--) {
-            _results2.push(Math.random() * scale);
-          }
-          return _results2;
-        })());
-      }
-      return _results;
-    })());
-  };
-
-  simplexMatrix = function(verts, cell) {
-    var k, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = cell.length; _i < _len; _i++) {
-      k = cell[_i];
-      _results.push(AR([verts[k], 1]));
-    }
-    return _results;
-  };
-
-  grading = function(point) {
-    var grade;
-    grade = function(x) {
-      if (x >= 0.0) {
-        return '1';
-      } else {
-        return '0';
-      }
-    };
-    return d2h(parseInt(AA(grade)(point).join(""), 2));
-  };
-
-  mapping = function(basis) {
-    if (numeric.det(basis)) {
-      return numeric.inv(basis);
-    } else {
-      return basis;
-    }
-  };
-
-  affineMapping = function(mapping) {
-    return function(cartesianPoints) {
-      var affinePoints, homogeneousPoints, point;
-      homogeneousPoints = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = cartesianPoints.length; _i < _len; _i++) {
-          point = cartesianPoints[_i];
-          _results.push(AR([point, 1]));
-        }
-        return _results;
-      })();
-      return affinePoints = numeric.dot(homogeneousPoints, mapping);
-    };
-  };
-
-  closetozero = function(number) {
-    if (Math.abs(number) < 1.0E-2) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  randomSimplex = function(verts, d) {
-    var cell, index, isSquare, m, mat, _ref;
-    isSquare = function(mat) {
-      if (mat.length === mat[0].length) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-    _ref = [[], verts.length], cell = _ref[0], m = _ref[1];
-    while (cell.length <= d) {
-      index = Math.round(Math.random() * m);
-      if (!(__indexOf.call(cell, index) >= 0)) cell.push(index);
-      mat = simplexMatrix(verts, cell);
-      if (cell.length === d + 1 && isSquare(mat) && closetozero(numeric.det(mat))) {
-        cell = [];
-      }
-    }
-    return cell;
-  };
-
-  spacePartition = function(points) {
-    var bucket, d, k, m, referenceCell, referenceSimplex, theMap, tokens, _ref;
-    d = points[0].length;
-    m = points.length;
-    referenceCell = randomSimplex(points, d);
-    referenceSimplex = simplexMatrix(points, referenceCell);
-    theMap = mapping(referenceSimplex);
-    tokens = AA(grading)(affineMapping(theMap)(points));
-    bucket = {};
-    for (k = 1, _ref = Math.pow(2, d + 1); 1 <= _ref ? k < _ref : k > _ref; 1 <= _ref ? k++ : k--) {
-      bucket[d2h(k)] = [];
-    }
-    for (k = 0; 0 <= m ? k < m : k > m; 0 <= m ? k++ : k--) {
-      if ((tokens[k] != null) && (points[k] != null) && (bucket[tokens[k]] != null)) {
-        bucket[tokens[k]].push(points[k]);
-      }
-    }
-    return [bucket, theMap];
-  };
-
-  makeRegionDict = function(pointSet, d) {
-    var bucket, buckets, k, key, keys, merge, newBucket, newBuckets, newKey, newKeys, points, theMap, tosplit, _ref, _ref2, _ref3;
-    merge = function(obj1, obj2) {
-      var key;
-      for (key in obj2) {
-        obj1[key] = obj2[key];
-      }
-      return obj1;
-    };
-    _ref = spacePartition(pointSet), bucket = _ref[0], theMap = _ref[1];
-    tosplit = true;
-    while (tosplit) {
-      tosplit = false;
-      newBuckets = {};
-      for (key in bucket) {
-        newBucket = {};
-        if (bucket[key].length > (d + 1) * 30) {
-          tosplit = true;
-          points = CLONE(bucket[key]);
-          _ref2 = spacePartition(points), buckets = _ref2[0], theMap = _ref2[1];
-          keys = (function() {
-            var _results;
-            _results = [];
-            for (k in buckets) {
-              _results.push(k);
-            }
-            return _results;
-          })();
-          newKeys = keysConcat(key, keys);
-          for (k = 0, _ref3 = keys.length; 0 <= _ref3 ? k < _ref3 : k > _ref3; 0 <= _ref3 ? k++ : k--) {
-            newBucket[newKeys[k]] = buckets[keys[k]];
-          }
-          merge(newBuckets, newBucket);
-        } else {
-          if (bucket[key].length > 0) {
-            newKey = keysConcat(key, ["0"]);
-            newBuckets[newKey] = bucket[key];
-          }
-        }
-      }
-      bucket = CLONE(newBuckets);
-    }
-    return newBuckets;
-  };
-
-  rn = 2;
-
-  points = randomPoints(rn, m = 2000 * Math.pow(2, rn), scale = 8).t((function() {
-    _results = [];
-    for (var _i = 0; 0 <= rn ? _i < rn : _i > rn; 0 <= rn ? _i++ : _i--){ _results.push(_i); }
-    return _results;
-  }).apply(this), REPEAT(rn)(-scale / 2));
-
-  object = [];
-
-  _ref = spacePartition(points.verts), Bucket = _ref[0], theMap = _ref[1];
-
-  for (k = 1, _ref2 = Math.pow(2, rn + 1); 1 <= _ref2 ? k < _ref2 : k > _ref2; 1 <= _ref2 ? k++ : k--) {
-    key = d2h(k);
-    if ((Bucket[key] != null) && Bucket[key].length > 0) {
-      object.push(new SimplicialComplex(Bucket[key], AA(LIST)((function() {
-        _results2 = [];
-        for (var _j = 0, _ref3 = Bucket[key].length; 0 <= _ref3 ? _j < _ref3 : _j > _ref3; 0 <= _ref3 ? _j++ : _j--){ _results2.push(_j); }
-        return _results2;
-      }).apply(this))));
-    }
-  }
-
-  model = viewer.draw(object);
-
-  for (k = 1, _ref4 = model.length; 1 <= _ref4 ? k < _ref4 : k > _ref4; 1 <= _ref4 ? k++ : k--) {
-    model[k].color(colors[k]);
-  }
-
-  PRINT("**** points.m =", points.m);
-
-  Bucket = makeRegionDict(points.verts, rn);
-
-  PRINT("**** Bucket =", Bucket);
-
-  n = 0;
-
-  for (key in Bucket) {
-    if ((Bucket[key] != null) && Bucket[key].length > 0) {
-      n += Bucket[key].length;
-      if (Bucket[key].length > 2) {
-        object.push(TRIANGLE_STRIP(Bucket[key]));
-      } else if (Bucket[key].length > 1) {
-        object.push(POLYLINE(Bucket[key]));
-      } else {
-        object.push(new SimplicialComplex(Bucket[key], AA(LIST)((function() {
-          _results3 = [];
-          for (var _k = 0, _ref5 = Bucket[key].length; 0 <= _ref5 ? _k < _ref5 : _k > _ref5; 0 <= _ref5 ? _k++ : _k--){ _results3.push(_k); }
-          return _results3;
-        }).apply(this))));
-      }
-    }
-  }
-
-  model = viewer.draw(object);
-
-  for (k = 0, _ref6 = model.length; 0 <= _ref6 ? k < _ref6 : k > _ref6; 0 <= _ref6 ? k++ : k--) {
-    model[k].color(colors[k % 7]);
-  }
-
-  PRINT("n =", n);
 
 }).call(this);

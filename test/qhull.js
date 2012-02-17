@@ -1,5 +1,5 @@
 (function() {
-  var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, colors, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, n, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, theMap, _i, _j, _k, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _results, _results2, _results3,
+  var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, colors, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, theMap, _i, _j, _ref, _ref2, _ref3, _ref4, _results, _results2,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   WHITE = [1.0, 1.0, 1.0];
@@ -229,7 +229,7 @@
     return newBuckets;
   };
 
-  rn = 2;
+  rn = 3;
 
   points = randomPoints(rn, m = 2000 * Math.pow(2, rn), scale = 8).t((function() {
     _results = [];
@@ -258,37 +258,27 @@
     model[k].color(colors[k]);
   }
 
-  PRINT("**** points.m =", points.m);
-
-  Bucket = makeRegionDict(points.verts, rn);
-
-  PRINT("**** Bucket =", Bucket);
-
-  n = 0;
-
-  for (key in Bucket) {
-    if ((Bucket[key] != null) && Bucket[key].length > 0) {
-      n += Bucket[key].length;
-      if (Bucket[key].length > 2) {
-        object.push(TRIANGLE_STRIP(Bucket[key]));
-      } else if (Bucket[key].length > 1) {
-        object.push(POLYLINE(Bucket[key]));
-      } else {
-        object.push(new SimplicialComplex(Bucket[key], AA(LIST)((function() {
-          _results3 = [];
-          for (var _k = 0, _ref5 = Bucket[key].length; 0 <= _ref5 ? _k < _ref5 : _k > _ref5; 0 <= _ref5 ? _k++ : _k--){ _results3.push(_k); }
-          return _results3;
-        }).apply(this))));
-      }
-    }
-  }
-
-  model = viewer.draw(object);
-
-  for (k = 0, _ref6 = model.length; 0 <= _ref6 ? k < _ref6 : k > _ref6; 0 <= _ref6 ? k++ : k--) {
-    model[k].color(colors[k % 7]);
-  }
-
-  PRINT("n =", n);
+  /*
+  
+  PRINT "**** points.m =", points.m
+  
+  Bucket = makeRegionDict(points.verts, rn)
+  PRINT "**** Bucket =", Bucket
+  n = 0
+  for key of Bucket
+  	if Bucket[key]? and Bucket[key].length > 0 
+  		#object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
+  		n += Bucket[key].length
+  		if Bucket[key].length > 2
+  				object.push TRIANGLESTRIP(Bucket[key])
+  		else if Bucket[key].length > 1
+  			object.push POLYLINE(Bucket[key])
+  		else 
+  			object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
+  model = viewer.draw object
+  model[k].color(colors[k%7]) for k in [0...model.length]
+  
+  PRINT "n =", n
+  */
 
 }).call(this);

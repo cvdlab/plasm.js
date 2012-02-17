@@ -114,7 +114,7 @@ makeRegionDict = (pointSet,d) ->
 
 
 ##
-rn = 2
+rn = 3
 points = randomPoints(rn, m=2000*Math.pow(2,rn), scale=8).t( [0...rn], REPEAT(rn)(-scale/2) )
 object = []
 
@@ -127,7 +127,7 @@ for k in [1...Math.pow(2,rn+1)]
 		#object.push POLYLINE(Bucket[key])
 model = viewer.draw object
 model[k].color(colors[k]) for k in [1...model.length]
-##
+###
 
 PRINT "**** points.m =", points.m
 
@@ -139,7 +139,7 @@ for key of Bucket
 		#object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
 		n += Bucket[key].length
 		if Bucket[key].length > 2
-				object.push TRIANGLE_STRIP(Bucket[key])
+				object.push TRIANGLESTRIP(Bucket[key])
 		else if Bucket[key].length > 1
 			object.push POLYLINE(Bucket[key])
 		else 

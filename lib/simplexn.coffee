@@ -11,7 +11,7 @@
 # To make the qualified symbols visible to the root object (typically Window)
 root = exports ? this
 
-# imported symbols from Math object
+# Imported symbols from Math object
 {PI, E, log, sin, cos, tan, asin, acos, atan, atan2, ceil, floor, sqrt, exp, abs, round} = Math
 
 # <HR>
@@ -23,9 +23,9 @@ root = exports ? this
 root.APPLY = APPLY = (args) ->  [f, x] = args; f.apply(null,[x])
 
 # **COMP** composition. Returns the composition of the `funs` array in the argument
-root.COMP = COMP = (flist) -> 
+root.COMP = COMP = (funs) -> 
 	comp2 = (f,g) -> (x) -> f (g x)
-	flist.reduce comp2
+	funs.reduce comp2
 
 # **CONS** construction. Applies a function array `[f_1, ..., f_n]` to the `x` argument,
 # producing the array of application values: `[f_1(x), ..., f_n(x)]`
@@ -44,25 +44,25 @@ root.K = K = (a) -> (b) -> a
 root.AA = AA = (fun) -> (array) -> array.map (e) -> fun e
 
 # **DISTR** distribute right. Returns the `pair` sequence with the elements of `array` and `x`
-root.DISTR = DISTR = (args) -> [array,x] = args; [el,x] for el in array
+root.DISTR = DISTR = (pair) -> [array,x] = pair; [el,x] for el in array
 
 # **DISTL** distribute left. Returns the `pair` sequence with `x` and the elements of `array`
-root.DISTL = DISTL = (args) -> [x,array] = args; [x,el] for el in array
+root.DISTL = DISTL = (pair) -> [x,array] = pair; [x,el] for el in array
 
 # **INSR** insert right combinator, allowing to apply a binary operator `op` to an `array` of n arguments
-root.INSR = INSR = (f) -> (array) -> array.reduceRight f
+root.INSR = INSR = (op) -> (array) -> array.reduceRight op
 
 # **INSL** insert left combinator, allowing to apply a binary operator `op` to an `array` of n arguments
-root.INSL = INSL = (f) -> (array) -> array.reduce f
+root.INSL = INSL = (op) -> (array) -> array.reduce op
 
 # **TREE**  applies a binary operator `op` to an `array` of n arguments
-root.TREE = TREE = (f) -> 
-	uncurriedTree = (fun,array) ->
+root.TREE = TREE = (op) -> 
+	tree = (fun,array) ->
 		len = array.length
 		if len is 1 then return array[0]
 		k = floor (len/2)
-		fun( CAT [uncurriedTree(fun, array[0...k]), uncurriedTree(fun, array[k...len])] )
-	(array) -> uncurriedTree(f,array)
+		fun( CAT [tree(fun, array[0...k]), tree(fun, array[k...len])] )
+	(array) -> tree(op,array)
 
 # **BIGGER** is a binary operator that returns the greater of arguments
 root.BIGGER = BIGGER = (a,b) -> if a > b then a else b
@@ -95,7 +95,7 @@ root.BUTLAST = BUTLAST = (args) -> if args.length > 1 then REVERSE TAIL REVERSE 
 root.AL = AL = (args) -> [array, elem] = args; CAT [array, elem]
 
 # **AR** append right. appends `elem` on the right of `seq`
-root.AR = AR = (args) -> CAT args
+root.AR = AR = (args) -> [elem, array] = args;  CAT [elem, array]
 
 # **REPEAT** repetition operator. Returns an array with `n` repetitions of `arg`
 root.REPEAT = REPEAT = (n) -> (args) -> (args for i in [0...n])
@@ -145,7 +145,6 @@ root.SET = SET = (array) ->
 # **CART2** returns the Cartesian product of two sequences
 root.CART2 = CART2 = (listOfLists) -> CAT(AA(DISTL)(DISTR(listOfLists)))
 F1 = (listOfLists) -> AA(AA(LIST))(listOfLists)
-
 # **CART** = CART = (listOfList) -> TREE( COMP([AA(CAT), CART2]) ) ( F1(listOfList) )
 
 
@@ -189,7 +188,7 @@ typedPrint = (args) ->
 #### Symbolic from/to numeric
 
 # Scaling factor to be used for numeric to symbolic conversions
-root.PRECISION = PRECISION = 1E9
+root.PRECISION = PRECISION = +("1E#{digits}")
 
 # number of decimal digits of stored data
 digits = 9
@@ -273,7 +272,7 @@ class PointSet
 
 	# Method used to translate the `Pointset` instance.
 	# The coordinates specified by `indices` are affected by the transformation `parameters`
-	t: (indices,parameters) ->
+	t: (indices, parameters) ->
 		vect = (0 for k in [0...@rn])
 		vect[indices[h]] = parameters[h] for h in [0...indices.length]
 		@update (point) -> SUM([point, vect])
@@ -281,7 +280,7 @@ class PointSet
 
 	# Method used to scale the `Pointset` instance.
 	# The coordinates specified by `indices` are affected by the transformation `parameters`
-	s: (indices,parameters) ->
+	s: (indices, parameters) ->
 		vect = (1 for k in [0...@rn])
 		vect[indices[h]] = parameters[h] for h in [0...indices.length]
 		@update (point) -> MUL([point, vect])
@@ -308,7 +307,8 @@ root.PointSet = PointSet
 # The class is used to store the topological relations between the *d*-cells of a simplicial complex, 
 # for all values of *d* between 0 and the intrinsic dimension of the complex
 class Topology
-	# Intance constructor. The input parameters `vertices` and `d_cells` respectively denote a PointSet instance and
+	
+	# Intance constructor. The input parameters `vertices` and cells respectively denote a PointSet instance and
 	# an array of arrays of vertex ids specifying the complex cells of highest dimension
 	# The constructor defines:
 	constructor: (vertices, d_cells) ->

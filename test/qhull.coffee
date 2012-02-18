@@ -1,38 +1,38 @@
+# ///////////////////////////////////////////////////////////////////////////////
+# qhull.coffee
+#
+# a prototype geometric kernel for plasm.js
+# JavaScript Programming Language for Solid Modeling
+# Copyright (c) 2011-2012 cvd-lab <cvdlab@email.com> (https://github.com/cvd-lab/)
+# Universitò Roma Tre
+# MIT License
+# ///////////////////////////////////////////////////////////////////////////////
+
 # Internet colors and color names
 
-WHITE = [ 1.0 , 1.0 , 1.0 ]
-SILVER = [ 0.8 , 0.8 , 0.8 ]
-GRAY = [ 0.5 , 0.5 , 0.5 ]
-BLACK = [ 0.0 , 0.0 , 0.0 ]
-RED = [ 1.0 , 0.0 , 0.0 ]
-MAROON = [ 0.5 , 0.0 , 0.0 ]
-YELLOW = [ 1.0 , 1.0 , 0.0 ]
-OLIVE = [ 0.5 , 0.5 , 0.0 ]
-LIME = [ 0.0 , 1.0 , 0.0 ]
-GREEN = [ 0.0 , 0.5 , 0.0 ]
-AQUA = [ 0.0 , 1.0 , 1.0 ]
-TEAL = [ 0.0 , 0.5 , 0.5 ]
-BLUE = [ 0.0 , 0.0 , 1.0 ]
-NAVY = [ 0.0 , 0.0 , 0.5 ]
-FUCHSIA = [ 1.0 , 0.0 , 1.0 ]
-PURPLE = [ 0.5 , 0.0 , 0.5 ]
-colors = [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE]
+WHITE	= [ 1.0 , 1.0 , 1.0 ]
+SILVER 	= [ 0.8 , 0.8 , 0.8 ]
+GRAY 	= [ 0.5 , 0.5 , 0.5 ]
+BLACK 	= [ 0.0 , 0.0 , 0.0 ]
+RED 	= [ 1.0 , 0.0 , 0.0 ]
+MAROON 	= [ 0.5 , 0.0 , 0.0 ]
+YELLOW 	= [ 1.0 , 1.0 , 0.0 ]
+OLIVE 	= [ 0.5 , 0.5 , 0.0 ]
+LIME 	= [ 0.0 , 1.0 , 0.0 ]
+GREEN 	= [ 0.0 , 0.5 , 0.0 ]
+AQUA 	= [ 0.0 , 1.0 , 1.0 ]
+TEAL 	= [ 0.0 , 0.5 , 0.5 ]
+BLUE 	= [ 0.0 , 0.0 , 1.0 ]
+NAVY 	= [ 0.0 , 0.0 , 0.5 ]
+FUCHSIA	= [ 1.0 , 0.0 , 1.0 ]
+PURPLE 	= [ 0.5 , 0.0 , 0.5 ]
+
+colors 	= [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, 
+			GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE]
 
 d2h = (d) -> d.toString 36
 h2d = (h) -> parseInt h,36
 keysConcat = (key,keys) -> ((pair.join "") for pair in DISTL([key, keys]))
-
-###
-PRINT "(d2h 7000237) is '461f1' =", (d2h 7000237) is "461f1"
-PRINT '(h2d "461f1") is 7000237 =', (h2d "461f1") is 7000237
-PRINT "d2h 28 =", d2h 28
-PRINT 'h2d "S" =', h2d "S"
-PRINT 'keysConcat "W",["A", "B", "0", "9", "F", "A"] =', keysConcat "W",["A", "B", "0", "9", "F", "A"]
-PRINT 'keysConcat "E06HW",["A", "B", "0", "9", "F", "A"] =', keysConcat "E06HW",["A", "B", "0", "9", "F", "A"]
-PRINT '(AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"]) =', (AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"])
-numCodes = [846829594, 846829595, 846829584, 846829593, 846829599, 846829594]
-PRINT "(d2h(code%36) for code in numCodes) =", (d2h (code % 36) for code in numCodes)
-###
 
 randomPoints = (rn=2,m=40,scale=2) ->
 	# To produce a random PointSet in [0,scale]^rn space.
@@ -71,7 +71,8 @@ randomSimplex = (verts,d) ->
 		if cell.length == d+1 and isSquare(mat) and closetozero(numeric.det(mat))
 			cell = []
 	cell
-	
+
+
 spacePartition = (points) ->
 	# To extract a reference simplex from a list of 'points'.
 	# Return a partition of the set into d 'bucket' of 'close' points.

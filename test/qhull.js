@@ -2,6 +2,8 @@
   var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, colors, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, theMap, _i, _j, _ref, _ref2, _ref3, _ref4, _results, _results2,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
+  console.log("ciao", "ciao");
+
   WHITE = [1.0, 1.0, 1.0];
 
   SILVER = [0.8, 0.8, 0.8];
@@ -54,18 +56,6 @@
     }
     return _results;
   };
-
-  /*
-  PRINT "(d2h 7000237) is '461f1' =", (d2h 7000237) is "461f1"
-  PRINT '(h2d "461f1") is 7000237 =', (h2d "461f1") is 7000237
-  PRINT "d2h 28 =", d2h 28
-  PRINT 'h2d "S" =', h2d "S"
-  PRINT 'keysConcat "W",["A", "B", "0", "9", "F", "A"] =', keysConcat "W",["A", "B", "0", "9", "F", "A"]
-  PRINT 'keysConcat "E06HW",["A", "B", "0", "9", "F", "A"] =', keysConcat "E06HW",["A", "B", "0", "9", "F", "A"]
-  PRINT '(AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"]) =', (AA)(h2d)(["E06HWA", "E06HWB", "E06HW0", "E06HW9", "E06HWF", "E06HWA"])
-  numCodes = [846829594, 846829595, 846829584, 846829593, 846829599, 846829594]
-  PRINT "(d2h(code%36) for code in numCodes) =", (d2h (code % 36) for code in numCodes)
-  */
 
   randomPoints = function(rn, m, scale) {
     var k, point;

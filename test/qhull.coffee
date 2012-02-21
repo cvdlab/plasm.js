@@ -29,6 +29,7 @@ PURPLE 	= [ 0.5 , 0.0 , 0.5 ]
 
 colors 	= [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, 
 			GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE]
+	
 
 d2h = (d) -> d.toString 36
 h2d = (h) -> parseInt h,36
@@ -114,10 +115,10 @@ makeRegionDict = (pointSet,d) ->
 	newBuckets
 
 
-##
 rn = 3
 points = randomPoints(rn, m=2000*Math.pow(2,rn), scale=8).t( [0...rn], REPEAT(rn)(-scale/2) )
 object = []
+model = viewer.draw object
 
 ##
 [Bucket,theMap] = spacePartition(points.verts)
@@ -128,8 +129,9 @@ for k in [1...Math.pow(2,rn+1)]
 		#object.push POLYLINE(Bucket[key])
 model = viewer.draw object
 model[k].color(colors[k]) for k in [1...model.length]
-###
+##
 
+###
 PRINT "**** points.m =", points.m
 
 Bucket = makeRegionDict(points.verts, rn)

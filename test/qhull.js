@@ -2,8 +2,6 @@
   var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, colors, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, theMap, _i, _j, _ref, _ref2, _ref3, _ref4, _results, _results2,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  console.log("ciao", "ciao");
-
   WHITE = [1.0, 1.0, 1.0];
 
   SILVER = [0.8, 0.8, 0.8];
@@ -229,6 +227,8 @@
 
   object = [];
 
+  model = viewer.draw(object);
+
   _ref = spacePartition(points.verts), Bucket = _ref[0], theMap = _ref[1];
 
   for (k = 1, _ref2 = Math.pow(2, rn + 1); 1 <= _ref2 ? k < _ref2 : k > _ref2; 1 <= _ref2 ? k++ : k--) {
@@ -249,7 +249,6 @@
   }
 
   /*
-  
   PRINT "**** points.m =", points.m
   
   Bucket = makeRegionDict(points.verts, rn)

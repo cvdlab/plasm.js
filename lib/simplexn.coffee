@@ -2,7 +2,7 @@
 # a prototype geometric kernel for plasm.js, 
 # the *JavaScript Programming Language for Solid Modeling*
 #
-# Copyright (c) 2011-2012 Università Roma Tre, CVD-lab <cvdlab@email.com>
+# Copyright (c) 2011-2012 Universit Roma Tre, CVD-lab <cvdlab@email.com>
 #
 # The source for [Plasm.js](https://github.com/cvd-lab/) is available on GitHub,
 # and released under the MIT license.
@@ -32,7 +32,7 @@ root.COMP = COMP = (funs) ->
 root.CONS = CONS = (flist) -> (x) -> flist.map (f) -> f x
 
 # **CAT** catenates `args`, an array of arrays, by eliminating a level of nesting
-root.CAT = CAT = (args) -> [].concat args...
+root.CAT = CAT = (args) -> [].concat args...  ## REMARK ... always apply by parentheses   BUG !!!!
 
 # **ID** returns the `arg` argument unchanged
 root.ID = ID = (arg) -> arg
@@ -44,7 +44,7 @@ root.K = K = (a) -> (b) -> a
 root.AA = AA = (fun) -> (array) -> array.map (e) -> fun e
 
 # **DISTR** distribute right. Returns the `pair` sequence with the elements of `array` and `x`
-root.DISTR = DISTR = (pair) -> [array,x] = pair; [el,x] for el in array
+root.DISTR = DISTR = (pair) -> [array, x] = pair; ([el,x] for el in array)
 
 # **DISTL** distribute left. Returns the `pair` sequence with `x` and the elements of `array`
 root.DISTL = DISTL = (pair) -> [x,array] = pair; [x,el] for el in array
@@ -59,22 +59,22 @@ root.INSL = INSL = (op) -> (array) -> array.reduce op
 root.TREE = TREE = (op) -> 
 	tree = (fun,array) ->
 		len = array.length
-		if len is 1 then return array[0]
+		if len <=1 then return array[0]
 		k = floor (len/2)
 		fun( CAT [tree(fun, array[0...k]), tree(fun, array[k...len])] )
 	(array) -> tree(op,array)
 
 # **BIGGER** is a binary operator that returns the greater of arguments
-root.BIGGER = BIGGER = (a,b) -> if a > b then a else b
+root.BIGGER = BIGGER = (args) -> [a,b] = args; if a > b then a else b
 
 # **SMALLER** binary operator that returns the smaller argument (in a proper ordering!)
-root.SMALLER = SMALLER = (a,b) -> if a < b then a else b
+root.SMALLER = SMALLER = (args) -> [a,b] = args; if a < b then a else b
 
 # **BIGGEST** binary operator that returns the greatest of `args` values
-root.BIGGEST = BIGGEST = (args) -> (INSR BIGGER) args 
+root.BIGGEST = BIGGEST = (args) -> TREE(BIGGER) args 
 
 # **SMALLEST** returns the smallest element of the `args` input sequence
-root.SMALLEST = SMALLEST = (args) -> (INSR SMALLER) args
+root.SMALLEST = SMALLEST = (args) -> TREE(SMALLER) args
 
 # **LIST** returns an array containing `arg`. Alias for`CONS([ID])`
 root.LIST = LIST = (arg) -> (CONS [ID]) arg
@@ -98,34 +98,39 @@ root.AL = AL = (args) -> [array, elem] = args; CAT [array, elem]
 root.AR = AR = (args) -> [elem, array] = args;  CAT [elem, array]
 
 # **REPEAT** repetition operator. Returns an array with `n` repetitions of `arg`
-root.REPEAT = REPEAT = (n) -> (args) -> (args for i in [0...n])
+root.REPEAT = REPEAT = (n) -> 
+	(args) -> 
+		(args for i in [0...n])
+		(args for i in [0...n])
 
 # **REPLICA** array repetition operator (with catenation). 
 # `REPLICA(n)(array)` is equivalent to `COMP([CAT,REPEAT(n)])(array)`
 root.REPLICA = REPLICA = (n) -> (args) -> CAT (args for i in [0...n])
 
+arithmeticOp = (op) ->  (args) -> if typeof args[0] is 'number' then op args else AA(op)(TRANS args)
+
 # **SUM** arithmetic operation between numbers or number arrays
-root.SUM = SUM = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x+y) args else AA(INSL (x,y) -> x+y)(TRANS args)
+root.SUM = SUM = (args) -> if args and args[0]? then arithmeticOp(INSL (x,y) -> x+y) args else undefined
 
 # **SUB** arithmetic operation between numbers or number arrays
-root.SUB = SUB = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x-y) args else AA(INSL (x,y) -> x-y)(TRANS args)
+root.SUB = SUB = (args) -> if args and args[0]? then arithmeticOp(INSL (x,y) -> x-y) args else undefined
+#root.SUB = SUB = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x-y) args else AA(INSL (x,y) -> x-y)(TRANS args)
 
 # **MUL** arithmetic operation between numbers or number arrays
-root.MUL = MUL = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x*y) args else AA(INSL (x,y) -> x*y)(TRANS args)
+root.MUL = MUL = (args) -> if args and args[0]? then arithmeticOp(INSL (x,y) -> x*y) args else undefined
+#root.MUL = MUL = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x*y) args else AA(INSL (x,y) -> x*y)(TRANS args)
 
 # **DIV** arithmetic operation between numbers or number arrays
-root.DIV = DIV = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x/y) args else AA(INSL (x,y) -> x/y)(TRANS args)
+root.DIV = DIV = (args) -> if args and args[0]? then arithmeticOp(INSL (x,y) -> x/y) args else undefined
+#root.DIV = DIV = (args) -> if typeof args[0] is 'number' then (INSL (x,y) -> x/y) args else AA(INSL (x,y) -> x/y)(TRANS args)
 
 # **TRANS** transposes `args` (an array of arrays of the same length), like *matrix* transposition
 root.TRANS = TRANS = (args) ->
 	n = args.length; m = args[0].length; args = CAT args
 	((args[j*m+i] for j in [0...n]) for i in [0...m])
 
-# **VECT** type casting *binary* operations
-root.VECT = VECT = (binaryop) -> (args) -> AA(binaryop) TRANS args
-
-# **MAT** transform a linear array `args` into an array of arrays with `m` rows and `n` columns
-root.MAT = MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m]) # mat
+# **MAT** transforms a linear array `args` into an array of arrays with `m` rows and `n` columns
+root.MAT = MAT = (m,n) -> (args) -> ((args[i*n+j] for j in [0...n]) for i in [0...m]) 
 
 # **ISNUM** predicate to test if `n` is a number
 root.ISNUM = ISNUM = (n) -> (not isNaN parseFloat n) and isFinite n
@@ -138,15 +143,27 @@ root.PROGRESSIVE_SUM = PROGRESSIVE_SUM = (args) ->
 	AL [0, (INSR (x,y) -> x+y) args[0..i] for i in [0...args.length]]
 
 # **SET** transforms an `array` with possibly repeated elements to one without repetitions
-root.SET = SET = (array) ->
-	dict = {}; dict[k] = k for k in array; 
+root.SET = SET = (array) -> 
+	dict = {}; dict[k.toString()] = k for k in array; 
 	(val for key,val of dict)
 
 # **CART2** returns the Cartesian product of two sequences
-root.CART2 = CART2 = (listOfLists) -> CAT(AA(DISTL)(DISTR(listOfLists)))
+CART2 = (listOfLists) -> CAT(AA(DISTL)(DISTR(listOfLists)))
 F1 = (listOfLists) -> AA(AA(LIST))(listOfLists)
-# **CART** = CART = (listOfList) -> TREE( COMP([AA(CAT), CART2]) ) ( F1(listOfList) )
 
+# **CART** returns the Cartesian product of any number of sequences
+`var CART = function (args) {
+  return args.reduce(function(a, b) {
+    var ret = [];
+    a.forEach(function(a) {
+      b.forEach(function(b) {
+        ret.push(a.concat([b]));
+      });
+    });
+    return ret;
+  }, [[]]);
+};`
+root.CART = CART
 
 
 
@@ -187,13 +204,14 @@ typedPrint = (args) ->
 # <HR> 
 #### Symbolic from/to numeric
 
-# Scaling factor to be used for numeric to symbolic conversions
-root.PRECISION = PRECISION = +("1E#{digits}")
 
 # number of decimal digits of stored data
 digits = 9
 
-# To transform a floating-point `number` ìnto a fixed-precision value
+# Scaling factor to be used for numeric to symbolic conversions
+root.PRECISION = PRECISION = +"1E#{digits}"
+
+# To transform a floating-point `number` nto a fixed-precision value
 fixedPrecision = (number) ->
 	int = round number
 	number = round(PRECISION * number) / PRECISION
@@ -241,6 +259,7 @@ class PointSet
 		if points.length > 0
 			@rn = points[0].length
 			@dict = {}; @dict[fcode(point)] = i for point,i in points
+			
 			map1 = {}; map1[i] = decode(@dict[fcode(point)])  for point,i in points
 			[map2,k] = [{},0]; for pcode,pid of @dict
 				map2[decode(pid)] = k; k += 1
@@ -466,7 +485,7 @@ root.SimplicialComplex = SimplicialComplex
 #### Geometric computing functions
 
 
-# **EMBED** embeds a *d*-polyhedron into the subspace *x_{d+1} = ··· = x_{d+n} = 0* of *E^{d+n}*
+# **EMBED** embeds a *d*-polyhedron into the subspace *x_{d+1} =  = x_{d+n} = 0* of *E^{d+n}*
 root.EMBED = EMBED = (n) -> (obj) -> (CLONE obj).embed(n)
 
 # **T** dimension-independent translation tensor. Return a translated deep copy of the input `obj`.
@@ -477,9 +496,7 @@ root.S = S = (indices,values) -> (obj) -> (CLONE obj).s(indices,values)
 
 # **R** dimension-independent rotation tensor. Return a rotated deep copy of the input `obj`.
 # The rotation angle is given in radians
-root.R = R = (axes,angle) -> 
-	PRINT "axes, angle =", [axes, angle]
-	(obj) -> (CLONE obj).R(axes, angle)
+root.R = R = (axes,angle) -> (obj) -> (CLONE obj).R(axes, angle)
 
 # **CENTROID** returns a point, i.e. the barycenter of the `obj`'s `face`, where the last one is given
 # as an array of vertex ids.
@@ -493,6 +510,12 @@ root.CENTROID = CENTROID = (obj) -> (face) ->
 # where negative numbers stand for empty spaces
 root.EXTRUDE = EXTRUDE = (hlist) -> (obj) -> 
 
+	# algorithm initialization
+	cells = CLONE obj.faces.cells
+	dim = CLONE obj.faces.dim
+	verts = CLONE obj.vertices.verts
+	lastcoords = PROGRESSIVE_SUM (AA)(abs)(hlist)
+
 	# Used to append a new coordinate to all elements of an array of points.
 	coords_distribute = (pairs) ->
 		out = CAT( AA(AR)(DISTR(pair)) for pair in pairs)
@@ -503,12 +526,6 @@ root.EXTRUDE = EXTRUDE = (hlist) -> (obj) ->
 	# To generate the extruded *(d+1)*-cells of a *d*-simplex
 	subcomplex = (d,array) ->
 		(array[i...i+d] for i in [0..array.length-d])
-
-	# algorithm initialization
-	cells = CLONE obj.faces.cells
-	dim = CLONE obj.faces.dim
-	verts = CLONE obj.vertices.verts
-	lastcoords = PROGRESSIVE_SUM (AA)(abs)(hlist)
 	
 	# exotic cases
 	if dim <= 0
@@ -544,7 +561,7 @@ root.SIMPLEXGRID = SIMPLEXGRID = (args) ->
 	verts = AA(LIST)(lastcoords)
 	cells = ([i,i+1] for i in [0...hlist.length] when hlist[i] > 0 )
 	complex = new SimplicialComplex(verts,cells)
-	for hlist in args[1...args.length]
+	for hlist in args[1..args.length] # args[1...args.length] !!
 		complex = EXTRUDE(hlist)(complex)
 	complex
 
@@ -590,9 +607,9 @@ root.BOUNDARY = BOUNDARY = (pol) ->
 		# 	-	embedded complex. TODO
 	orientation = (d, cells) ->
 		if d == vertices[0].length
-			out = (sign volume(cell) for cell in d_cells)
+			out = (sign volume(cell) for cell in cells)
 		else
-			out = ("numeric.det(somethingelse)" for cell in d_cells)  # DEBUG (choose minor with det(minor != 0	))
+			out = ("numeric.det(somethingelse)" for cell in cells)  # DEBUG (choose minor with det(minor != 0	))
 		out
 
 	# Invert the orientation of a copy of the input `facet`.
@@ -649,9 +666,9 @@ root.IDNT = IDNT = (d) -> numeric.identity(d)
 root.CUBOID = CUBOID = (sides) -> SIMPLEXGRID AA(LIST)(sides)
 
 # **CUBE** generator of the d-hexahedron of unit sides, with a vertex on the origin
-root.CUBE = CUBE = (d) -> CUBOID(REPEAT(d) [1])
+root.CUBE = CUBE = (d) -> CUBOID(REPLICA(d) [1])  # REPEAT !!!
 
-# **SIMPLEX** generator of the simplex σ^d ≡ conv({e_i} ∪ {0}) ⊂ R^d,1≤i≤d
+# **SIMPLEX** generator of the simplex ^d  conv({e_i}  {0})  R^d,1id
 root.SIMPLEX = SIMPLEX = (d) -> 
 	vertices = CAT [[(0 for k in [0...d])], IDNT(d)]
 	cells = [[0..d]]

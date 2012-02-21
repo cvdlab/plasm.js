@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>QUnit Test Suite</title>
+	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
+	<script type="text/javascript" src="qunit/qunit.js"></script>
+	
+	<!-- dependencies -->
+	<script type="text/javascript" src="../../support/coffee-script.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/coffeescript">
+$ ->
+	scriptsToTest = ["../../lib/simplexn.coffee"]
+	tests = ["../simplexn.test.coffee"]
+	loadCoffee =  (files) -> 
+		$head = $ "head"
+		$.each files, (index, file) ->
+			$.get file, (content) ->
+				compiled = CoffeeScript.compile content, {bare: on}
+				console.log(index,file)
+				$("<script />").attr("type", "text/javascript").html(compiled).appendTo $head
+	loadCoffee scriptsToTest
+	loadCoffee tests
+	</script>
+</head>
+<body>
+	<h1 id="qunit-header">QUnit Test Suite</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">test markup</div>
+</body>
+</html>

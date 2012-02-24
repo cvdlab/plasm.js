@@ -1,5 +1,5 @@
 (function() {
-  var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, colors, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, object, points, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, theMap, _i, _j, _ref, _ref2, _ref3, _ref4, _results, _results2,
+  var AQUA, BLACK, BLUE, Bucket, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW, affineMapping, closetozero, d2h, grading, h2d, k, key, keysConcat, m, makeRegionDict, mapping, model, object, palette, points, preview, primitive, randomPoints, randomSimplex, rn, scale, simplexMatrix, spacePartition, _i, _ref, _results,
     __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   WHITE = [1.0, 1.0, 1.0];
@@ -34,7 +34,7 @@
 
   PURPLE = [0.5, 0.0, 0.5];
 
-  colors = [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE];
+  palette = [MAROON, RED, LIME, BLUE, AQUA, FUCHSIA, YELLOW, WHITE, SILVER, GRAY, BLACK, OLIVE, GREEN, TEAL, NAVY, PURPLE];
 
   d2h = function(d) {
     return d.toString(36);
@@ -88,7 +88,7 @@
   };
 
   grading = function(point) {
-    var grade;
+    var binaryDigits, grade;
     grade = function(x) {
       if (x >= 0.0) {
         return '1';
@@ -96,7 +96,8 @@
         return '0';
       }
     };
-    return d2h(parseInt(AA(grade)(point).join(""), 2));
+    binaryDigits = AA(grade)(point).join("");
+    return d2h(parseInt(binaryDigits, 2));
   };
 
   mapping = function(basis) {
@@ -107,7 +108,7 @@
     }
   };
 
-  affineMapping = function(mapping) {
+  affineMapping = function(matrix) {
     return function(cartesianPoints) {
       var affinePoints, homogeneousPoints, point;
       homogeneousPoints = (function() {
@@ -119,7 +120,7 @@
         }
         return _results;
       })();
-      return affinePoints = numeric.dot(homogeneousPoints, mapping);
+      return affinePoints = numeric.dot(homogeneousPoints, matrix);
     };
   };
 
@@ -153,27 +154,28 @@
   };
 
   spacePartition = function(points) {
-    var bucket, d, k, m, referenceCell, referenceSimplex, theMap, tokens, _ref;
+    var buckets, d, k, m, matrix, referenceCell, referenceSimplex, tokens, _ref;
     d = points[0].length;
     m = points.length;
     referenceCell = randomSimplex(points, d);
     referenceSimplex = simplexMatrix(points, referenceCell);
-    theMap = mapping(referenceSimplex);
-    tokens = AA(grading)(affineMapping(theMap)(points));
-    bucket = {};
+    matrix = mapping(referenceSimplex);
+    tokens = AA(grading)(affineMapping(matrix)(points));
+    buckets = {};
     for (k = 1, _ref = Math.pow(2, d + 1); 1 <= _ref ? k < _ref : k > _ref; 1 <= _ref ? k++ : k--) {
-      bucket[d2h(k)] = [];
+      buckets[d2h(k)] = [];
     }
     for (k = 0; 0 <= m ? k < m : k > m; 0 <= m ? k++ : k--) {
-      if ((tokens[k] != null) && (points[k] != null) && (bucket[tokens[k]] != null)) {
-        bucket[tokens[k]].push(points[k]);
+      if ((tokens[k] != null) && (points[k] != null) && (buckets[tokens[k]] != null)) {
+        buckets[tokens[k]].push(points[k]);
       }
     }
-    return [bucket, theMap];
+    return [buckets, matrix];
   };
 
-  makeRegionDict = function(pointSet, d) {
-    var bucket, buckets, k, key, keys, merge, newBucket, newBuckets, newKey, newKeys, points, theMap, tosplit, _ref, _ref2, _ref3;
+  makeRegionDict = function(pointSet, d, pointQuantity) {
+    var Buckets, buckets, currentBuckets, k, key, keys, merge, newBucket, newKey, newKeys, points, theMap, tosplit, _ref, _ref2, _ref3;
+    if (pointQuantity == null) pointQuantity = 30;
     merge = function(obj1, obj2) {
       var key;
       for (key in obj2) {
@@ -181,16 +183,16 @@
       }
       return obj1;
     };
-    _ref = spacePartition(pointSet), bucket = _ref[0], theMap = _ref[1];
+    _ref = spacePartition(pointSet), currentBuckets = _ref[0], theMap = _ref[1];
     tosplit = true;
     while (tosplit) {
       tosplit = false;
-      newBuckets = {};
-      for (key in bucket) {
+      Buckets = {};
+      for (key in currentBuckets) {
         newBucket = {};
-        if (bucket[key].length > (d + 1) * 30) {
+        if (currentBuckets[key].length > (d + 1) * pointQuantity) {
           tosplit = true;
-          points = CLONE(bucket[key]);
+          points = CLONE(currentBuckets[key]);
           _ref2 = spacePartition(points), buckets = _ref2[0], theMap = _ref2[1];
           keys = (function() {
             var _results;
@@ -204,17 +206,37 @@
           for (k = 0, _ref3 = keys.length; 0 <= _ref3 ? k < _ref3 : k > _ref3; 0 <= _ref3 ? k++ : k--) {
             newBucket[newKeys[k]] = buckets[keys[k]];
           }
-          merge(newBuckets, newBucket);
+          merge(Buckets, newBucket);
         } else {
-          if (bucket[key].length > 0) {
+          if (currentBuckets[key].length > 0) {
             newKey = keysConcat(key, ["0"]);
-            newBuckets[newKey] = bucket[key];
+            Buckets[newKey] = currentBuckets[key];
           }
         }
       }
-      bucket = CLONE(newBuckets);
+      currentBuckets = CLONE(Buckets);
     }
-    return newBuckets;
+    return Buckets;
+  };
+
+  preview = function(points, object, primitive) {
+    var n, _i, _results;
+    if (primitive == null) primitive = "POLYLINE";
+    n = points.length;
+    if (primitive === "POLYMARKER") {
+      object.push(POLYMARKER(points));
+    } else if (primitive === "TRIANGLESTRIP" && n > 2) {
+      object.push(TRIANGLESTRIP(points));
+    } else if (n > 1) {
+      object.push(POLYLINE(points));
+    } else {
+      object.push(new SimplicialComplex(points, AA(LIST)((function() {
+        _results = [];
+        for (var _i = 0; 0 <= n ? _i < n : _i > n; 0 <= n ? _i++ : _i--){ _results.push(_i); }
+        return _results;
+      }).apply(this))));
+    }
+    return object;
   };
 
   rn = 3;
@@ -227,47 +249,18 @@
 
   object = [];
 
-  model = viewer.draw(object);
+  Bucket = makeRegionDict(points.verts, rn);
 
-  _ref = spacePartition(points.verts), Bucket = _ref[0], theMap = _ref[1];
-
-  for (k = 1, _ref2 = Math.pow(2, rn + 1); 1 <= _ref2 ? k < _ref2 : k > _ref2; 1 <= _ref2 ? k++ : k--) {
-    key = d2h(k);
+  for (key in Bucket) {
     if ((Bucket[key] != null) && Bucket[key].length > 0) {
-      object.push(new SimplicialComplex(Bucket[key], AA(LIST)((function() {
-        _results2 = [];
-        for (var _j = 0, _ref3 = Bucket[key].length; 0 <= _ref3 ? _j < _ref3 : _j > _ref3; 0 <= _ref3 ? _j++ : _j--){ _results2.push(_j); }
-        return _results2;
-      }).apply(this))));
+      preview(Bucket[key], object, primitive = "POLYMARKER");
     }
   }
 
   model = viewer.draw(object);
 
-  for (k = 1, _ref4 = model.length; 1 <= _ref4 ? k < _ref4 : k > _ref4; 1 <= _ref4 ? k++ : k--) {
-    model[k].color(colors[k]);
+  for (k = 0, _ref = model.length; 0 <= _ref ? k < _ref : k > _ref; 0 <= _ref ? k++ : k--) {
+    model[k].color(palette[k % 15]);
   }
-
-  /*
-  PRINT "**** points.m =", points.m
-  
-  Bucket = makeRegionDict(points.verts, rn)
-  PRINT "**** Bucket =", Bucket
-  n = 0
-  for key of Bucket
-  	if Bucket[key]? and Bucket[key].length > 0 
-  		#object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
-  		n += Bucket[key].length
-  		if Bucket[key].length > 2
-  				object.push TRIANGLESTRIP(Bucket[key])
-  		else if Bucket[key].length > 1
-  			object.push POLYLINE(Bucket[key])
-  		else 
-  			object.push new SimplicialComplex(Bucket[key], AA(LIST)([0...Bucket[key].length]))
-  model = viewer.draw object
-  model[k].color(colors[k%7]) for k in [0...model.length]
-  
-  PRINT "n =", n
-  */
 
 }).call(this);

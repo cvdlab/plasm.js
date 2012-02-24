@@ -8,11 +8,22 @@
 	
 	<!-- dependencies -->
 	<script type="text/javascript" src="../../support/coffee-script.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../../support/jquery.min.js"></script>
+	<script type="text/javascript" src="../../support/numeric.js"></script>
+	<!-- 
+	<script src="../../support/three.js"></script>
+	<script src="../../support/detector.js"></script>
+	<script src="../../support/request-animation-frame.js"></script>
+	<script src="../../support/stats.js"></script>
+	<script src="../../lib/enhancedtrackballlightcontrols.js"></script>
+	<script src="../../lib/plasm.js"></script>
+	<script src="../../lib/plasm-init.js"></script>
+  	-->
+
 	<script type="text/coffeescript">
 $ ->
-	scriptsToTest = ["../../lib/simplexn.coffee"]
-	tests = ["../simplexn.test.coffee"]
+	scriptsToTest = ["../../lib/simplexn.coffee","../qhull.coffee"]
+	tests = ["../qhull.test.coffee"]
 	loadCoffee =  (files) -> 
 		$head = $ "head"
 		$.each files, (index, file) ->

@@ -674,7 +674,12 @@ root.SIMPLEX = SIMPLEX = (d) ->
 	cells = [[0..d]]
 	new SimplicialComplex(vertices, cells)
 
-# **POLYLINE** generator of 1D connected complexes from the points sequence
+# **POLYMARKER** generator of 0D complexes from the `points` sequence
+root.POLYMARKER = POLYMARKER = (points) -> 
+	cells = ([k] for k in [0...points.length])
+	new SimplicialComplex(points,cells)
+
+# **POLYLINE** generator of 1D connected complexes from the `points` sequence
 root.POLYLINE = POLYLINE = (points) -> 
 	cells = ([k,k+1] for k in [0...points.length-1])
 	new SimplicialComplex(points,cells)

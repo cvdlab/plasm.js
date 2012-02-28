@@ -27,11 +27,8 @@ header {
   color: #efefef; 
 }
 
-#plasm-stats {
+#plasm-inspector {
   position: absolute;
-  bottom: 7px;
+  bottom: 11px;
   right: 7px;
-}
-
-footer {
 }

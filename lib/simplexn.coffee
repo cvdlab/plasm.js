@@ -79,6 +79,12 @@ root.SMALLEST = SMALLEST = (args) -> TREE(SMALLER) args
 # **LIST** returns an array containing `arg`. Alias for`CONS([ID])`
 root.LIST = LIST = (arg) -> (CONS [ID]) arg
 
+# **FIRST** returns the first element of the `arg` array. 
+root.FIRST = FIRST = (arg) -> arg[0]
+
+# **LAST** returns the last element of the `arg` array. 
+root.LAST = LAST = (arg) -> arg[arg.length - 1]
+
 # **LEN** returns the length of the array `args`
 root.LEN = LEN = (args) -> args.length
 

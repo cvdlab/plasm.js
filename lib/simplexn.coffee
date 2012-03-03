@@ -177,6 +177,11 @@ root.CART = CART
 
 #### Some utility functions
 
+# **SORTED** is used to return an `array` of number or string values in either ascending or descending `order`.
+# The default ordering is ascending.
+root.SORTED = SORTED = (array, order=true) ->
+	array.sort if order then (a,b) -> a-b else (a,b) -> b-a
+
 # **PRINT** returns arg and prints its value to `console.log`. It may be used for debugging
 root.PRINT = PRINT = (string,params) -> console.log string, params, "\n"
 
@@ -455,8 +460,8 @@ class SimplicialComplex
 	# is the boundary or one of the skeleton of another complex, as a totally new simplicial complex,
 	# i.e. with a new (non-redundant) numbering of vertices.
 	vertexFilter = (points, d_cells) ->
-		numbers = (a,b) -> a-b
-		verts = (SET CAT d_cells).sort(numbers)
+		verts = SORTED SET CAT d_cells
+		#verts = (SET CAT d_cells).sort(numbers)
 		inverts = []; inverts[i]=k for i,k in verts
 		points = (point for point,k in points when inverts[k]?)
 		d_cells = ((inverts[k] for k in cell) for cell in d_cells)
@@ -483,6 +488,113 @@ class SimplicialComplex
 # Make `SimplicialComplex` globally visible 
 root.SimplicialComplex = SimplicialComplex
 
+
+# <HR> 
+#### Graph class
+
+# The class is used to represent the **Hasse graph** of a simplicial complex.
+# Every *cell* of the complex is represented as a **node**; every *incidence* between
+# two cells of adjacent dimensions (i.e. *d* and *d+1*) as an **arc** of the graph. 
+class Graph extends SimplicialComplex
+	# Instance constructor. 
+	# The constructor defines as properties of a graph instance:
+	constructor: (object) -> 
+		# *	the input `object` itself;
+		# *	the `nodes` array, that associates a (progressive) *integer id* to each object's cell; 
+		# *	two array `up` and `down` of arrays of adjacent nodes, indexed on the nodes of the graph:
+		# *	the array `firstNodePerLevel` containing the first node of each dimension (said *level*). 
+		@object = object
+		@nodes = mknodes object
+		[@up, @down] = mkarcs  object
+		@firstNodePerLevel = (@nodes[k][0] for k in [0..object.faces.dim])
+
+	# Method to return the *array of nodes* associated to a given `level` *k* of the graph *(0 <= k <= d)*
+	cellsPerLevel: (level) -> 
+		@nodes[level]
+	
+	# Method to return the *array of sons* a given `node`. If the node is at level *k*, its sons are at 
+	# level *k-1*
+	downCells: (node) -> 
+		[k,cell] = @uknode node
+		(@nodes[k-1][h] for h in @down[k][cell])
+		
+	# Method to return the *array of pathers* a given `node`. If the node is at level *k*, its pathers are at 
+	# level *k+1*
+	upCells: (node) -> 
+		[k,cell] = @uknode node
+		(@nodes[k+1][h] for h in @up[k][cell])
+	
+	# Method to decode the *absolute id* of `node` into a pair *(d, cell)* that denotes the graph node as representing 
+	# a specific *d-cell* (i.e. *relative id* w.r.t the *d*-skeleton) of the input simplicial complex.
+	uknode: (node) -> 
+		k = 0
+		while @firstNodePerLevel[k] <= node
+			k += 1
+		[k-1, node - @firstNodePerLevel[k-1]]
+
+	# Helper used by the `draw` method. This method gets an unordered array of graph `nodes` as input, and returns 
+	# the `chains` array as output, where the input `nodes` are reordered into a list of lists according to their dimension
+	# *k*, with *0 <= k <= d*, as cells of the simplicial complex represented by the Hasse graph.
+	tether: (nodes) ->
+		nodes = SORTED nodes
+		d = @object.faces.dim
+		chains = ([] for k in [0..d])
+		[k,h] = [0,0]
+		firstNodes = @firstNodePerLevel
+		n = firstNodes.length - 1
+		while h < nodes.length
+			if firstNodes[k] <= nodes[h] < firstNodes[k+1] 
+				chains[k].push nodes[h]
+				h += 1
+			else if firstNodes[n] <= nodes[h] 
+				chains[n].push nodes[h]
+				h += 1
+			else			 
+				k += 1
+		chains	
+
+	# Method to draw the `nodes` array, by transforming the input into an array of `chains` (`sublists of `nodes` 
+	# of the same dimension), and by transforming the non-empty chains into an array of `SimplicialComplex` instances.
+	draw: (nodes) -> 
+		verts = @object.vertices.verts
+		chains = @tether(nodes)
+		obj = []
+		for k in [0..@object.faces.dim]
+			if chains[k].length isnt 0
+				cells = (node - @firstNodePerLevel[k] for node in chains[k])
+				k_faces = (@object.faces.cells[k][h] for h in cells)
+				obj.push new SimplicialComplex(verts, k_faces)
+		model = viewer.draw obj
+
+	# Helper function (used by the `constructor` method) to generate the nodes of the graph 
+	mknodes = (object) ->
+		counter = 0
+		nodes = ([[] for h in [0...object.faces.cells[k].length]] for k in [0...object.faces.cells.length])
+		add1 = (n) -> n+1
+		for k_cells,k in object.faces.cells
+			for cells,h in k_cells
+				nodes[k][h] = counter
+				counter = add1 counter
+		nodes
+
+	# Helper function (used by the `constructor` method) to generate the representation of graph 
+	# arcs as *node-adjacency* arrays.
+	mkarcs = (object) -> 
+		d = object.faces.dim
+		up = ([] for k in [0..d])
+		down = ([] for k in [0..d])
+		for k in [0..d]
+			nodes = object.faces.cells[k].length
+			up[k] = ([] for h in [0...nodes])
+			down[k] = ([] for h in [0...nodes])
+		for k in [1..d]
+			for pair in object.faces.homology[k]
+				up[k-1][pair[1]].push pair[0]
+				down[k][pair[0]].push pair[1]
+		[up,down]
+
+# Make the `Graph` class globally visible 
+root.Graph = Graph
 
 
 

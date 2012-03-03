@@ -1,191 +1,81 @@
+
+/*
+tether = (graph) -> (nodes) ->
+	nodes = SORTED nodes
+	d = graph.object.faces.dim
+	chains = ([] for k in [0..d])
+	[k,h] = [0,0]
+	firstNodes = graph.firstNodePerLevel
+	n = firstNodes.length - 1
+	while h < nodes.length
+		if firstNodes[k] <= nodes[h] < firstNodes[k+1] 
+			chains[k].push nodes[h]
+			h += 1
+		else if firstNodes[n] <= nodes[h] 
+			chains[n].push nodes[h]
+			h += 1
+		else			 
+			k += 1
+	chains	
+	
+draw = (graph) -> (chains) -> 
+	verts = graph.object.vertices.verts
+	chains = tether(graph) (chains)
+	obj = []
+	for k in [0..graph.object.faces.dim]
+		if chains[k].length isnt 0
+			cells = (node - graph.firstNodePerLevel[k] for node in chains[k])
+			k_faces = (graph.object.faces.cells[k][h] for h in cells)
+			obj.push new SimplicialComplex(verts, k_faces)
+	model = viewer.draw obj
+*/
+
 (function() {
-  var Graph, cube, tetra,
-    __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
-
-  Graph = (function(_super) {
-    var mkarcs, mknodes;
-
-    __extends(Graph, _super);
-
-    function Graph(object) {
-      var k, _ref;
-      this.object = object;
-      this.nodes = mknodes(object);
-      _ref = mkarcs(object), this.up = _ref[0], this.down = _ref[1];
-      this.firstNodePerLevel = (function() {
-        var _ref2, _results;
-        _results = [];
-        for (k = 0, _ref2 = object.faces.dim; 0 <= _ref2 ? k <= _ref2 : k >= _ref2; 0 <= _ref2 ? k++ : k--) {
-          _results.push(this.nodes[k][0]);
-        }
-        return _results;
-      }).call(this);
-    }
-
-    Graph.prototype.cellsPerLevel = function(level) {
-      var out;
-      return out = this.nodes[level];
-    };
-
-    Graph.prototype.downCells = function(node) {
-      var cell, h, k, _i, _len, _ref, _ref2, _results;
-      _ref = this.uknode(node), k = _ref[0], cell = _ref[1];
-      _ref2 = this.down[k][cell];
-      _results = [];
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        h = _ref2[_i];
-        _results.push(this.nodes[k - 1][h]);
-      }
-      return _results;
-    };
-
-    Graph.prototype.upCells = function(node) {
-      var cell, h, k, _i, _len, _ref, _ref2, _results;
-      _ref = this.uknode(node), k = _ref[0], cell = _ref[1];
-      _ref2 = this.up[k][cell];
-      _results = [];
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        h = _ref2[_i];
-        _results.push(this.nodes[k + 1][h]);
-      }
-      return _results;
-    };
-
-    Graph.prototype.uknode = function(node) {
-      var k;
-      k = 0;
-      while (this.firstNodePerLevel[k] <= node) {
-        k += 1;
-      }
-      return [k - 1, node - this.firstNodePerLevel[k - 1]];
-    };
-
-    mknodes = function(object) {
-      var add1, cells, counter, h, k, k_cells, nodes, _len, _len2, _ref;
-      counter = 0;
-      nodes = (function() {
-        var _ref, _results;
-        _results = [];
-        for (k = 0, _ref = object.faces.cells.length; 0 <= _ref ? k < _ref : k > _ref; 0 <= _ref ? k++ : k--) {
-          _results.push([
-            (function() {
-              var _ref2, _results2;
-              _results2 = [];
-              for (h = 0, _ref2 = object.faces.cells[k].length; 0 <= _ref2 ? h < _ref2 : h > _ref2; 0 <= _ref2 ? h++ : h--) {
-                _results2.push([]);
-              }
-              return _results2;
-            })()
-          ]);
-        }
-        return _results;
-      })();
-      add1 = function(n) {
-        return n + 1;
-      };
-      _ref = object.faces.cells;
-      for (k = 0, _len = _ref.length; k < _len; k++) {
-        k_cells = _ref[k];
-        for (h = 0, _len2 = k_cells.length; h < _len2; h++) {
-          cells = k_cells[h];
-          nodes[k][h] = counter;
-          counter = add1(counter);
-        }
-      }
-      return nodes;
-    };
-
-    mkarcs = function(object) {
-      var d, down, h, k, nodes, pair, up, _i, _len, _ref;
-      d = object.faces.dim;
-      up = (function() {
-        var _results;
-        _results = [];
-        for (k = 0; 0 <= d ? k <= d : k >= d; 0 <= d ? k++ : k--) {
-          _results.push([]);
-        }
-        return _results;
-      })();
-      down = (function() {
-        var _results;
-        _results = [];
-        for (k = 0; 0 <= d ? k <= d : k >= d; 0 <= d ? k++ : k--) {
-          _results.push([]);
-        }
-        return _results;
-      })();
-      for (k = 0; 0 <= d ? k <= d : k >= d; 0 <= d ? k++ : k--) {
-        nodes = object.faces.cells[k].length;
-        up[k] = (function() {
-          var _results;
-          _results = [];
-          for (h = 0; 0 <= nodes ? h < nodes : h > nodes; 0 <= nodes ? h++ : h--) {
-            _results.push([]);
-          }
-          return _results;
-        })();
-        down[k] = (function() {
-          var _results;
-          _results = [];
-          for (h = 0; 0 <= nodes ? h < nodes : h > nodes; 0 <= nodes ? h++ : h--) {
-            _results.push([]);
-          }
-          return _results;
-        })();
-      }
-      for (k = 1; 1 <= d ? k <= d : k >= d; 1 <= d ? k++ : k--) {
-        _ref = object.faces.homology[k];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          pair = _ref[_i];
-          up[k - 1][pair[1]].push(pair[0]);
-          down[k][pair[0]].push(pair[1]);
-        }
-      }
-      return [up, down];
-    };
-
-    return Graph;
-
-  })(SimplicialComplex);
+  var cube, cubes, tetra, _i, _results;
 
   tetra = new Graph(SIMPLEX(3));
 
   cube = new Graph(CUBE(3));
 
+  cubes = new Graph(SIMPLEXGRID([[1, -1, 1], [1, -1, 1], [1, -1, 1]]));
+
   PRINT("tetra =", tetra);
 
-  PRINT("cube =", cube);
+  PRINT("tetra.firstNodePerLevel =", tetra.firstNodePerLevel);
 
-  PRINT("cube.firstNodePerLevel =", cube.firstNodePerLevel);
+  PRINT("tetra =", tetra.tether([0, 3, 4, 5, 12, 13]));
 
-  PRINT("cube.nodes =", cube.nodes);
-
-  PRINT("cube.up =", cube.up);
-
-  PRINT("cube.down =", cube.down);
-
-  PRINT("cube.cellsPerLevel(0) =", cube.cellsPerLevel(0));
-
-  PRINT("cube.cellsPerLevel(1) =", cube.cellsPerLevel(1));
-
-  PRINT("cube.cellsPerLevel(3) =", cube.cellsPerLevel(3));
-
-  PRINT("cube.upCells(0) =", cube.upCells(0));
-
-  PRINT("cube.upCells(1) =", cube.upCells(1));
-
-  PRINT("cube.upCells(2) =", cube.upCells(2));
-
-  PRINT("cube.upCells(3) =", cube.upCells(3));
-
-  PRINT("cube.upCells(7) =", cube.upCells(7));
-
-  PRINT("cube.downCells(14) =", cube.downCells(14));
-
-  PRINT("cube.downCells(7) =", cube.downCells(7));
+  cubes.draw((function() {
+    _results = [];
+    for (_i = 0; _i <= 150; _i++){ _results.push(_i); }
+    return _results;
+  }).apply(this));
 
   /*
+  
+  PRINT "test =", uknode(tetra) 0
+  PRINT "test =", uknode(tetra) 3
+  PRINT "test =", uknode(tetra) 5
+  PRINT "test =", uknode(tetra) 12
+  
+  
+  PRINT "cube =", cube
+  PRINT "cube.nodes =", cube.nodes
+  PRINT "cube.up =", cube.up
+  PRINT "cube.down =", cube.down
+  PRINT "cube.cellsPerLevel(0) =", cube.cellsPerLevel(0)
+  PRINT "cube.cellsPerLevel(1) =", cube.cellsPerLevel(1)
+  PRINT "cube.cellsPerLevel(3) =", cube.cellsPerLevel(3)
+  PRINT "cube.upCells(0) =", cube.upCells(0)
+  PRINT "cube.upCells(1) =", cube.upCells(1)
+  PRINT "cube.upCells(2) =", cube.upCells(2)
+  PRINT "cube.upCells(3) =", cube.upCells(3)
+  PRINT "cube.upCells(7) =", cube.upCells(7)
+  PRINT "cube.downCells(14) =", cube.downCells(14)
+  PRINT "cube.downCells(7) =", cube.downCells(7)
+  
+  
+  ##
   
   CELLSPERLEVEL = (g) -> (h) ->
   	g.faces.dictos[h]
@@ -222,9 +112,6 @@
   			[first, last] = [FIRST tuples[k], LAST tuples[k]]
   	groups
   
-  sorted = (list) ->
-  	numerically = (a,b) -> a-b
-  	list.sort numerically
   
   DOWNTRAVERSE = (g, nrecursion, cell, h,up,down) ->
   	PRINT "g, nrecursion, cell, h,up,down =", [g, nrecursion, cell, h,up,down]
@@ -236,7 +123,7 @@
   		for Down in down[h][cell] 
   			ret.push ([cell] + L for L in multiTraverse(g, nrecursion-1, h-1, Down))
   		CAT ret
-  	grouping sorted AA(REVERSE) multiTraverse(g, nrecursion, cell, h)
+  	grouping SORTED AA(REVERSE) multiTraverse(g, nrecursion, cell, h)
   
   
   # The input SimplicialComplex is called `g`.

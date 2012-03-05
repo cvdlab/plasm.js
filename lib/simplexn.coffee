@@ -507,6 +507,7 @@ class Graph extends SimplicialComplex
 		@nodes = mknodes object
 		[@up, @down] = mkarcs  object
 		@firstNodePerLevel = (@nodes[k][0] for k in [0..object.faces.dim])
+		@closeChainCycle()
 
 	# Method to return the *array of nodes* associated to a given `level` *k* of the graph *(0 <= k <= d)*
 	cellsPerLevel: (level) -> 
@@ -531,6 +532,15 @@ class Graph extends SimplicialComplex
 		while @firstNodePerLevel[k] <= node
 			k += 1
 		[k-1, node - @firstNodePerLevel[k-1]]
+
+	ancestor = (graph) -> (d_times) -> (node) -> 
+		out = graph.upCells(node)
+		k = 1
+		while k < d_times
+			nod = SET CAT (graph.upCells n for n in out)
+			out = nod
+			k += 1
+		out
 
 	# Helper used by the `draw` method. This method gets an unordered array of graph `nodes` as input, and returns 
 	# the `chains` array as output, where the input `nodes` are reordered into a list of lists according to their dimension
@@ -562,8 +572,11 @@ class Graph extends SimplicialComplex
 		for k in [0..@object.faces.dim]
 			if chains[k].length isnt 0
 				cells = (node - @firstNodePerLevel[k] for node in chains[k])
-				k_faces = (@object.faces.cells[k][h] for h in cells)
-				obj.push new SimplicialComplex(verts, k_faces)
+				if k > 0
+					h_faces = (@object.faces.cells[k][h] for h in cells)
+				else
+					h_faces = ([h] for h in cells)
+				obj.push new SimplicialComplex(verts, h_faces)
 		model = viewer.draw obj
 
 	# Helper function (used by the `constructor` method) to generate the nodes of the graph 
@@ -587,11 +600,22 @@ class Graph extends SimplicialComplex
 			nodes = object.faces.cells[k].length
 			up[k] = ([] for h in [0...nodes])
 			down[k] = ([] for h in [0...nodes])
+		# insert up and down arcs along the chain from 0 cells to d cells
 		for k in [1..d]
 			for pair in object.faces.homology[k]
 				up[k-1][pair[1]].push pair[0]
 				down[k][pair[0]].push pair[1]
 		[up,down]
+		
+
+	closeChainCycle: () ->
+		d = @object.faces.dim
+		# insert up-arcs from d-cells to 0-cells
+		d_cells = (node - @firstNodePerLevel[d] for node in @cellsPerLevel(d))
+		@up[d] = (@object.faces.cells[d][cell] for cell in d_cells)
+		# insert down-arcs from 0-cells to d-cells
+		# conversion from *node-id* to *cell-id* is not needed for level 0
+		@down[0] = (ancestor(@)(d) cell for cell in @cellsPerLevel(0))
 
 # Make the `Graph` class globally visible 
 root.Graph = Graph

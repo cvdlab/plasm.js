@@ -6,59 +6,26 @@
 # The source for [Plasm.js](https://github.com/cvd-lab/) is available on GitHub,
 # and released under the MIT license.
 # <HR>
-
-###
-tether = (graph) -> (nodes) ->
-	nodes = SORTED nodes
-	d = graph.object.faces.dim
-	chains = ([] for k in [0..d])
-	[k,h] = [0,0]
-	firstNodes = graph.firstNodePerLevel
-	n = firstNodes.length - 1
-	while h < nodes.length
-		if firstNodes[k] <= nodes[h] < firstNodes[k+1] 
-			chains[k].push nodes[h]
-			h += 1
-		else if firstNodes[n] <= nodes[h] 
-			chains[n].push nodes[h]
-			h += 1
-		else			 
-			k += 1
-	chains	
 	
-draw = (graph) -> (chains) -> 
-	verts = graph.object.vertices.verts
-	chains = tether(graph) (chains)
-	obj = []
-	for k in [0..graph.object.faces.dim]
-		if chains[k].length isnt 0
-			cells = (node - graph.firstNodePerLevel[k] for node in chains[k])
-			k_faces = (graph.object.faces.cells[k][h] for h in cells)
-			obj.push new SimplicialComplex(verts, k_faces)
-	model = viewer.draw obj
-###
-	
-
 tetra = new Graph SIMPLEX 3
 cube = new Graph CUBE 3
 cubes = new Graph SIMPLEXGRID [[1,-1,1],[1,-1,1],[1,-1,1]]
+cubes.draw CAT (AL [k, cubes.upCells(k)] for k in [1, 12, 24, 36, 120, 160])
 
+PRINT "tetra =", tetra
+PRINT "tetra.firstNodePerLevel =", tetra.firstNodePerLevel
+PRINT "tetra.uknode(14) =", tetra.uknode(14)
 
-
+###
 PRINT "tetra =", tetra
 PRINT "tetra.firstNodePerLevel =", tetra.firstNodePerLevel
 PRINT "tetra =", tetra.tether [0,3,4,5,12,13]
 cubes.draw [0..150]
 
-
-
-###
-
 PRINT "test =", uknode(tetra) 0
 PRINT "test =", uknode(tetra) 3
 PRINT "test =", uknode(tetra) 5
 PRINT "test =", uknode(tetra) 12
-
 
 PRINT "cube =", cube
 PRINT "cube.nodes =", cube.nodes
@@ -74,8 +41,6 @@ PRINT "cube.upCells(3) =", cube.upCells(3)
 PRINT "cube.upCells(7) =", cube.upCells(7)
 PRINT "cube.downCells(14) =", cube.downCells(14)
 PRINT "cube.downCells(7) =", cube.downCells(7)
-
-
 ##
 
 CELLSPERLEVEL = (g) -> (h) ->

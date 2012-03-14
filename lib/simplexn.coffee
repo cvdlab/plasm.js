@@ -97,11 +97,11 @@ root.TAIL = TAIL = (args) -> if args.length > 0 then args.splice 1, args.length-
 # **BUTLAST** returns the non-empty `args` array but its *last* element
 root.BUTLAST = BUTLAST = (args) -> if args.length > 1 then REVERSE TAIL REVERSE args else []
 
-# **AL** append left. appends `elem` on the left of `array`
-root.AL = AL = (args) -> [array, elem] = args; CAT [array, elem]
-
 # **AR** append right. appends `elem` on the right of `seq`
-root.AR = AR = (args) -> [elem, array] = args;  CAT [elem, array]
+root.AR = AR = (args) -> [array, elem] = args; CAT [array, elem]
+
+# **AL** append left. appends `elem` on the left of `array`
+root.AL = AL = (args) -> [elem, array] = args;  CAT [elem, array]
 
 # **REPEAT** repetition operator. Returns an array with `n` repetitions of `arg`
 root.REPEAT = REPEAT = (n) -> 
@@ -379,7 +379,7 @@ class Topology
 		out
 	# Computes the *(h-1)*-skeleton of the array `h_cells` 
 	skeltn = (h_cells) -> 
-		remove_duplicates CAT (facets cell for cell in h_cells)
+		SORTED remove_duplicates CAT (facets cell for cell in h_cells)
 	
 	# To compute all the skeletons of a simplicial *d*-complex starting from the 
 	# array `d_cells` of higest dimensional cells. It is used by the instance constructor
@@ -504,10 +504,16 @@ class Graph extends SimplicialComplex
 		# *	two array `up` and `down` of arrays of adjacent nodes, indexed on the nodes of the graph:
 		# *	the array `firstNodePerLevel` containing the first node of each dimension (said *level*). 
 		@object = object
-		@nodes = mknodes object
-		[@up, @down] = mkarcs  object
+		[@nodes,@maxnode] = mknodes object
 		@firstNodePerLevel = (@nodes[k][0] for k in [0..object.faces.dim])
-		@closeChainCycle()
+		if @object.faces.dim == 0
+			@up = new Array(); 
+			@up[0] = ([] for k in [0...@object.vertices.m])
+			@down = new Array(); 
+			@down[0] = ([] for k in [0...@object.vertices.m])
+		else if @object.faces.dim > 0
+			[@up, @down] = mkarcs  object
+			@closeChainCycle()
 
 	# Method to return the *array of nodes* associated to a given `level` *k* of the graph *(0 <= k <= d)*
 	cellsPerLevel: (level) -> 
@@ -583,12 +589,11 @@ class Graph extends SimplicialComplex
 	mknodes = (object) ->
 		counter = 0
 		nodes = ([[] for h in [0...object.faces.cells[k].length]] for k in [0...object.faces.cells.length])
-		add1 = (n) -> n+1
 		for k_cells,k in object.faces.cells
 			for cells,h in k_cells
 				nodes[k][h] = counter
-				counter = add1 counter
-		nodes
+				counter += 1
+		[nodes,counter]
 
 	# Helper function (used by the `constructor` method) to generate the representation of graph 
 	# arcs as *node-adjacency* arrays.
@@ -616,6 +621,35 @@ class Graph extends SimplicialComplex
 		# insert down-arcs from 0-cells to d-cells
 		# conversion from *node-id* to *cell-id* is not needed for level 0
 		@down[0] = (ancestor(@)(d) cell for cell in @cellsPerLevel(0))
+		
+	addNode: (level) ->
+		@nodes[level].push @maxnode
+		[k,n] = @uknode @maxnode
+		@up[k][n] = []
+		@down[k][n] = []
+		@maxnode++
+		
+	addArc: (node1,node2) -> 
+		[k1,n1] = @uknode node1
+		[k2,n2] = @uknode node2
+		
+		if k1 < k2
+			@up[k1][n1].push n2
+			@down[k2][n2].push n1
+		else if k1 > k2
+			@down[k1][n1].push n2
+			@up[k2][n2].push n1
+		else throw new Error("No edge may joins two nodes on the same level.") 
+		
+	cellByVerts: (node) ->
+		[k,n] = @uknode node
+		verts = [n]
+		for j in [k...0]
+			out = []
+			out.push @down[k][n] for n in verts
+			verts = SET out
+		verts
+			
 
 # Make the `Graph` class globally visible 
 root.Graph = Graph

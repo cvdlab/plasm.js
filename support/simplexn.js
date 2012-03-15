@@ -21,7 +21,6 @@
   var random = Math.random;
   var floor = Math.floor;
 
-
   /**
    * Library namespace.
    */
@@ -38,6 +37,7 @@
    * utils namespace
    * @api private
    */
+
   simplexn._utils = {};
 
   /**
@@ -48,6 +48,7 @@
    * @return {Array} array
    * @api private
    */
+
   var _flat =
   simplexn._utils._flat = function (arrays) {
     var res = [];
@@ -94,7 +95,6 @@
     array[i1] = array[i2];
     array[i2] = tmp;
   };
-
 
   /**
    * _quickSort
@@ -168,6 +168,151 @@
   };
 
   /**
+   * vector operations namespace
+   * @api public
+   */
+
+  simplexn.vector = {};
+
+  /**
+   * add
+   * 
+   * @param {Array|Float32Array|Uint32Array} v1
+   * @param {Array|Float32Array|Uint32Array} v2
+   * @return {Array|Float32Array|Uint32Array}
+   * @api public
+   */
+
+  var vectorAdd =
+  simplexn.vector.add = function (v1, v2) {
+    var rn = v1.length;
+    var res = new v1.constructor(rn);
+    var i;
+
+    for (var i = 0; i < rn; i += 1) {
+      res[i] = v1[i] + v2[i];
+    };
+
+    return res;
+  }
+
+  /**
+   * sub
+   * 
+   * @param {Array|Float32Array|Uint32Array} v1
+   * @param {Array|Float32Array|Uint32Array} v2
+   * @return {Array|Float32Array|Uint32Array}
+   * @api public
+   */
+
+  var vectorSub =
+  simplexn.vector.sub = function (v1, v2) {
+    var rn = v1.length;
+    var res = new v1.constructor(rn);
+    var i;
+
+    for (var i = 0; i < rn; i += 1) {
+      res[i] = v1[i] - v2[i];
+    };
+
+    return res;
+  }
+
+  /**
+   * mul
+   * 
+   * @param {Array|Float32Array|Uint32Array} v1
+   * @param {Array|Float32Array|Uint32Array} v2
+   * @return {Array|Float32Array|Uint32Array}
+   * @api public
+   */
+
+  var vectorMul =
+  simplexn.vector.mul = function (v1, v2) {
+    var rn = v1.length;
+    var res = new v1.constructor(rn);
+    var i;
+
+    for (var i = 0; i < rn; i += 1) {
+      res[i] = v1[i] * (v2[i] || 1);
+    };
+
+    return res;
+  }
+
+  /**
+   * scalarMul
+   * 
+   * @param {Number} scalar
+   * @param {Array|Float32Array|Uint32Array} v
+   * @return {Array|Float32Array|Uint32Array}
+   * @api public
+   */
+
+  var vectorScalarMul =
+  simplexn.vector.scalarMul = function (scalar, v) {
+    var rn = v.length;
+    var res = new v.constructor(rn);
+    var i;
+
+    for (var i = 0; i < rn; i += 1) {
+      res[i] = scalar * v[i];
+    };
+
+    return res;
+  }
+
+  /**
+   * scalarDiv
+   * 
+   * @param {Number} scalar
+   * @param {Array|Float32Array|Uint32Array} v
+   * @return {Array|Float32Array|Uint32Array}
+   * @api public
+   */
+
+  var vectorScalarDiv =
+  simplexn.vector.scalarDiv = function (scalar, v) {
+    var rn = v.length;
+    var res = new v.constructor(rn);
+    var i;
+
+    for (var i = 0; i < rn; i += 1) {
+      res[i] = v[i] / scalar;
+    };
+
+    return res;
+  }
+
+  /**
+   * average
+   * 
+   * @param {Array} vectors
+   * @return {Array|Float32Array|Uint32Array}
+   * @api public
+   */
+
+  var vectorAvg =
+  simplexn.vector.avg = function (vectors) {
+    var vectors = vectors || [[]];
+    var length = vectors.length;
+    var rn = vectors[0].length;
+    var res = new vectors[0].constructor(rn);
+    var i;
+
+    for (i = 0; i < rn; i += 1) {
+      res[i] = 0;
+    }
+
+    res = vectors.reduce(vectorAdd, res);
+    res = vectorScalarDiv(length, res);
+
+    return res;
+  }
+
+
+
+  /**
    * PointSet
    * 
    * @constructor
@@ -176,6 +321,7 @@
    * @api public
    */
 
+  var PointSet = 
   simplexn.PointSet = function (points, rn) {
     points = points || [[]];
     if (typeof points === 'number') {
@@ -207,7 +353,7 @@
    */
 
   simplexn.PointSet.prototype.clone = function () {
-    var clone = new simplexn.PointSet();
+    var clone = new PointSet();
     clone.size = this.size;
     clone.rn = this.rn;
     clone.points = new Float32Array(this.points);
@@ -340,7 +486,7 @@
     }
 
     filtered = filtered.subarray(0, k);
-    pointset = new simplexn.PointSet();
+    pointset = new PointSet();
     pointset.points = filtered;
     pointset.rn = rn;
     pointset.size = k / rn;
@@ -468,11 +614,12 @@
   simplexn.PointSet.prototype.translate = function (dims, values) {
     var points = this.points 
     var length = points.length;
+    var dimsLength = dims.length;
     var rn = this.rn;
     var i, j;
 
     for (i = 0; i < length; i += rn) {
-      for (j = 0; j < dims; j += 1) {
+      for (j = 0; j < dimsLength; j += 1) {
         points[i+dims[j]] += values[j]; 
       }
     }
@@ -532,6 +679,7 @@
    * @api public
    */
 
+  var Topology = 
   simplexn.Topology = function (complex, dim) {
     this._computeTopology(complex, dim);
   }
@@ -657,7 +805,7 @@
    */
 
   simplexn.Topology.prototype.clone = function () {
-    var clone = new simplexn.Topology();
+    var clone = new Topology();
     var dim = this.dim;
     var complexes = new Array();
     var i;
@@ -789,12 +937,13 @@
    * @api public
    */
 
+  var SimplicialComplex =
   simplexn.SimplicialComplex = function (points, complex) {
     var points = points || [[]];
     var complex = complex || [[]];
 
-    this.pointset = new simplexn.PointSet(points);
-    this.topology = new simplexn.Topology(complex);
+    this.pointset = new PointSet(points);
+    this.topology = new Topology(complex);
   };
 
   /**
@@ -910,7 +1059,7 @@
    */
 
   simplexn.SimplicialComplex.prototype.clone = function () {
-    var clone = new simplexn.SimplicialComplex();
+    var clone = new SimplicialComplex();
     clone.pointset = this.pointset.clone();
     clone.topology = this.topology.clone();
     return clone;
@@ -957,8 +1106,9 @@
    * 
    * @param {Array|Float32Array} hlist which must be made by positive numbers 
    *   or by an alternation of positive and negative numbers
+   * @param {Function} orient
    * @return {simplexn.SimplicialComplex} this for chaining
-   * @api public
+   * @api private
    */
 
   simplexn.SimplicialComplex.prototype.extrude = function (hlist) {
@@ -978,7 +1128,7 @@
     var newPoints = new Float32Array(newPointsLength);
 
     var newPointsetSize = (hlistLength + 1 - (hlist0isNegative)) * pointsetSize;
-    var newPointset = new simplexn.PointSet(newPointsetSize, newRn);
+    var newPointset = new PointSet(newPointsetSize, newRn);
 
     var oldDim = this.dim;
     var newDim = oldDim + 1; 
@@ -1000,6 +1150,10 @@
     var end;
     var quote = 0;
     var h, v, c, i, j;
+
+    for (i = 0; i < complexLength; i += cellLength) {
+      _quickSort(complex.subarray(i, i + cellLength));
+    }
 
     this.embed();
     oldEmbeddedPoints = this.pointset.points;
@@ -1032,13 +1186,10 @@
               newComplex[cIndx++] = temp[j];
             }
             // take care of orientation
-            if (((cellLength - 1) * i) & 1) {
+            if (((newDim & 1) * (c) + (oldDim & 1) * i) & 1) {
               exchange1 = cIndx - 1;
-              // exchange2 = cIndx - (cellLength + 1);
               exchange2 = exchange1 - 1;
-              // newComplex[exchange1] ^= newComplex[exchange2];
-              // newComplex[exchange2] ^= newComplex[exchange1];
-              // newComplex[exchange1] ^= newComplex[exchange2];
+              _swap(newComplex, exchange1, exchange2);
             }
           }
         }
@@ -1046,44 +1197,100 @@
     }
 
     this.pointset = newPointset;
-    this.topology = new simplexn.Topology(newComplex, newDim);
+    this.topology = new Topology(newComplex, newDim);
     return this;
   };
 
   /**
-   * explode
-   * 
-   * @param {Array|Uint32Array} dims
-   * @param {Array|Float32Array} values
-   * @return {simplexn.PointSet} this for chaining
-   * @api public
+   * centroids
+   * Return a PointsSet of centroids of dim-cells.
    */
 
   simplexn.SimplicialComplex.prototype.getFacet = function (dim, index) {
     var topology = this.topology;
-    var pointset = this.vertices;
-    var facets = this.topology[dim];
-    var facet = facets.subarray(dim*index, dim*index + dim);
-    var vertices = new Array(dim);
+    var pointset = this.pointset;
+    var cells = this.topology.complexes[dim];
+    var size = dim + 1;
+    var start = size*index;
+    var cell = cells.subarray(start, start + size);
+    var facet = [];
+    var i;
 
-    for (var i = 0; i < dim; i += 1) {
-      vertices[i] = pointset.get(facet[i]);
+    for (i = 0; i < size; i += 1) {
+      facet.push(pointset.get(cell[i]));
     }
 
-    return vertices;
+    return facet;
   };
 
-  simplexn.SimplicialComplex.prototype.explode = function (dims, values) {
-    var exploded = this.clone().scale(dims, values);
-    var dim = this.topology.length - 1;
-    var cells = this.topology[dim];
-    var exploded_cells = exploded.topology[dim];
+  /**
+   * centroids
+   * Return a PointsSet of centroids of dim-cells.
+   * 
+   * @param {Number} [dim=this.dim]
+   * @return {simplexn.PointSet}
+   * @api public
+   */
 
-    for (var i = 0; i < cells.length; i += dim) {
-      // TODO: waiting for refactoring,
+  simplexn.SimplicialComplex.prototype.centroids = function (dim) {
+    var dim = dim || this.dim;
+    var cellSize = dim + 1;
+    var cellsSize = this.topology.complexes[dim].length / cellSize;
+    var centroids = new PointSet(cellsSize, this.rn);
+    var i;
+    var centroid;
+
+    for (i = 0; i < cellsSize; i += 1) {
+      centroid = vectorAvg(this.getFacet(dim, i));
+      centroids.set(centroid, i);
     }
 
-    return this;
+    return centroids;
+
+  };
+
+  /**
+   * explode
+   *
+   * @param {Array|Float32Array} values
+   * @return {simplexn.SimplicialComplex} this for chaining
+   * @api public
+   */
+
+  simplexn.SimplicialComplex.prototype.explode = function (values) {
+    var dim = this.dim;
+    var values = values || [];
+    var cell;
+    var cellSize = dim + 1;
+    var cells = this.topology.complexes[dim];
+    var cellsSize = cells.length / cellSize;
+    var newCell, newCells = [];
+    var pointset = this.pointset;
+    var newPointset = new PointSet(cellsSize*cellSize, this.rn);
+    var centroids = this.centroids();
+    var centroid;
+    var translatedCentroid;
+    var translationVect;
+    var c, i;
+    var indx = 0;
+
+    for (c = 0; c < cellsSize; c += 1) {
+      cell = cells.subarray(c*cellSize, c*cellSize + cellSize);
+      newCell = [];
+      centroid = centroids.get(c);
+      translatedCentroid = vectorMul(centroid, values);
+      translationVect = vectorSub(translatedCentroid, centroid);
+      for (i = 0; i < cellSize; i += 1) {
+        newCell.push(indx);
+        newPointset.set(vectorAdd(pointset.get(cell[i]), translationVect), indx);
+        indx++;
+      }
+      newCells.push(newCell);
+    }
+
+    this.pointset = newPointset;
+    this.topology = new Topology(newCells);
+    return this.merge();
   };
 
   /**
@@ -1118,9 +1325,56 @@
   simplexn.geometries = {};
 
   /**
+   * simplex
+   * 
+   * @param {number} d
+   * @return {simplexn.SimplicialComplex} a simplex
+   * @api public
+   */
+
+  var simplex =
+  simplexn.geometries.simplex = function (d) {
+    var d = d !== undefined ? d + 1 : 1;
+    var dim = d;
+    var points0 = [];
+    var points = [];
+    var cells = [];
+
+    while (d--) {
+      points0.push(0);
+      cells.unshift(d);
+    }
+
+    points =  numeric.identity(dim);
+    points.unshift(points0);
+
+    return new SimplicialComplex(points, [cells]);
+  }
+
+  /**
+   * polyline
+   * 
+   * @param {Array} points
+   * @return {simplexn.SimplicialComplex} a simplex
+   * @api public
+   */
+
+  var polyline =
+  simplexn.geometries.polyline = function (points) {
+    var points = points || [[]];
+    var n = points[0].length;
+    var cells = [];
+
+    while (n--) cells.unshift([n, n+1]);
+
+    return (new SimplicialComplex(points, cells)).merge();
+  };
+
+  /**
    * simplexGrid
    * 
-   * @param {Array} quotesList is a list of hlist which must be made by positive numbers or by an alternation of positive and negative numbers
+   * @param {Array} quotesList is a list of hlist which must be made by positive numbers 
+  *                 or by an alternation of positive and negative numbers
    * @return {simplexn.SimplicialComplex} a grid of simplexes
    * @api public
    */
@@ -1132,6 +1386,7 @@
     var quotesListHead0 = quotesListHead[0];
     var quotesListHead0isNeg = quotesListHead0 <= 0;
     var points = quotesListHead0isNeg ? [] : [[0]];
+    var length = quotesList.length;
     var complex = [];
     var simpcomp;
     var quote = 0;
@@ -1146,7 +1401,7 @@
       }
     });
 
-    simpcomp = new simplexn.SimplicialComplex(points, complex);
+    simpcomp = new SimplicialComplex(points, complex);
 
     quotesList.forEach(function (quotes) {
       simpcomp.extrude(quotes);
@@ -1165,7 +1420,7 @@
 
   simplexn.geometries.cuboid = function (sides) {
     sides = sides.map(function (s) { return [s]; });
-    return simplexn.geometries.simplexGrid(sides);
+    return simplexGrid(sides);
   };
 
   /**
@@ -1183,13 +1438,13 @@
     
     while (n--) values.push(value);
 
-    return simplexn.geometries.simplexGrid([values]);
+    return simplexGrid([values]);
   };
 
   /**
    * cube
    * 
-   * @param {Number} dim
+   * @param {Number} d
    * @return {simplexn.SimplicialComplex} a dim-dimendional cube
    * @api public
    */
@@ -1198,7 +1453,7 @@
     var d = d || 1;
     var quotes = [];
     while (d--) quotes.push([1]);
-    return simplexn.geometries.simplexGrid(quotes);
+    return simplexGrid(quotes);
   };
 
   /**
@@ -1244,7 +1499,7 @@
 
     while (n--) nQuotes.push(nQuote);
     while (m--) mQuotes.push(mQuote);
-    domain = simplexn.geometries.simplexGrid([nQuotes,mQuotes]);
+    domain = simplexGrid([nQuotes,mQuotes]);
     domain.map(function (coords) {
       var u = coords[0];
       var v = coords[1];
@@ -1284,6 +1539,41 @@
   };
 
   /**
+   * cylinderSolid
+   * Produces a solid cylindrer with radius r and heigth h.
+   *
+   * @param {Number} [R=1] 
+   * @param {Number} [r=0]
+   * @param {Number} [h=1]
+   * @param {Number} [n=16]
+   * @param {Number} [m=1]
+   * @param {Number} [p=1] 
+   * @return {simplexn.SimplicialComplex} a cylinder
+   * @api public
+   */
+
+  var cilinderSolid =
+  simplexn.geometries.cylinderSolid = function (R, r, h, n, m, p) {
+    var R = R || 1.; 
+    var r = r || 0.; 
+    var h = h || 1.;
+    var n = n || 16;
+    var m = m || 1;
+    var p = p || 1; 
+    var domain = simplexGrid([_repeat(2*pi/n, n), _repeat((R-r)/m, m), _repeat(h/p, p)]);
+    
+    domain.translate([1],[r]).map(function(v) {
+      return [
+        v[1] * sin(v[0])
+      , v[1] * cos(v[0])
+      , v[2]
+      ];
+    }, true);
+
+    return domain;
+  };
+
+  /**
    * torusSurface
    *
    * produces a toroidal surface of radiuses r,R 
@@ -1293,12 +1583,14 @@
    * @param {Number} [R=3] r
    * @param {Number} [n=12] n
    * @param {Number} [m=8] m
+   * @return {simplexn.SimplicialComplex} torus surface
+   * @api public
    */
 
-  var torusSurface = 
-  simplexn.geometries.torusSurface = function (r, R, n, m) {
-    var r = r || 1;
-    var R = R || 3;
+  var torusSurface =
+  simplexn.geometries.torusSurface = function (R, r, n, m) {
+    var R = R || 1.5;
+    var r = r || 0.5;
     var n = n || 12;
     var m = m || 8;
     var domain = simplexGrid([ _repeat(2*pi/n, n), _repeat(2*pi/m, m)]);
@@ -1325,9 +1617,11 @@
   * @param {Number} [n=12] n
   * @param {Number} [m=8] m
   * @param {Number} [p=8] p
+  * @return {simplexn.SimplicialComplex} torus solid
+  * @api public
   */
 
-  var torusSurface = 
+  var torusSolid = 
   simplexn.geometries.torusSolid = function (r, R, n, m, p) {
     var r = r || 1;
     var R = R || 3;
@@ -1347,5 +1641,82 @@
     return domain;
   };
 
+  /**
+   * triangleStrip
+   * 
+   * @param {Array} points
+   * @return {simplexn.SimplicialComplex} triangle strip
+   * @api public
+   */
+
+  var triangleStrip = 
+  simplexn.geometries.triangleStrip = function (points) {
+    var n = points.length;
+    var cells = [];
+    var i;
+    
+    for (i = 2; i < n; i += 1) {
+      if (cells.length & 1) {
+        cells.push([i-1, i-2, i-0]);
+      }
+      else {
+        cells.push([i-2, i-1, i-0]);
+      }
+    }
+
+    return new SimplicialComplex(points, cells);
+  };
+
+
+  /**
+   * triangleFan
+   * 
+   * @param {Array} points
+   * @return {simplexn.SimplicialComplex} triangle strip
+   * @api public
+   */
+
+  var triangleFan = 
+  simplexn.geometries.triangleFan = function (points) {
+    var n = points.length;
+    var cells = [];
+    var i;
+    
+    for (i = 2; i < n; i += 1) {
+      cells.push([0, i-1, i]);
+    }
+
+    return new SimplicialComplex(points, cells);
+  };
+
+  /**
+   * helix
+   *
+   * @param {Number} [r=1] r
+   * @param {Number} [pitch=1] pitch
+   * @param {Number} [n=24] n
+   * @param {Number} [turns=1] turns
+   * @return {simplexn.SimplicialComplex} helix
+   * @api public
+   */
+
+  var helix = 
+  simplexn.geometries.helix = function (r, pitch, n, turns) {
+    var r = r || 1;
+    var pitch = pitch || 1;
+    var n = n || 24;
+    var turns = turns || 8;
+    var domain = intervals(2*pi*turns, n*turns);
+
+    domain.map(function (v) {
+      return [
+          r * sin(v[0])
+        , r * cos(v[0])
+        , pitch / (2*pi) * v[0]
+      ];
+    }, true);
+
+    return domain;
+  };
 
 }(this));

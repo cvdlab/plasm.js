@@ -27,6 +27,7 @@ header {
   color: #efefef; 
 }
 
+<<<<<<< HEAD
 #plasm-stats {
   position: absolute;
   bottom: 7px;
@@ -34,4 +35,10 @@ header {
 }
 
 footer {
+=======
+#plasm-inspector {
+  position: absolute;
+  bottom: 11px;
+  right: 7px;
+>>>>>>> plasm-simplexn
 }

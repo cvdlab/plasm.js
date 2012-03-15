@@ -25,7 +25,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     , boundingRadius = 10
     , resetPosition = object.position.clone()
     , resetMatrix = object.matrix.clone()
-    , resetUp = object.up.clone()
+    , resetUp = new THREE.Vector3(0,0,1)
     , light = new THREE.SpotLight(0xcccccc);
     ;
 
@@ -365,5 +365,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
 
   window.addEventListener( 'keydown', keydown, false );
   window.addEventListener( 'keyup', keyup, false );
+
+  this.resetCamera();
 
 };

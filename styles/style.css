@@ -1,0 +1,34 @@
+body {
+  overflow: hidden;
+}
+
+header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 40px;
+  opacity: .80;
+  background-color: black;
+  z-index: 2000;
+}
+
+#plasm {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+#plasm-logo {
+  padding-top: 7px;
+  padding-left: 7px;
+  font-size: 30px; 
+  color: #efefef; 
+}
+
+#plasm-inspector {
+  position: absolute;
+  bottom: 11px;
+  right: 7px;
+}

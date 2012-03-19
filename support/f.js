@@ -1053,7 +1053,7 @@
       var i;
 
       for (i = 0; i < n; i += 1) {
-        result[i] = vector.slice(i*m, m);
+        result[i] = vector.slice(i*m, i*m+m);
       }
       
       return result;

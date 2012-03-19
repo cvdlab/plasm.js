@@ -998,7 +998,7 @@
 
     for (i = 0; i < n; i += 1) {
       result[i] = [];
-      for (j = 0; j < m; j += 1) {
+      for (j = 0; j < n; j += 1) {
         result[i][j] = (i === j) ? 1 : 0;
       }
     }

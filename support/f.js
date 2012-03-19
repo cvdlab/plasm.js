@@ -205,8 +205,8 @@
   };
 
   /**
-   * insl
-   * insert left operator  
+   * insr
+   * insert right operator  
    * given a binary associative `operator` 
    * returns a function that given an array 
    * returns the right riduction of the array by the operator.
@@ -1013,7 +1013,7 @@
    * @param {Array} pair
    * @param {Array} [pair[0]] u
    * @param {Array} [pair[1]] v
-   * @return {Array} the vector product of of the given vectors
+   * @return {Array} the vector product of the given vectors
    * @api public
    */
 
@@ -1023,9 +1023,9 @@
     var v = pair[1];
     var result = [];
 
-    result[0] = u[0]*v[1] - u[1]*v[0]
+    result[0] = u[1]*v[2] - u[2]*v[1]
     result[1] = u[2]*v[0] - u[0]*v[2]
-    result[2] = u[0]*v[2] - u[2]*v[0]
+    result[2] = u[0]*v[1] - u[1]*v[0]
 
     return result;
   };

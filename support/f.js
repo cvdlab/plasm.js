@@ -30,9 +30,9 @@
    * @api public
    */
   
-  ƒ.apply = function () {
-    var f = arguments[0];
-    var x = arguments[1];
+  ƒ.apply = function (args) {
+    var f = args[0];
+    var x = args[1];
     return f(x);
   };
 

@@ -973,7 +973,7 @@
 
     for (i = 0; i < n; i += 1) {
       for (j = 0; j < m; j += 1) {
-        for (k = 0; k < m; j += 1) {
+        for (k = 0; k < m; k += 1) {
           result[i][j] += m1[i][k] * m2[k][j];
         }
       }

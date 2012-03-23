@@ -623,6 +623,11 @@ class Graph extends SimplicialComplex
 		@down[0] = (ancestor(@)(d) cell for cell in @cellsPerLevel(0))
 		
 	addNode: (level) ->
+		if (@nodes.length-1) < level
+			@nodes[level] = []
+			@firstNodePerLevel[level] = @maxnode
+			@up[level] = []
+			@down[level] = []
 		@nodes[level].push @maxnode
 		[k,n] = @uknode @maxnode
 		@up[k][n] = []
@@ -633,13 +638,14 @@ class Graph extends SimplicialComplex
 		[k1,n1] = @uknode node1
 		[k2,n2] = @uknode node2
 		
-		if k1 < k2
+		if k1 != k2
 			@up[k1][n1].push n2
 			@down[k2][n2].push n1
 		else if k1 > k2
 			@down[k1][n1].push n2
 			@up[k2][n2].push n1
-		else throw new Error("No edge may joins two nodes on the same level.") 
+		else 
+			throw new Error("No edge may joins two nodes on the same level.") 
 		
 	cellByVerts: (node) ->
 		[k,n] = @uknode node
@@ -665,14 +671,14 @@ root.Graph = Graph
 root.EMBED = EMBED = (n) -> (obj) -> (CLONE obj).embed(n)
 
 # **T** dimension-independent translation tensor. Return a translated deep copy of the input `obj`.
-root.T = T = (indices,values) -> (obj) -> (CLONE obj).t(indices,values)
+root.T = T = (indices) -> (values) -> (obj) -> (CLONE obj).t(indices,values)
 
 # **S** dimension-independent scaling tensor. Return a scaled deep copy of the input `obj`.
-root.S = S = (indices,values) -> (obj) -> (CLONE obj).s(indices,values)
+root.S = S = (indices) -> (values) -> (obj) -> (CLONE obj).s(indices,values)
 
 # **R** dimension-independent rotation tensor. Return a rotated deep copy of the input `obj`.
 # The rotation angle is given in radians
-root.R = R = (axes,angle) -> (obj) -> (CLONE obj).R(axes, angle)
+root.R = R = (axes) -> (angle) -> (obj) -> (CLONE obj).r(axes, angle)
 
 # **CENTROID** returns a point, i.e. the barycenter of the `obj`'s `face`, where the last one is given
 # as an array of vertex ids.
@@ -972,3 +978,22 @@ root.TORUSSOLID = TORUSSOLID = (r=1,R=3,n=8,m=16,p=1) ->
 	fz = ([u,v,w]) -> r * w * sin(u)
 	MAP( [fx, fy, fz] )( domain )
 
+root.INV = INV = (A) -> numeric.inv A
+root.PROD = PROD = (args) -> AA(MUL)(DISTL args)	
+root.VECTNORM 	= VECTNORM = (a) -> Math.sqrt SUM MUL [a,a]
+root.UNITVECT 	= UNITVECT = (a) -> PROD [1.0/(VECTNORM a), a]
+root.INNERPROD 	= INNERPROD = ([u, v]) -> SUM MUL [u, v]
+root.MATSUM 	= MATSUM = (args) -> AA(AA(SUM)) AA(TRANS) TRANS args
+root.MATPROD = MATPROD = ([A,B]) -> AA(AA(INNERPROD)) AA(DISTL) DISTR [A, TRANS B]
+root.IDNT = IDNT = (n) ->  MAT(n,n) AR [REPLICA(n-1)(AL [1, REPEAT(n) 0]), 1]
+root.VECTPROD = VECTPROD = ([u,v]) ->
+    w = new Array(3)
+    w[0] = u[1]*v[2] - u[2]*v[1]
+    w[1] = u[2]*v[0] - u[0]*v[2]
+    w[2] = u[0]*v[1] - u[1]*v[0]
+    w
+root.S0 = S0 = (args) -> args[0]
+root.S1 = S1 = (args) -> args[1]
+root.S2 = S2 = (args) -> args[2]
+root.S3 = S3 = (args) -> args[3]
+root.S4 = S4 = (args) -> args[4]

@@ -97,11 +97,11 @@ root.TAIL = TAIL = (args) -> if args.length > 0 then args.splice 1, args.length-
 # **BUTLAST** returns the non-empty `args` array but its *last* element
 root.BUTLAST = BUTLAST = (args) -> if args.length > 1 then REVERSE TAIL REVERSE args else []
 
-# **AL** append left. appends `elem` on the left of `array`
-root.AL = AL = (args) -> [array, elem] = args; CAT [array, elem]
-
 # **AR** append right. appends `elem` on the right of `seq`
-root.AR = AR = (args) -> [elem, array] = args;  CAT [elem, array]
+root.AR = AR = (args) -> [array, elem] = args; CAT [array, elem]
+
+# **AL** append left. appends `elem` on the left of `array`
+root.AL = AL = (args) -> [elem, array] = args;  CAT [elem, array]
 
 # **REPEAT** repetition operator. Returns an array with `n` repetitions of `arg`
 root.REPEAT = REPEAT = (n) -> 
@@ -379,7 +379,7 @@ class Topology
 		out
 	# Computes the *(h-1)*-skeleton of the array `h_cells` 
 	skeltn = (h_cells) -> 
-		remove_duplicates CAT (facets cell for cell in h_cells)
+		SORTED remove_duplicates CAT (facets cell for cell in h_cells)
 	
 	# To compute all the skeletons of a simplicial *d*-complex starting from the 
 	# array `d_cells` of higest dimensional cells. It is used by the instance constructor
@@ -504,10 +504,16 @@ class Graph extends SimplicialComplex
 		# *	two array `up` and `down` of arrays of adjacent nodes, indexed on the nodes of the graph:
 		# *	the array `firstNodePerLevel` containing the first node of each dimension (said *level*). 
 		@object = object
-		@nodes = mknodes object
-		[@up, @down] = mkarcs  object
+		[@nodes,@maxnode] = mknodes object
 		@firstNodePerLevel = (@nodes[k][0] for k in [0..object.faces.dim])
-		@closeChainCycle()
+		if @object.faces.dim == 0
+			@up = new Array(); 
+			@up[0] = ([] for k in [0...@object.vertices.m])
+			@down = new Array(); 
+			@down[0] = ([] for k in [0...@object.vertices.m])
+		else if @object.faces.dim > 0
+			[@up, @down] = mkarcs  object
+			@closeChainCycle()
 
 	# Method to return the *array of nodes* associated to a given `level` *k* of the graph *(0 <= k <= d)*
 	cellsPerLevel: (level) -> 
@@ -583,12 +589,11 @@ class Graph extends SimplicialComplex
 	mknodes = (object) ->
 		counter = 0
 		nodes = ([[] for h in [0...object.faces.cells[k].length]] for k in [0...object.faces.cells.length])
-		add1 = (n) -> n+1
 		for k_cells,k in object.faces.cells
 			for cells,h in k_cells
 				nodes[k][h] = counter
-				counter = add1 counter
-		nodes
+				counter += 1
+		[nodes,counter]
 
 	# Helper function (used by the `constructor` method) to generate the representation of graph 
 	# arcs as *node-adjacency* arrays.
@@ -616,6 +621,41 @@ class Graph extends SimplicialComplex
 		# insert down-arcs from 0-cells to d-cells
 		# conversion from *node-id* to *cell-id* is not needed for level 0
 		@down[0] = (ancestor(@)(d) cell for cell in @cellsPerLevel(0))
+		
+	addNode: (level) ->
+		if (@nodes.length-1) < level
+			@nodes[level] = []
+			@firstNodePerLevel[level] = @maxnode
+			@up[level] = []
+			@down[level] = []
+		@nodes[level].push @maxnode
+		[k,n] = @uknode @maxnode
+		@up[k][n] = []
+		@down[k][n] = []
+		@maxnode++
+		
+	addArc: (node1,node2) -> 
+		[k1,n1] = @uknode node1
+		[k2,n2] = @uknode node2
+		
+		if k1 != k2
+			@up[k1][n1].push n2
+			@down[k2][n2].push n1
+		else if k1 > k2
+			@down[k1][n1].push n2
+			@up[k2][n2].push n1
+		else 
+			throw new Error("No edge may joins two nodes on the same level.") 
+		
+	cellByVerts: (node) ->
+		[k,n] = @uknode node
+		verts = [n]
+		for j in [k...0]
+			out = []
+			out.push @down[k][n] for n in verts
+			verts = SET out
+		verts
+			
 
 # Make the `Graph` class globally visible 
 root.Graph = Graph
@@ -631,14 +671,14 @@ root.Graph = Graph
 root.EMBED = EMBED = (n) -> (obj) -> (CLONE obj).embed(n)
 
 # **T** dimension-independent translation tensor. Return a translated deep copy of the input `obj`.
-root.T = T = (indices,values) -> (obj) -> (CLONE obj).t(indices,values)
+root.T = T = (indices) -> (values) -> (obj) -> (CLONE obj).t(indices,values)
 
 # **S** dimension-independent scaling tensor. Return a scaled deep copy of the input `obj`.
-root.S = S = (indices,values) -> (obj) -> (CLONE obj).s(indices,values)
+root.S = S = (indices) -> (values) -> (obj) -> (CLONE obj).s(indices,values)
 
 # **R** dimension-independent rotation tensor. Return a rotated deep copy of the input `obj`.
 # The rotation angle is given in radians
-root.R = R = (axes,angle) -> (obj) -> (CLONE obj).R(axes, angle)
+root.R = R = (axes) -> (angle) -> (obj) -> (CLONE obj).r(axes, angle)
 
 # **CENTROID** returns a point, i.e. the barycenter of the `obj`'s `face`, where the last one is given
 # as an array of vertex ids.
@@ -938,3 +978,22 @@ root.TORUSSOLID = TORUSSOLID = (r=1,R=3,n=8,m=16,p=1) ->
 	fz = ([u,v,w]) -> r * w * sin(u)
 	MAP( [fx, fy, fz] )( domain )
 
+root.INV = INV = (A) -> numeric.inv A
+root.PROD = PROD = (args) -> AA(MUL)(DISTL args)	
+root.VECTNORM 	= VECTNORM = (a) -> Math.sqrt SUM MUL [a,a]
+root.UNITVECT 	= UNITVECT = (a) -> PROD [1.0/(VECTNORM a), a]
+root.INNERPROD 	= INNERPROD = ([u, v]) -> SUM MUL [u, v]
+root.MATSUM 	= MATSUM = (args) -> AA(AA(SUM)) AA(TRANS) TRANS args
+root.MATPROD = MATPROD = ([A,B]) -> AA(AA(INNERPROD)) AA(DISTL) DISTR [A, TRANS B]
+root.IDNT = IDNT = (n) ->  MAT(n,n) AR [REPLICA(n-1)(AL [1, REPEAT(n) 0]), 1]
+root.VECTPROD = VECTPROD = ([u,v]) ->
+    w = new Array(3)
+    w[0] = u[1]*v[2] - u[2]*v[1]
+    w[1] = u[2]*v[0] - u[0]*v[2]
+    w[2] = u[0]*v[1] - u[1]*v[0]
+    w
+root.S0 = S0 = (args) -> args[0]
+root.S1 = S1 = (args) -> args[1]
+root.S2 = S2 = (args) -> args[2]
+root.S3 = S3 = (args) -> args[3]
+root.S4 = S4 = (args) -> args[4]

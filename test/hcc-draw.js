@@ -17,9 +17,7 @@ plasm.Viewer.prototype.drawGraph = function (graph) {
   faces.forEach(function (face) {
     var cell = [];
     face.forEach(function (edge) {
-      console.log('edge', edge);
       edges[edge].forEach(function (vertex) {
-        console.log('vertex', vertex);
         if (cell.indexOf(vertex) === -1) cell.push(vertex); 
       });
     });
@@ -31,8 +29,6 @@ plasm.Viewer.prototype.drawGraph = function (graph) {
   geometry.mergeVertices();
   geometry.computeFaceNormals();
   geometry.computeVertexNormals();
-
-  console.log(geometry);
 
   model = new plasm.Model(geometry, 2);
   model.mesh.doubleSided = false;

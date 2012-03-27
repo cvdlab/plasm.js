@@ -1,5 +1,84 @@
-//(function() {
-  var cube, cubes, k, tetra;
+
+/*
+tetra = new Graph SIMPLEX 3
+cube = new Graph CUBE 3
+cubes = new Graph SIMPLEXGRID [[1,-1,1],[1,-1,1],[1,-1,1]]
+#cubes.draw CAT (AL [k, cubes.upCells(k)] for k in [1, 12, 24, 36, 120, 160])
+tetra.draw [0...14]
+PRINT "tetra =", tetra
+PRINT "tetra.firstNodePerLevel =", tetra.firstNodePerLevel
+PRINT "tetra.uknode(14) =", tetra.uknode(14)
+*/
+
+(function() {
+  var CELLSPERLEVEL, DOWNTRAVERSE, GETINTERSECTION, SORTED, UPTRAVERSE, cells, getfathers, graph, grouping, hccgraph2scomplex, hccmesh, object, root, verts;
+
+  root = typeof exports !== "undefined" && exports !== null ? exports : this;
+
+  GETINTERSECTION = function(G) {
+    return function(from_cells) {
+      var h, k, level, node, num, reached, result, val, _i, _j, _len, _len2, _ref, _ref2, _results;
+      result = [];
+      num = from_cells.length;
+      reached = new Object;
+      for (_i = 0, _len = from_cells.length; _i < _len; _i++) {
+        k = from_cells[_i];
+        _ref = G.uknode(k), level = _ref[0], h = _ref[1];
+        _ref2 = G.up[level][h];
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          node = _ref2[_j];
+          if (reached[node] != null) {
+            reached[node] += 1;
+          } else {
+            reached[node] = 1;
+          }
+        }
+      }
+      _results = [];
+      for (node in reached) {
+        val = reached[node];
+        if (val === num) _results.push(+node);
+      }
+      return _results;
+    };
+  };
+
+  CELLSPERLEVEL = function(g) {
+    return function(h) {
+      return g.faces.dictos[h];
+    };
+  };
+
+  grouping = function(tuples) {
+    var LAST, first, groups, h, k, last, m, n, _ref, _ref2;
+    LAST = function(array) {
+      return array[String(array.length - 1)];
+    };
+    n = tuples.length;
+    m = tuples[0].length - 1;
+    groups = [[tuples[0]]];
+    h = 0;
+    _ref = [tuples[0][0], tuples[0][m]], first = _ref[0], last = _ref[1];
+    for (k = 1; 1 <= n ? k < n : k > n; 1 <= n ? k++ : k--) {
+      if ((tuples[k][0] === first) && (tuples[k][m] === last)) {
+        groups[h].push(tuples[k]);
+      } else {
+        groups.push([tuples[k]]);
+        h += 1;
+        _ref2 = [tuples[k][0], tuples[k][m]], first = _ref2[0], last = _ref2[1];
+      }
+    }
+    return groups;
+  };
+
+  SORTED = function(arrayOfArray, order) {
+    if (order == null) order = true;
+    return arrayOfArray.sort(order ? function(a, b) {
+      return a[0] - b[0];
+    } : function(a, b) {
+      return b[0] - a[0];
+    });
+  };
 
   DOWNTRAVERSE = function(g, nrecursion, cell) {
     var multiTraverse;
@@ -265,4 +344,4 @@
   PRINT "vertices =", vertices
   */
 
-//}).call(this);
+}).call(this);

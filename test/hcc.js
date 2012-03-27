@@ -1,4 +1,4 @@
-(function() {
+//(function() {
   var cube, cubes, k, tetra;
 
   tetra = new Graph(SIMPLEX(3));
@@ -152,4 +152,4 @@
   hccmesh object
   */
 
-}).call(this);
+//}).call(this);

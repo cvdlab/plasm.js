@@ -21,8 +21,25 @@ plasm.Viewer.prototype.drawGraph = function (graph) {
         if (cell.indexOf(vertex) === -1) cell.push(vertex); 
       });
     });
-    geometry.faces.push(new THREE.Face3(cell[0], cell[1], cell[2]));
-    geometry.faces.push(new THREE.Face3(cell[1], cell[0], cell[2]));
+    if (face.length === 3) {
+      geometry.faces.push(new THREE.Face3(cell[0], cell[1], cell[2]));
+      geometry.faces.push(new THREE.Face3(cell[1], cell[0], cell[2]));
+    }
+    if (face.length === 4) {
+      geometry.faces.push(new THREE.Face3(cell[0], cell[1], cell[2]));
+      geometry.faces.push(new THREE.Face3(cell[1], cell[0], cell[2]));
+      
+      geometry.faces.push(new THREE.Face3(cell[0], cell[1], cell[3]));
+      geometry.faces.push(new THREE.Face3(cell[1], cell[0], cell[3]));
+
+      geometry.faces.push(new THREE.Face3(cell[0], cell[3], cell[2]));
+      geometry.faces.push(new THREE.Face3(cell[3], cell[0], cell[2]));
+
+      geometry.faces.push(new THREE.Face3(cell[3], cell[1], cell[2]));
+      geometry.faces.push(new THREE.Face3(cell[1], cell[3], cell[2]));
+
+//      geometry.faces.push(new THREE.Face4(cell[1], cell[0], cell[2], cell[3]));
+    }
   });
 
   geometry.computeCentroids();

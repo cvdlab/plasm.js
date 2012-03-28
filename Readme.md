@@ -2,9 +2,22 @@
 
 JavaScript Programming Language for Solid Modeling
 
+## Docs
+
+[documentation]()
+
 ## Installation
 
     npm install plasm.js
+
+## Authors
+
+- [Enrico Marino](http://onirame.no.de)
+- [Federico Spini](http://spini.no.de)
+
+## Contributors
+
+- Alberto Paoluzzi
 
 ## License
 

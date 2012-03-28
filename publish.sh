@@ -29,7 +29,7 @@ then
   mv f.js.manifest.temp plasm.js.manifest
 
   rm History.md
-  rm Readme.md
+  # rm Readme.md
   rm -rf docs
   rm index.js
   rm package.json

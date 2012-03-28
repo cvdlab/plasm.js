@@ -76,7 +76,7 @@ getfathers = (g1,h) -> (tuple) ->
 	
 	
 # The input SimplicialComplex is called `mesh`.
-hccmesh = (mesh) ->
+root.hccmesh = hccmesh = (mesh) ->
 	
 	# Compute the Hasse graph `g` of the input `mesh`
 	g = new Graph mesh
@@ -148,10 +148,4 @@ hccmesh = (mesh) ->
 	###
 	return g1
 	
-
-##
-object = SIMPLEXGRID REPEAT(3) REPEAT(5)(1)
-
-root.g = g = hccmesh object
-viewer.drawGraph(g)
 

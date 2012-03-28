@@ -649,11 +649,14 @@ class Graph extends SimplicialComplex
 		
 	cellByVerts: (node) ->
 		[k,n] = @uknode node
+		if node == 167 then PRINT "ECCOMI", [k,n]
 		verts = [n]
 		for j in [k...0]
+			if node == 167 then PRINT "cellByVerts::j", j
 			out = []
 			out.push @down[k][n] for n in verts
 			verts = SET out
+			if node == 167 then PRINT "cellByVerts::verts", verts
 		verts
 			
 

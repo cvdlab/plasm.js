@@ -7,19 +7,8 @@
 # and released under the MIT license.
 # <HR>
 
-###
-tetra = new Graph SIMPLEX 3
-cube = new Graph CUBE 3
-cubes = new Graph SIMPLEXGRID [[1,-1,1],[1,-1,1],[1,-1,1]]
-#cubes.draw CAT (AL [k, cubes.upCells(k)] for k in [1, 12, 24, 36, 120, 160])
-tetra.draw [0...14]
-PRINT "tetra =", tetra
-PRINT "tetra.firstNodePerLevel =", tetra.firstNodePerLevel
-PRINT "tetra.uknode(14) =", tetra.uknode(14)
-###
 
 root = exports ? this
-
 
 GETINTERSECTION = (G) -> (from_cells) ->
 	result = []
@@ -74,7 +63,7 @@ UPTRAVERSE = (g1) -> (subgraph,k) ->
 		#return SET CAT AA(COMP  REPLICA(k-1)([CAT, getfathers(g1)]) ) subgraph
 		out = []
 		for h in [1..k-1]
-			out.push SET CAT AA(getfathers(g1,h)) subgraph
+			out.push SET (CAT AA(getfathers(g1,h)) subgraph).filter(Number)
 		CAT out
 
 getfathers = (g1,h) -> (tuple) ->
@@ -103,26 +92,37 @@ hccmesh = (mesh) ->
 	g1 = new Graph gg
 	##
 	# create higher level layers of HCC
-	for k in [1...d] # for k in [1...d]
+	g1.firstNodePerLevel.push g1.maxnode
+	g1.nodes.push []
+	g1.up.push []
+	g1.down.push []
+	for _k in [1...d] # for k in [1...d]
+		# create Nk and Ak
+		for _h in [_k...d+1]
+			for root in g.cellsPerLevel(_h)				
+				# forward search in g for the isomorphic subgraphs
+				subgraphs = DOWNTRAVERSE(g,_k,root)
+				# backtrack upon g1: looking for (k-1)-faces of each newnode
+				faces = (UPTRAVERSE(g1)(sg,_k) for sg in subgraphs)
+				# build the k-layer of HCC
+				for face in faces
+					newnode = g1.addNode(_k)
+					for node in face
+						g1.addArc(+node,newnode)
+		#cells = CAT (g1.cellByVerts n for n in g1.cellsPerLevel(_k))  
+		###
+		cells = []
+		for n in g1.cellsPerLevel(_k)
+			PRINT "_k,n,g1.uknode n", JSON.stringify [_k,n,g1.uknode n]
+			cells.push g1.cellByVerts(n)
+		cells = CAT(cells)
+		gg = new SimplicialComplex newverts,cells
+		model = viewer.draw gg
+		###
 		g1.firstNodePerLevel.push g1.maxnode
 		g1.nodes.push []
 		g1.up.push []
 		g1.down.push []
-		# create Nk and Ak
-		for h in [k...d+1]
-			for root in g.cellsPerLevel(h)
-				# forward search in g for the isomorphic subgraphs
-				subgraphs = DOWNTRAVERSE(g,k,root)
-				# backtrack upon g1: looking for (k-1)-faces of each newnode
-				faces = (UPTRAVERSE(g1)(sg,k) for sg in subgraphs)
-				# build the k-layer of HCC
-				for face in faces
-					newnode = g1.addNode(k)
-					for node in face
-						g1.addArc(+node,newnode)
-		cells = CAT (g1.cellByVerts n for n in g1.cellsPerLevel(k))  
-		gg = new SimplicialComplex newverts,cells
-		model = viewer.draw gg
 		#PRINT "gg =", gg
 		#g1 = new Graph gg
 	# create the last layer of HCC
@@ -139,42 +139,19 @@ hccmesh = (mesh) ->
 			for vert in verts
 				g1.addArc(newnode,vert)																
 	# return the output HCC graph
-	PRINT "g1.cellsPerLevel(d) =", g1.cellsPerLevel(d)
+	###
 	cells = []
-	for n in g1.cellsPerLevel(d)
+	for n in g1.cellsPerLevel(1)
 		[k,h] = g1.uknode n
 		cells.push g1.up[k][h]
-	verts = g1.object.vertices.verts
-	gg = new SimplicialComplex verts,cells
+	#cells = (g1.up[k][h];  [k,h] = g1.uknode n for n in g1.cellsPerLevel(1))
+	###
 	return g1
-
-hccgraph2scomplex = (g) ->
-	quad2verts = (quad) ->
-		[k,h] = g.uknode(quad)
-		SET CAT (vert for vert in g.down[1][edge] for edge in g.down[2][h])
-	(quad2verts(quad) for quad in g.cellsPerLevel(2))
-
 	
 
 ##
-object = SIMPLEXGRID [[1],[1],[1]]
-PRINT "object =", object
+object = SIMPLEXGRID REPEAT(3) REPEAT(5)(1)
 
-verts = object.vertices.verts
-PRINT "verts =", verts
-cells = object.faces.cells[3]
-PRINT "cells =", cells
+root.g = g = hccmesh object
+viewer.drawGraph(g)
 
-graph = new Graph object
-PRINT "graph =", graph
-
-###
-
-PRINT "object =", object
-#model = viewer.draw object
-g = hccmesh object
-PRINT "g =", g
-
-
-vertices = hccgraph2scomplex(g)
-PRINT "vertices =", vertices

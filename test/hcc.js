@@ -11,7 +11,7 @@ PRINT "tetra.uknode(14) =", tetra.uknode(14)
 */
 
 (function() {
-  var CELLSPERLEVEL, DOWNTRAVERSE, GETINTERSECTION, SORTED, UPTRAVERSE, cells, getfathers, graph, grouping, hccgraph2scomplex, hccmesh, object, root, verts;
+  var CELLSPERLEVEL, DOWNTRAVERSE, GETINTERSECTION, SORTED, UPTRAVERSE, g, getfathers, grouping, hccmesh, object, root;
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
@@ -113,7 +113,7 @@ PRINT "tetra.uknode(14) =", tetra.uknode(14)
       } else {
         out = [];
         for (h = 1, _ref = k - 1; 1 <= _ref ? h <= _ref : h >= _ref; 1 <= _ref ? h++ : h--) {
-          out.push(SET(CAT(AA(getfathers(g1, h))(subgraph))));
+          out.push(SET((CAT(AA(getfathers(g1, h))(subgraph))).filter(Number)));
         }
         return CAT(out);
       }
@@ -142,7 +142,7 @@ PRINT "tetra.uknode(14) =", tetra.uknode(14)
   };
 
   hccmesh = function(mesh) {
-    var cells, d, down, face, faces, facet, facets, g, g1, gg, h, k, k_faces, model, n, newnode, newverts, node, pair, root, sg, subgraphs, up, vert, vertices, verts, _i, _j, _k, _l, _len, _len2, _len3, _len4, _len5, _len6, _len7, _len8, _m, _n, _o, _p, _q, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _results;
+    var cells, d, down, face, faces, facet, facets, g, g1, gg, k_faces, model, newnode, newverts, node, pair, root, sg, subgraphs, up, vert, vertices, verts, _h, _i, _j, _k, _l, _len, _len2, _len3, _len4, _len5, _len6, _len7, _m, _n, _o, _p, _q, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _results;
     g = new Graph(mesh);
     d = g.object.faces.dim;
     _ref = [g.up, g.down], up = _ref[0], down = _ref[1];
@@ -190,158 +190,100 @@ PRINT "tetra.uknode(14) =", tetra.uknode(14)
     gg = new SimplicialComplex(newverts, cells);
     model = viewer.draw(gg);
     g1 = new Graph(gg);
-    for (k = 1; 1 <= d ? k < d : k > d; 1 <= d ? k++ : k--) {
-      g1.firstNodePerLevel.push(g1.maxnode);
-      g1.nodes.push([]);
-      g1.up.push([]);
-      g1.down.push([]);
-      for (h = k, _ref3 = d + 1; k <= _ref3 ? h < _ref3 : h > _ref3; k <= _ref3 ? h++ : h--) {
-        _ref4 = g.cellsPerLevel(h);
+    g1.firstNodePerLevel.push(g1.maxnode);
+    g1.nodes.push([]);
+    g1.up.push([]);
+    g1.down.push([]);
+    for (_k = 1; 1 <= d ? _k < d : _k > d; 1 <= d ? _k++ : _k--) {
+      for (_h = _k, _ref3 = d + 1; _k <= _ref3 ? _h < _ref3 : _h > _ref3; _k <= _ref3 ? _h++ : _h--) {
+        _ref4 = g.cellsPerLevel(_h);
         for (_j = 0, _len = _ref4.length; _j < _len; _j++) {
           root = _ref4[_j];
-          subgraphs = DOWNTRAVERSE(g, k, root);
+          subgraphs = DOWNTRAVERSE(g, _k, root);
           faces = (function() {
-            var _k, _len2, _results2;
+            var _l, _len2, _results2;
             _results2 = [];
-            for (_k = 0, _len2 = subgraphs.length; _k < _len2; _k++) {
-              sg = subgraphs[_k];
-              _results2.push(UPTRAVERSE(g1)(sg, k));
+            for (_l = 0, _len2 = subgraphs.length; _l < _len2; _l++) {
+              sg = subgraphs[_l];
+              _results2.push(UPTRAVERSE(g1)(sg, _k));
             }
             return _results2;
           })();
-          for (_k = 0, _len2 = faces.length; _k < _len2; _k++) {
-            face = faces[_k];
-            newnode = g1.addNode(k);
-            for (_l = 0, _len3 = face.length; _l < _len3; _l++) {
-              node = face[_l];
+          for (_l = 0, _len2 = faces.length; _l < _len2; _l++) {
+            face = faces[_l];
+            newnode = g1.addNode(_k);
+            for (_m = 0, _len3 = face.length; _m < _len3; _m++) {
+              node = face[_m];
               g1.addArc(+node, newnode);
             }
           }
         }
       }
-      cells = CAT((function() {
-        var _len4, _m, _ref5, _results2;
-        _ref5 = g1.cellsPerLevel(k);
-        _results2 = [];
-        for (_m = 0, _len4 = _ref5.length; _m < _len4; _m++) {
-          n = _ref5[_m];
-          _results2.push(g1.cellByVerts(n));
-        }
-        return _results2;
-      })());
-      gg = new SimplicialComplex(newverts, cells);
-      model = viewer.draw(gg);
+      /*
+      		cells = []
+      		for n in g1.cellsPerLevel(_k)
+      			PRINT "_k,n,g1.uknode n", JSON.stringify [_k,n,g1.uknode n]
+      			cells.push g1.cellByVerts(n)
+      		cells = CAT(cells)
+      		gg = new SimplicialComplex newverts,cells
+      		model = viewer.draw gg
+      */
+      g1.firstNodePerLevel.push(g1.maxnode);
+      g1.nodes.push([]);
+      g1.up.push([]);
+      g1.down.push([]);
     }
     _ref5 = g.cellsPerLevel(d);
-    for (_m = 0, _len4 = _ref5.length; _m < _len4; _m++) {
-      root = _ref5[_m];
+    for (_n = 0, _len4 = _ref5.length; _n < _len4; _n++) {
+      root = _ref5[_n];
       subgraphs = DOWNTRAVERSE(g, d, root);
       facets = (function() {
-        var _len5, _n, _results2;
+        var _len5, _o, _results2;
         _results2 = [];
-        for (_n = 0, _len5 = subgraphs.length; _n < _len5; _n++) {
-          sg = subgraphs[_n];
+        for (_o = 0, _len5 = subgraphs.length; _o < _len5; _o++) {
+          sg = subgraphs[_o];
           _results2.push(UPTRAVERSE(g1)(sg, d));
         }
         return _results2;
       })();
       vertices = (function() {
-        var _len5, _n, _results2;
+        var _len5, _o, _results2;
         _results2 = [];
-        for (_n = 0, _len5 = subgraphs.length; _n < _len5; _n++) {
-          sg = subgraphs[_n];
+        for (_o = 0, _len5 = subgraphs.length; _o < _len5; _o++) {
+          sg = subgraphs[_o];
           _results2.push(SET(CAT(sg)));
         }
         return _results2;
       })();
       _ref6 = TRANS([facets, vertices]);
-      for (_n = 0, _len5 = _ref6.length; _n < _len5; _n++) {
-        pair = _ref6[_n];
+      for (_o = 0, _len5 = _ref6.length; _o < _len5; _o++) {
+        pair = _ref6[_o];
         facet = pair[0], verts = pair[1];
         newnode = g1.addNode(d);
-        for (_o = 0, _len6 = facet.length; _o < _len6; _o++) {
-          node = facet[_o];
+        for (_p = 0, _len6 = facet.length; _p < _len6; _p++) {
+          node = facet[_p];
           g1.addArc(node, newnode);
         }
-        for (_p = 0, _len7 = verts.length; _p < _len7; _p++) {
-          vert = verts[_p];
+        for (_q = 0, _len7 = verts.length; _q < _len7; _q++) {
+          vert = verts[_q];
           g1.addArc(newnode, vert);
         }
       }
     }
-    PRINT("g1.cellsPerLevel(d) =", g1.cellsPerLevel(d));
-    cells = [];
-    _ref7 = g1.cellsPerLevel(d);
-    for (_q = 0, _len8 = _ref7.length; _q < _len8; _q++) {
-      n = _ref7[_q];
-      _ref8 = g1.uknode(n), k = _ref8[0], h = _ref8[1];
-      cells.push(g1.up[k][h]);
-    }
-    verts = g1.object.vertices.verts;
-    gg = new SimplicialComplex(verts, cells);
+    /*
+    	cells = []
+    	for n in g1.cellsPerLevel(1)
+    		[k,h] = g1.uknode n
+    		cells.push g1.up[k][h]
+    	#cells = (g1.up[k][h];  [k,h] = g1.uknode n for n in g1.cellsPerLevel(1))
+    */
     return g1;
   };
 
-  hccgraph2scomplex = function(g) {
-    var quad, quad2verts, _i, _len, _ref, _results;
-    quad2verts = function(quad) {
-      var edge, h, k, vert, _ref;
-      _ref = g.uknode(quad), k = _ref[0], h = _ref[1];
-      return SET(CAT((function() {
-        var _i, _len, _ref2, _results;
-        _ref2 = g.down[2][h];
-        _results = [];
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          edge = _ref2[_i];
-          _results.push((function() {
-            var _j, _len2, _ref3, _results2;
-            _ref3 = g.down[1][edge];
-            _results2 = [];
-            for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
-              vert = _ref3[_j];
-              _results2.push(vert);
-            }
-            return _results2;
-          })());
-        }
-        return _results;
-      })()));
-    };
-    _ref = g.cellsPerLevel(2);
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      quad = _ref[_i];
-      _results.push(quad2verts(quad));
-    }
-    return _results;
-  };
+  object = SIMPLEXGRID(REPEAT(3)(REPEAT(5)(1)));
 
-  object = SIMPLEXGRID([[1], [1], [1]]);
+  root.g = g = hccmesh(object);
 
-  PRINT("object =", object);
-
-  verts = object.vertices.verts;
-
-  PRINT("verts =", verts);
-
-  cells = object.faces.cells[3];
-
-  PRINT("cells =", cells);
-
-  graph = new Graph(object);
-
-  PRINT("graph =", graph);
-
-  /*
-  
-  PRINT "object =", object
-  #model = viewer.draw object
-  g = hccmesh object
-  PRINT "g =", g
-  
-  
-  vertices = hccgraph2scomplex(g)
-  PRINT "vertices =", vertices
-  */
+  viewer.drawGraph(g);
 
 }).call(this);

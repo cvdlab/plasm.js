@@ -4,7 +4,7 @@ JavaScript Programming Language for Solid Modeling
 
 ## Docs
 
-[documentation]()
+[documentation](https://github.com/cvd-lab/plasm.js/blob/master/docs/Readme.md)
 
 ## Installation
 

@@ -2,60 +2,60 @@
 
 ### JavaScript Programming Language for Solid Modeling
 
-#### BOUNDARY(dim)(model)
+#### `BOUNDARY(dim)(model)`
 
-#### CANCEL(model)
+#### `CANCEL(model)`
 
-#### CIRCLE(r)(divs)
+#### `CIRCLE(r)(divs)`
 
-#### COLOR(rgb)(model)
+#### `COLOR(rgb)(model)`
 
-#### CUBE(dim)
+#### `CUBE(dim)`
 
-#### CUBOID(dims)
+#### `CUBOID(dims)`
 
-#### CYLSURFACE(dims)(divs)
+#### `CYLSURFACE(dims)(divs)`
 
-#### DISK(r)(divs)
+#### `DISK(r)(divs)`
 
-#### DOMAIN(dims)(divs)
+#### `DOMAIN(dims)(divs)`
 
-#### DRAW(model)
+#### `DRAW(model)`
 
-#### EXPLODE(values)(model)
+#### `EXPLODE(values)(model)`
 
-#### EXTRUDE(values)(model)
+#### `EXTRUDE(values)(model)`
 
-#### HIDE(model)
+#### `HIDE(model)`
 
-#### INTERVALS(tip)(n)
+#### `INTERVALS(tip)(n)`
 
-#### MAP(mapping)(domain)
+#### `MAP(mapping)(domain)`
 
-#### POLYLINE(points)
+#### `POLYLINE(points)`
 
-#### ROTATE(dims)(angle)(model)
+#### `ROTATE(dims)(angle)(model)`
 
-#### SCALE(dims)(values)(model)
+#### `SCALE(dims)(values)(model)`
 
-#### SHOW(model)
+#### `SHOW(model)`
 
-#### SIMPLEX(dim)
+#### `SIMPLEX(dim)`
 
-#### SIMPLEXGRID(quotes)
+#### `SIMPLEXGRID(quotes)`
 
-#### SIMPLICIALCOMPLEX(points)(complex)
+#### `SIMPLICIALCOMPLEX(points)(complex)`
 
-#### SKELETON(dim)(model)
+#### `SKELETON(dim)(model)`
 
-#### STRUCT(items)
+#### `STRUCT(items)`
 
-#### TORUSSOLID(dims)(divs)
+#### `TORUSSOLID(dims)(divs)`
 
-#### TORUSSURFACE(dims)(divs)
+#### `TORUSSURFACE(dims)(divs)`
 
-#### TRANSLATE(dims)(values)(model)
+#### `TRANSLATE(dims)(values)(model)`
 
-#### TRIANGLEFAN(points)
+#### `TRIANGLEFAN(points)`
 
-#### TRIANGLESTRIP(points)
+#### `TRIANGLESTRIP(points)`

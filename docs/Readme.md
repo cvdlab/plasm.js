@@ -112,7 +112,7 @@ Color the `model` with `color`.
 
 #### `CUBE(dim)`
 
-Create a cube of size `dim`.
+Create a cube with `dim` dimension.
 
 #### I/O
 
@@ -120,7 +120,7 @@ Create a cube of size `dim`.
 > `Number` `dim`: dimension of the cube.
 > 
 > #### out
-> `plasm.Model`: a cube of size `dim`.
+> `plasm.Model`: a cube with `dim` dimension.
 
 #### Example
 
@@ -134,21 +134,36 @@ Create a cube of size `dim`.
 
 #### `CUBOID(dims)`
 
-Descr.
+Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `dims`: dimensions of the simplicial complex.
+> - `Number` `dx`: dimension along x axe
+> - `Number` `dy`: dimension along y axe
+> - `Number` `dz`: dimension along z axe
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var dx = 1;
+> var dy = 2;
+> var dz = 3;
+> 
+> var cuboid1 = CUBOID([dx]);
+> DRAW(cuboid1);
+> ```
+> ```js
+> var cuboid2 = CUBOID([dx, dy]);
+> DRAW(cuboid2);
+> ```
+> ```js
+> var cuboid3 = CUBOID([dx, dy, dz]);
+> DRAW(cuboid3);
 > ```
 
 - - -

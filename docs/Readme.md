@@ -69,7 +69,29 @@
 
 #### `STRUCT(items)`
 
-#### `TORUSSOLID(dims)(divs)`
+### `TORUSSOLID(dims)(divs)`
+
+> #### parameters
+> - `dims` (`Array`): a couple of dimensions `[rMin, rMax]`
+>   - `rMin` (`Number`): internal radius (`0.1` by default)
+>   - `rMax` (`Number`): external radius (`0.9` by default)
+> #### return
+> anonymous function.
+> > #### parameters:
+> > - divs (`Array`): a triple of approssimation values `[m, n, o]`
+> >   - `m` (`Number`): (`12` by default)
+> >   - `n` (`Number`): (`8` by default)
+> >   - `o` (`Number`): (`8` by default)
+> > ### return
+> > instance of `plasm.Model`:  
+> > a torus solid.
+
+> #### Example
+> 
+> ```js
+> torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
+> DRAW(torusSolid);
+> ```
 
 #### `TORUSSURFACE(dims)(divs)`
 

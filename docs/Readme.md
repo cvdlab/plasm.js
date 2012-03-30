@@ -112,21 +112,22 @@ Color the `model` with `color`.
 
 #### `CUBE(dim)`
 
-Descr.
+Create a cube of size `dim`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `dim`: dimension of the cube.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: a cube of size `dim`.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var dim = 2.5;
+> var cube = CUBE(dim);
+> DRAW(cube);
 > ```
 
 - - -

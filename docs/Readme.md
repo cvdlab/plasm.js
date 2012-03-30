@@ -88,15 +88,15 @@ it is applied to all of the following items.
 > #### out
 > instance of `plasm.Struct`: a struct.
 
-> #### Example
-> 
-> ```js
-> var cube1 = CUBE(3);
-> var cube2 = T([0])([1.3])(cube1);
-> var struct1 = STRUCT([cube1, cube2]);
-> var t = T([1])([1.3]);
-> var struct = STRUCT([struct1, t, struct1, t, cube1]);
-> ```
+#### Example
+
+```js
+var cube1 = CUBE(3);
+var cube2 = T([0])([1.3])(cube1);
+var struct1 = STRUCT([cube1, cube2]);
+var t = T([1])([1.3]);
+var struct = STRUCT([struct1, t, struct1, t, cube1]);
+```
 - - - 
 
 ### `TORUSSOLID(dims)(divs)`
@@ -124,10 +124,11 @@ Create a torus solid.
 > > `plasm.Model`: a solid torus.
 
 #### Example
-> ```js
-> torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
-> DRAW(torusSolid);
-> ```
+
+```js
+torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
+DRAW(torusSolid);
+```
 
 - - -
 
@@ -154,12 +155,12 @@ Create a toroidal surface.
 > > #### out 
 > > `plasm.Model`: a toroidal surface.
 
-> #### Example
-> 
-> ```js
-> var torusSurface = TORUS_SURFACE([0.1, 0.9])([12,8]);
-> DRAW(torusSurface);
-> ```
+#### Example
+
+```js
+var torusSurface = TORUS_SURFACE([0.1, 0.9])([12,8]);
+DRAW(torusSurface);
+```
 
 - - -
 
@@ -186,13 +187,13 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 > > > #### out:
 > > > instance of `plasm.Model`: a translated clone of `model`.
 
-> #### Example
-> 
-> ```js
-> var cube = CUBE(3);
-> var translatedCube = T([1,2])([1,3])(cube);
-> DRAW(translatedCube);
-> ```
+#### Example
+
+```js
+var cube = CUBE(3);
+>var translatedCube = T([1,2])([1,3])(cube);
+DRAW(translatedCube);
+```
 
 - - -
 
@@ -209,13 +210,13 @@ Every successive point is used with center point and the previuos point to form 
 > #### out
 > instance of `plasm.Model`: a triangle fan.
 
-> #### Example
-> 
-> ```js
-> var points = [[0,0,0],[0,1,0],[1,0,0],[0,-1,0],[-1,0,0]];
-> var triStrip = TRIANGLE_FAN(points);
-> DRAW(triStrip);
-> ```
+#### Example
+
+```js
+var points = [[0,0,0],[0,1,0],[1,0,0],[0,-1,0],[-1,0,0]];
+var triStrip = TRIANGLE_FAN(points);
+DRAW(triStrip);
+```
 
 - - -
 
@@ -232,13 +233,13 @@ every other point is used with next two points to form a triangle.
 > #### out
 > instance of `plasm.Model`: a triangle strip.
 
-> #### Example
-> 
-> ```js
-> var points = [[0,0,0],[0,1,0],[1,0,0],[1,1,0],[2,0,0]];
-> var triStrip = TRIANGLE_STRIP(points);
-> DRAW(triStrip);
-> ```
+#### Example
+
+```js
+var points = [[0,0,0],[0,1,0],[1,0,0],[1,1,0],[2,0,0]];
+var triStrip = TRIANGLE_STRIP(points);
+DRAW(triStrip);
+```
 
 - - -
 

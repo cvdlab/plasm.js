@@ -31,21 +31,22 @@ Descr.
 
 #### `CANCEL(model)`
 
-Descr.
+Remove the `model` from the scene graph.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `plasm.Model` `model`: the model to cancel.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model` `model`: the model cancelled.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = TORUSSURFACE()();
+> DRAW(model);
+> CANCEL(model);
 > ```
 
 - - -

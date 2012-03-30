@@ -29,6 +29,7 @@
 #### `HIDE(model)`
 
 ### `INTERVALS(length)(n)`
+Create a segment from `0` to `length` divided in `n` parts.
 
 > #### parameters
 > - `length` (`Number`): the length of the interval.

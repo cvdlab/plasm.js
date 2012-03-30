@@ -448,21 +448,28 @@ Descr.
 
 #### `SKELETON(dim)(model)`
 
-Descr.
+Extract the `dim`-skeleton of the `model`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `dim`: dimension of the skeleton.
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: anonymous function.
+> 
+> > #### in
+> > `plasm.Model` `model`: model to which extract skeleton. 
+> >
+> > #### out
+> > `plasm.Model`: `dim`-skeleton of the `model`.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var cuboid = CUBOID([1,2,3]);
+> var skeleton1 = SKELETON(1)(cuboid);
+> DRAW(skeleton1);
 > ```
 
 - - -
@@ -661,7 +668,9 @@ DRAW(triStrip);
 ### Demo 01
 
 ```js
-DRAW(STRUCT(REPLICA(10)([T([0,1])([-.5,-.5])(CUBOID([1,1,.2])),COMP([R([0,1])([Math.PI/15]),T([2])([0.2])])])));
+var cuboid = APPLY([T([0,1])([-.5,-.5]), CUBOID([1,1,.2])]);
+var rototranslation = COMP([R([0,1])([Math.PI/15]),T([2])([0.2])]);
+DRAW(STRUCT(REPLICA(10)([cuboid, rototranslation])));
 ```
 
 - - -

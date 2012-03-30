@@ -27,7 +27,7 @@ Get the `d`-boundary of the `model`.
 
 - - -
 
-#### `CANCEL(model)`
+### `CANCEL(model)`
 
 Remove the `model` from the scene graph.
 
@@ -49,7 +49,7 @@ Remove the `model` from the scene graph.
 
 - - -
 
-#### `CIRCLE(r)(divs)`
+### `CIRCLE(r)(divs)`
 
 Create a circle with radius `r`, approximated by `divs` segments.
 
@@ -78,7 +78,7 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 - - -
 
-#### `COLOR(color)(model)`
+### `COLOR(color)(model)`
 
 Color the `model` with `color`.
 
@@ -111,7 +111,7 @@ Color the `model` with `color`.
 
 - - -
 
-#### `CUBE(dim)`
+### `CUBE(dim)`
 
 Create a cube with `dim` dimension.
 
@@ -133,7 +133,7 @@ Create a cube with `dim` dimension.
 
 - - -
 
-#### `CUBOID(dims)`
+### `CUBOID(dims)`
 
 Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
@@ -170,7 +170,7 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
 - - -
 
-#### `CYLSURFACE(dims)(divs)`
+### `CYLSURFACE(dims)(divs)`
 
 Create a cylindrical surface.
 
@@ -203,7 +203,7 @@ Create a cylindrical surface.
 
 - - -
 
-#### `DISK(r)(divs)`
+### `DISK(r)(divs)`
 
 Descr.
 
@@ -224,7 +224,7 @@ Descr.
 
 - - -
 
-#### `DOMAIN(dims)(divs)`
+### `DOMAIN(dims)(divs)`
 
 Descr.
 
@@ -245,7 +245,7 @@ Descr.
 
 - - -
 
-#### `DRAW(model)`
+### `DRAW(model)`
 
 Draw a model.
 
@@ -267,7 +267,7 @@ Draw a model.
 
 - - -
 
-#### `INTERVALS(length)(n)`
+### `INTERVALS(length)(n)`
 
 Create a segment from `0` to `length` divided in `n` parts.
 
@@ -292,7 +292,7 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 - - -
 
-#### `MAP(mapping)(domain)`
+### `MAP(mapping)(domain)`
 
 Descr.
 
@@ -313,7 +313,7 @@ Descr.
 
 - - -
 
-#### `POLYLINE(points)`
+### `POLYLINE(points)`
 
 Descr.
 
@@ -334,7 +334,7 @@ Descr.
 
 - - -
 
-#### `ROTATE(dims)(angle)(model)`
+### `ROTATE(dims)(angle)(model)` / `R(dims)(angle)(model)`
 
 Descr.
 
@@ -355,7 +355,7 @@ Descr.
 
 - - -
 
-#### `SCALE(dims)(values)(model)`
+### `SCALE(dims)(values)(model)` / `S(dims)(values)(model)`
 
 Descr.
 
@@ -376,7 +376,7 @@ Descr.
 
 - - -
 
-#### `SHOW(model)`
+### `SHOW(model)`
 
 Descr.
 
@@ -397,7 +397,7 @@ Descr.
 
 - - -
 
-#### `SIMPLEX(dim)`
+### `SIMPLEX(dim)`
 
 Descr.
 
@@ -418,7 +418,7 @@ Descr.
 
 - - -
 
-#### `SIMPLEXGRID(quotes)`
+### `SIMPLEXGRID(quotes)`
 
 Descr.
 
@@ -439,7 +439,7 @@ Descr.
 
 - - -
 
-#### `SIMPLICIALCOMPLEX(points)(complex)`
+### `SIMPLICIALCOMPLEX(points)(complex)`
 
 Descr.
 
@@ -460,7 +460,7 @@ Descr.
 
 - - -
 
-#### `SKELETON(dim)(model)`
+### `SKELETON(dim)(model)`
 
 Extract the `dim`-skeleton of the `model`.
 
@@ -488,7 +488,7 @@ Extract the `dim`-skeleton of the `model`.
 
 - - -
 
-#### `STRUCT(items)`
+### `STRUCT(items)`
 
 Structure together `plasm.Model` and `plasm.Struct`.  
 If a transformation is encountered in `items`,  
@@ -512,7 +512,7 @@ var struct = STRUCT([struct1, t, struct1, t, cube1]);
 ```
 - - - 
 
-### `TORUSSOLID(dims)(divs)`
+### `TORUS_SOLID(dims)(divs)`
 
 Create a torus solid.
 
@@ -545,7 +545,7 @@ DRAW(torusSolid);
 
 - - -
 
-#### `TORUSSURFACE(dims)(divs)`
+### `TORUS_SURFACE(dims)(divs)`
 
 Create a toroidal surface.
 
@@ -577,7 +577,7 @@ DRAW(torusSurface);
 
 - - -
 
-#### `TRANSLATE(dims)(values)(model)` / `T(dims)(values)(model)`
+### `TRANSLATE(dims)(values)(model)` / `T(dims)(values)(model)`
 
 Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
@@ -610,28 +610,7 @@ DRAW(translatedCube);
 
 - - -
 
-#### `TRIANGLEFAN(points)`
-
-Descr.
-
-#### I/O
-
-> #### in
-> `type` `name`: descr.
-> 
-> #### out
-> `type` `name`: descr.
-
-#### Example
-
-> ```js
-> var x = ;
-> DRAW(x);
-> ```
-
-- - -
-
-#### `TRIANGLESTRIP(points)`
+### `TRIANGLE_FAN(points)`
 
 Create a tiangle fan: first point is the center of the fan,  
 center point is used with next two points to form a triangle.  

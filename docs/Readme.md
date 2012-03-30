@@ -86,6 +86,7 @@ Color the `model` with `color`.
 
 > #### in
 > `Array` `color`: rgb color components (from `0` to `1`).
+> 
 > - `Number` `r`: red component (from `0` to `1`, `0` by default).
 > - `Number` `g`: green component (from `0` to `1`, `0` by default).
 > - `Number` `b`: blue component (from `0` to `1`, `0` by default).
@@ -140,6 +141,7 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
 > #### in
 > `Array` `dims`: dimensions of the simplicial complex.
+> 
 > - `Number` `dx`: dimension along x axe
 > - `Number` `dy`: dimension along y axe
 > - `Number` `dz`: dimension along z axe
@@ -170,21 +172,33 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
 #### `CYLSURFACE(dims)(divs)`
 
-Descr.
+Create a cylindrical surface.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `dims`: dimensions `[r, h]`.
+> 
+> - `Number` `r`: the radius (`1` by default).
+> - `Number` `h`: the height (`1` by default).
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `divs`: divisions `[slices, stacks]`.
+> > 
+> > - `Number` `slices`: slices (`16` by default).
+> > - `Number` `stacks`: stacks (`2` by default).
+> > 
+> > #### out
+> > `plasm.Model`: a cylindrical surface with radius `r` and height `h`, divided in `slices` and `stacks`. 
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = CYLSURFACE()();
+> DRAW(model);
 > ```
 
 - - -

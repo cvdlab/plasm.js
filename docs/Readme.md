@@ -20,7 +20,21 @@
 
 #### `DOMAIN(dims)(divs)`
 
+- - -
+
 #### `DRAW(model)`
+
+Draw a model.
+
+#### I/O
+
+> #### in
+> `plasm.Model` or `plasm.Struct` `model`: the model to draw.
+> 
+> #### out
+> `plasm.Model` or `plasm.Struct` `model`: the model drawn.
+
+- - -
 
 #### `EXPLODE(values)(model)`
 
@@ -28,28 +42,32 @@
 
 #### `HIDE(model)`
 
-### `INTERVALS(length)(n)`
+- - -
+
+#### `INTERVALS(length)(n)`
+
 Create a segment from `0` to `length` divided in `n` parts.
 
-> #### parameters
-> - `length` (`Number`): the length of the interval.
->
-> #### return 
-> anonymous function.
-> > 
-> > #### parameters
-> > - `n` (`Number`): the number of subdivisions of the interval.
+#### I/O
+> #### in
+> `Number` `length`: the length of the interval.
+> 
+> #### out 
+> `Function`: an anonimous function. 
+>   
+> > #### in
+> > `Number` `n`: the number of divisions.
 > >  
-> > #### return
-> > instance of `plasm.Model`:  
-> > a segment from `0` to `length` divided in `n` parts.
+> > #### out
+> > `plasm.Model`: a segment from `0` to `length` divided in `n` parts.
 
-> #### Example
->
->```js
+#### Example
+> ```js
 > i = INTERVALS(10)(5);
 > DRAW(i);
 >```
+
+- - -
 
 #### `MAP(mapping)(domain)`
 
@@ -71,32 +89,39 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 #### `STRUCT(items)`
 
+- - - 
+
 ### `TORUSSOLID(dims)(divs)`
 
-> #### params
-> - `dims` (`Array`): a couple of dimensions `[rMin, rMax]`
->   - `rMin` (`Number`): internal radius (`0.1` by default)
->   - `rMax` (`Number`): external radius (`0.9` by default)
-> 
-> #### return
-> anonymous function.
-> 
-> > #### parameters
-> > - divs (`Array`): a triple of approssimation values `[m, n, o]`
-> >   - `m` (`Number`): (`12` by default)
-> >   - `n` (`Number`): (`8` by default)
-> >   - `o` (`Number`): (`8` by default)
-> > 
-> > ### return
-> > instance of `plasm.Model`:  
-> > a torus solid.
+Create a torus solid.
 
-> #### example
+#### I/O
+> #### in
+> `Array` `dims`: size of the rays `[rMin, rMax]`
 > 
+> - `Number` `rMin`: internal radius (`0.1` by default)
+> - `Number` `rMax`: external radius (`0.9` by default)
+> 
+> #### out
+> `Function`: anonymous function.
+> 
+> > #### in
+> > `Array` `divs`: a triple of approssimation values `[m, n, o]`
+> > 
+> > - `Number` `m`: (`12` by default)
+> > - `Number` `n`: (`8` by default)
+> > - `Number` `o`: (`8` by default)
+> > 
+> > #### out
+> > `plasm.Model`: a torus solid.
+
+#### Example
 > ```js
 > torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
 > DRAW(torusSolid);
 > ```
+
+- - -
 
 #### `TORUSSURFACE(dims)(divs)`
 

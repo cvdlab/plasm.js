@@ -13,16 +13,18 @@ Descr.
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `d`: space dimension.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: the `d`-boundary of the `model`.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var d = 1;
+> var model = TORUSSURFACE()();
+> var boundary = BOUNDARY(d)(model);
+> DRAW(boundary);
 > ```
 
 - - -

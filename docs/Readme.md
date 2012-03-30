@@ -8,8 +8,6 @@
 
 Get the `d`-boundary of the `model`.
 
-Descr.
-
 #### I/O
 
 > #### in
@@ -80,23 +78,34 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 - - -
 
-#### `COLOR(rgb)(model)`
+#### `COLOR(color)(model)`
 
-Descr.
+Color the `model` with `color`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `color`: rgb color components (from `0` to `1`).
+> - `Number` `r`: red component (from `0` to `1`, `0` by default).
+> - `Number` `g`: green component (from `0` to `1`, `0` by default).
+> - `Number` `b`: blue component (from `0` to `1`, `0` by default).
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `plasm.Model` `model`: the model to color.
+> > 
+> > #### out
+> > `plasm.Model`: the model `colored` with `color`. 
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var color = [0.8, 0.4, 0.2];
+> var model = TORUSSURFACE()();
+> COLOR(color)(model);
+> DRAW(model);
 > ```
 
 - - -

@@ -2,23 +2,196 @@
 
 ### JavaScript Programming Language for Solid Modeling
 
-#### `BOUNDARY(dim)(model)`
+- - -
+
+### `BOUNDARY(d)(model)`
+
+Get the `d`-boundary of the `model`.
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `CANCEL(model)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `CIRCLE(r)(divs)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `COLOR(rgb)(model)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `CUBE(dim)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `CUBOID(dims)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `CYLSURFACE(dims)(divs)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `DISK(r)(divs)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `DOMAIN(dims)(divs)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
 
 - - -
 
@@ -71,25 +244,213 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 #### `MAP(mapping)(domain)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `POLYLINE(points)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `ROTATE(dims)(angle)(model)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `SCALE(dims)(values)(model)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `SHOW(model)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `SIMPLEX(dim)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `SIMPLEXGRID(quotes)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `SIMPLICIALCOMPLEX(points)(complex)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `SKELETON(dim)(model)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `STRUCT(items)`
 
-- - - 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 ### `TORUSSOLID(dims)(divs)`
 
@@ -125,8 +486,82 @@ Create a torus solid.
 
 #### `TORUSSURFACE(dims)(divs)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `TRANSLATE(dims)(values)(model)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
 
 #### `TRIANGLEFAN(points)`
 
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```
+
+- - -
+
 #### `TRIANGLESTRIP(points)`
+
+Descr.
+
+#### I/O
+
+> #### in
+> `type` `name`: descr.
+> 
+> #### out
+> `type` `name`: descr.
+
+#### Example
+
+> ```js
+> var x = ;
+> DRAW(x);
+> ```

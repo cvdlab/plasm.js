@@ -28,7 +28,26 @@
 
 #### `HIDE(model)`
 
-#### `INTERVALS(tip)(n)`
+### `INTERVALS(length)(n)`
+
+> #### parameters
+> - `length` (`Number`): the length of the interval.
+>
+> #### return 
+> anonymous function.
+> > #### parameters
+> > - `n` (`Number`): the number of subdivisions of the interval.
+>
+> > #### return
+> > instance of `plasm.Model`:  
+> > a segment from `0` to `length` divided in `n` parts.
+
+> #### Example
+>
+>```js
+> i = INTERVALS(10)(5);
+> DRAW(i);
+>```
 
 #### `MAP(mapping)(domain)`
 

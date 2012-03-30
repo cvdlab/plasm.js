@@ -53,21 +53,29 @@ Remove the `model` from the scene graph.
 
 #### `CIRCLE(r)(divs)`
 
-Descr.
+Create a circle with radius `r`, approximated by `divs` segments.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `r`: the radius of the circle.
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Number` `divs`: the number of segments that approximate the circle.
+> > 
+> > #### out
+> > `plasm.Model`: the circle with radius `r`, approximated by `divs` segments.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var r = 1.5;
+> var divs = 32;
+> var circle = CIRCLE(r)(divs);
+> DRAW(circle);
 > ```
 
 - - -

@@ -499,21 +499,23 @@ Descr.
 
 ### `SHOW(model)`
 
-Descr.
+Show a hidden `model`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `plasm.Model` `model`: the model to show.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: the shown model.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = TORUSSURFACE()();
+> DRAW(model);
+> HIDE(model);
+> SHOW(model);
 > ```
 
 - - -

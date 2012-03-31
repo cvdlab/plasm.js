@@ -354,6 +354,24 @@ Extrude a `model`.
 
 #### `HIDE(model)`
 
+Hide the `model`.
+
+#### I/O
+
+> #### in
+> `plasm.Model` `model`: the model to hide.
+> 
+> #### out
+> `plasm.Model`: the hidden model.
+
+#### Example
+
+> ```js
+> var model = TORUSSURFACE()();
+> DRAW(model);
+> HIDE(model);
+> ```
+
 - - -
 
 ### `INTERVALS(length)(n)`

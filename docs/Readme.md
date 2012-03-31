@@ -459,23 +459,36 @@ Create a polyline made by `points`.
 
 - - -
 
-### `ROTATE(dims)(angle)(model)` / `R(dims)(angle)(model)`
+### `ROTATE(axis)(angle)(model)` / `R(axis)(angle)(model)`
 
-Descr.
+Rotate `model` by `angle` on the rotational plane described by `axis`
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `axis`: axis that describe the rotational plane.
 > 
 > #### out
-> `type` `name`: descr.
+> `Funciton`: an anonymous function.
+>
+> > #### in
+> > `Number` `angle`: rotational angle (in radiant, from `0` to `2π`).
+> > 
+> > #### out
+> > `Function`: an anonymous function.
+> > 
+> > > #### in
+> > > `plasm.Model` `model`: the model to rotate.
+> > > 
+> > > #### out
+> > > `plasm.Model`: the rotated model.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = TORUS_SURFACE()();
+> var rotated = ROTATE([1,3])(PI/3)(model);
+> DRAW(rotated);
 > ```
 
 - - -

@@ -205,42 +205,79 @@ Create a cylindrical surface.
 
 ### `DISK(r)(divs)`
 
-Descr.
+Create a disk surface with radius `r`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `r`: the radius (`1` by default).
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `divs`: divisions `[slices, stacks]`.
+> > 
+> > - `Number` `slices`: slices (`16` by default).
+> > - `Number` `stacks`: stacks (`2` by default).
+> > 
+> > #### out
+> > `plasm.Model`: a disk with radius `r`, divided in `slices` and `stacks`. 
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = DISK()();
+> DRAW(model);
 > ```
 
 - - -
 
 ### `DOMAIN(dims)(divs)`
 
-Descr.
+Create a domain.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `dims`: dimensions `[dx, dy, dz]`.
+> 
+> - `Array` `dx`: intervals `[start_x, end_x]`
+>   - `Number` `start_x`: x min
+>   - `Number` `end_x`: x max
+> - `Array` `dy`: intervals `[start_y, end_y]`
+>   - `Number` `start_y`: y min
+>   - `Number` `end_y`: y max
+> - `Array` `dz`: intervals `[start_z, end_z]`
+>   - `Number` `start_z`: z min
+>   - `Number` `end_z`: z max
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `divs`: divisions `[nx, ny, nz]`.
+> > 
+> > - `Number` `nx`: division along x axes.
+> > - `Number` `ny`: division along y axes.
+> > - `Number` `nz`: division along z axes.
+> > 
+> > #### out
+> > `plasm.Model`: a domain. 
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var domain1 = DOMAIN([[0,PI])([32]);
+> DRAW(domain1);
+> ```
+> ```js
+> var domain2 = DOMAIN([[0,PI], [0,1]])([32, 2]);
+> DRAW(domain2);
+> ```
+> ```js
+> var domain3 = DOMAIN([[0,PI], [0,1], [0,0.5]])([32, 2, 5]);
+> DRAW(domain3);
 > ```
 
 - - -

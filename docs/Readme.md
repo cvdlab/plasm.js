@@ -298,7 +298,37 @@ Draw a model.
 
 #### `EXPLODE(values)(model)`
 
+Explode a `model`.
+
+#### I/O
+> #### in
+> `Array` `values`: `[dx, dy, dz]`
+> 
+> - `Number` `dx`: explosion factor along x axe
+> - `Number` `dy`: explosion factor along y axe
+> - `Number` `dx`: explosion factor along z axe
+> 
+> #### out 
+> `Function`: an anonimous function. 
+>   
+> > #### in
+> > `plasm.Model` `model`: the model to explode.
+> >  
+> > #### out
+> > `plasm.Model`: the model exploded.
+
+#### Example
+> ```js
+> var model = TORUSSURFACE()();
+> var exploded = EXLODE([2,2,2])(model);
+> DRAW(exploded);
+>```
+
+- - -
+
 #### `EXTRUDE(values)(model)`
+
+- - -
 
 #### `HIDE(model)`
 
@@ -641,7 +671,7 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
 ```js
 var cube = CUBE(3);
->var translatedCube = T([1,2])([1,3])(cube);
+var translatedCube = T([1,2])([1,3])(cube);
 DRAW(translatedCube);
 ```
 

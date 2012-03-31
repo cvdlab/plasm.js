@@ -436,21 +436,25 @@ Map a `domain` by a `mapping` function.
 
 ### `POLYLINE(points)`
 
-Descr.
+Create a polyline made by `points`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `points`: an array of points (`[p0, p1, ...]`):
+>
+> - `Array` `points[i]` `point`: `i`-th point
+>   - `Number` `point[k]`: `k`-th coord of `point`
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: a polyline made by `points`.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var points = [[0,0], [1,1], [2,0]];
+> var polyline = POLYLINE(points);
+> DRAW(polyline);
 > ```
 
 - - -

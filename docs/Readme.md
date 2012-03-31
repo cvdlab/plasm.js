@@ -205,42 +205,79 @@ Create a cylindrical surface.
 
 ### `DISK(r)(divs)`
 
-Descr.
+Create a disk surface with radius `r`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `r`: the radius (`1` by default).
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `divs`: divisions `[slices, stacks]`.
+> > 
+> > - `Number` `slices`: slices (`16` by default).
+> > - `Number` `stacks`: stacks (`2` by default).
+> > 
+> > #### out
+> > `plasm.Model`: a disk with radius `r`, divided in `slices` and `stacks`. 
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = DISK()();
+> DRAW(model);
 > ```
 
 - - -
 
 ### `DOMAIN(dims)(divs)`
 
-Descr.
+Create a domain.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `dims`: dimensions `[dx, dy, dz]`.
+> 
+> - `Array` `dx`: intervals `[start_x, end_x]`
+>   - `Number` `start_x`: x min
+>   - `Number` `end_x`: x max
+> - `Array` `dy`: intervals `[start_y, end_y]`
+>   - `Number` `start_y`: y min
+>   - `Number` `end_y`: y max
+> - `Array` `dz`: intervals `[start_z, end_z]`
+>   - `Number` `start_z`: z min
+>   - `Number` `end_z`: z max
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `divs`: divisions `[nx, ny, nz]`.
+> > 
+> > - `Number` `nx`: division along x axes.
+> > - `Number` `ny`: division along y axes.
+> > - `Number` `nz`: division along z axes.
+> > 
+> > #### out
+> > `plasm.Model`: a domain. 
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var domain1 = DOMAIN([[0,PI])([32]);
+> DRAW(domain1);
+> ```
+> ```js
+> var domain2 = DOMAIN([[0,PI], [0,1]])([32, 2]);
+> DRAW(domain2);
+> ```
+> ```js
+> var domain3 = DOMAIN([[0,PI], [0,1], [0,0.5]])([32, 2, 5]);
+> DRAW(domain3);
 > ```
 
 - - -
@@ -261,9 +298,79 @@ Draw a model.
 
 #### `EXPLODE(values)(model)`
 
+Explode a `model`.
+
+#### I/O
+> #### in
+> `Array` `values`: `[dx, dy, dz]`
+> 
+> - `Number` `dx`: explosion factor along x axe
+> - `Number` `dy`: explosion factor along y axe
+> - `Number` `dx`: explosion factor along z axe
+> 
+> #### out 
+> `Function`: an anonimous function. 
+>   
+> > #### in
+> > `plasm.Model` `model`: the model to explode.
+> >  
+> > #### out
+> > `plasm.Model`: the model exploded.
+
+#### Example
+> ```js
+> var model = TORUSSURFACE()();
+> var exploded = EXLODE([2,2,2])(model);
+> DRAW(exploded);
+>```
+
+- - -
+
 #### `EXTRUDE(values)(model)`
 
+Extrude a `model`.
+
+#### I/O
+> #### in
+> `Array` `values`
+> 
+> #### out 
+> `Function`: an anonimous function. 
+>   
+> > #### in
+> > `plasm.Model` `model`: the model to extrude.
+> >  
+> > #### out
+> > `plasm.Model`: the model extruded.
+
+#### Example
+> ```js
+> var model = SIMPLEX([1]);
+> var extruded = EXTRUDE([1])(simplex);
+> DRAW(extruded);
+>```
+
+- - -
+
 #### `HIDE(model)`
+
+Hide the `model`.
+
+#### I/O
+
+> #### in
+> `plasm.Model` `model`: the model to hide.
+> 
+> #### out
+> `plasm.Model`: the hidden model.
+
+#### Example
+
+> ```js
+> var model = TORUSSURFACE()();
+> DRAW(model);
+> HIDE(model);
+> ```
 
 - - -
 
@@ -294,21 +401,35 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 ### `MAP(mapping)(domain)`
 
-Descr.
+Map a `domain` by a `mapping` function.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Function` `mapping`: the mapping function.
+>
+> > #### in
+> > `Array` `v`: point of the `domain`.
+> >
+> > #### out
+> > `Array`: the mapped point. 
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `plasm.Model` `domain`: the domain to map.
+> >
+> > #### out
+> > `plasm.Model`: the mapped domain.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var mapping = function (v) { return [v[0] + 1, v[1], v[2]];
+> var model = TORUS_SURFACE()();
+> var mapped = MAP(mapping)(model);
+> DRAW(mapped);
 > ```
 
 - - -
@@ -378,23 +499,24 @@ Descr.
 
 ### `SHOW(model)`
 
-Show a `plasm.Model` drawn and then hidden.
+Show a hidden `model`.
 
 #### I/O
 
 > #### in
-> `plasm.Model` `model`: model to be shown.
+
+> `plasm.Model` `model`: the model to show.
 > 
 > #### out
-> `plasm.Model`: shown model.
+> `plasm.Model`: the shown model.
 
 #### Example
 
 > ```js
-> var cube = CUBE(3);
-> DRAW(cube);
-> HIDE(cube);
-> SHOW(cube);
+> var model = TORUSSURFACE()();
+> DRAW(model);
+> HIDE(model);
+> SHOW(model);
 > ```
 
 - - -
@@ -505,7 +627,8 @@ Structure together `plasm.Model` and `plasm.Struct`.
 If a transformation is encountered in `items`,  
 it is applied to all of the following items.
 
-###I/O
+#### I/O
+
 > #### in
 > `Array` `items`: an array of `plasm.Model` or plasm.Struct` or `Function`
 >
@@ -514,13 +637,14 @@ it is applied to all of the following items.
 
 #### Example
 
-```js
-var cube1 = CUBE(3);
-var cube2 = T([0])([1.3])(cube1);
-var struct1 = STRUCT([cube1, cube2]);
-var t = T([1])([1.3]);
-var struct = STRUCT([struct1, t, struct1, t, cube1]);
-```
+> ```js
+> var cube1 = CUBE(3);
+> var cube2 = T([0])([1.3])(cube1);
+> var struct1 = STRUCT([cube1, cube2]);
+> var t = T([1])([1.3]);
+> var struct = STRUCT([struct1, t, struct1, t, cube1]);
+> ```
+
 - - - 
 
 ### `TORUS_SOLID(dims)(divs)`
@@ -549,10 +673,10 @@ Create a torus solid.
 
 #### Example
 
-```js
-torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
-DRAW(torusSolid);
-```
+> ```js
+> torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
+> DRAW(torusSolid);
+> ```
 
 - - -
 
@@ -561,6 +685,7 @@ DRAW(torusSolid);
 Create a toroidal surface.
 
 #### I/O
+
 > #### in
 > `Array` `dims`: size of the radii `[rMin, rMax]`
 > 
@@ -581,10 +706,10 @@ Create a toroidal surface.
 
 #### Example
 
-```js
-var torusSurface = TORUS_SURFACE([0.1, 0.9])([12,8]);
-DRAW(torusSurface);
-```
+> ```js
+> var torusSurface = TORUS_SURFACE([0.1, 0.9])([12,8]);
+> DRAW(torusSurface);
+> ```
 
 - - -
 
@@ -592,7 +717,8 @@ DRAW(torusSurface);
 
 Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
-####I/O
+#### I/O
+
 > #### in
 > `Array` `dims`: an array of `Number` specifying which dimensions translate (first dim has index 0).
 >
@@ -613,11 +739,11 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
 #### Example
 
-```js
-var cube = CUBE(3);
->var translatedCube = T([1,2])([1,3])(cube);
-DRAW(translatedCube);
-```
+> ```js
+> var cube = CUBE(3);
+> var translatedCube = T([1,2])([1,3])(cube);
+> DRAW(translatedCube);
+> ```
 
 - - -
 
@@ -627,7 +753,8 @@ Create a tiangle fan: first point is the center of the fan,
 center point is used with next two points to form a triangle.  
 Every successive point is used with center point and the previuos point to form a triangle.
 
-####I/O
+#### I/O
+
 > #### in
 > `Array` `points`: an array of points, represented as arrays of coordinates.
 >
@@ -636,11 +763,11 @@ Every successive point is used with center point and the previuos point to form 
 
 #### Example
 
-```js
-var points = [[0,0,0],[0,1,0],[1,0,0],[0,-1,0],[-1,0,0]];
-var triStrip = TRIANGLE_FAN(points);
-DRAW(triStrip);
-```
+> ```js
+> var points = [[0,0,0],[0,1,0],[1,0,0],[0,-1,0],[-1,0,0]];
+> var triStrip = TRIANGLE_FAN(points);
+> DRAW(triStrip);
+> ```
 
 - - -
 
@@ -659,11 +786,11 @@ every other point is used with next two points to form a triangle.
 
 #### Example
 
-```js
-var points = [[0,0,0],[0,1,0],[1,0,0],[1,1,0],[2,0,0]];
-var triStrip = TRIANGLE_STRIP(points);
-DRAW(triStrip);
-```
+> ```js
+> var points = [[0,0,0],[0,1,0],[1,0,0],[1,1,0],[2,0,0]];
+> var triStrip = TRIANGLE_STRIP(points);
+> DRAW(triStrip);
+> ```
 
 - - -
 

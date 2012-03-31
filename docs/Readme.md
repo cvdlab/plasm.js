@@ -623,7 +623,8 @@ Structure together `plasm.Model` and `plasm.Struct`.
 If a transformation is encountered in `items`,  
 it is applied to all of the following items.
 
-###I/O
+#### I/O
+
 > #### in
 > `Array` `items`: an array of `plasm.Model` or plasm.Struct` or `Function`
 >
@@ -632,13 +633,14 @@ it is applied to all of the following items.
 
 #### Example
 
-```js
-var cube1 = CUBE(3);
-var cube2 = T([0])([1.3])(cube1);
-var struct1 = STRUCT([cube1, cube2]);
-var t = T([1])([1.3]);
-var struct = STRUCT([struct1, t, struct1, t, cube1]);
-```
+> ```js
+> var cube1 = CUBE(3);
+> var cube2 = T([0])([1.3])(cube1);
+> var struct1 = STRUCT([cube1, cube2]);
+> var t = T([1])([1.3]);
+> var struct = STRUCT([struct1, t, struct1, t, cube1]);
+> ```
+
 - - - 
 
 ### `TORUS_SOLID(dims)(divs)`
@@ -667,10 +669,10 @@ Create a torus solid.
 
 #### Example
 
-```js
-torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
-DRAW(torusSolid);
-```
+> ```js
+> torusSolid = TORUS_SOLID([0.1, 0.9])([12,8,8]);
+> DRAW(torusSolid);
+> ```
 
 - - -
 
@@ -679,6 +681,7 @@ DRAW(torusSolid);
 Create a toroidal surface.
 
 #### I/O
+
 > #### in
 > `Array` `dims`: size of the radii `[rMin, rMax]`
 > 
@@ -699,10 +702,10 @@ Create a toroidal surface.
 
 #### Example
 
-```js
-var torusSurface = TORUS_SURFACE([0.1, 0.9])([12,8]);
-DRAW(torusSurface);
-```
+> ```js
+> var torusSurface = TORUS_SURFACE([0.1, 0.9])([12,8]);
+> DRAW(torusSurface);
+> ```
 
 - - -
 
@@ -710,7 +713,8 @@ DRAW(torusSurface);
 
 Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
-####I/O
+#### I/O
+
 > #### in
 > `Array` `dims`: an array of `Number` specifying which dimensions translate (first dim has index 0).
 >
@@ -731,11 +735,11 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
 #### Example
 
-```js
-var cube = CUBE(3);
-var translatedCube = T([1,2])([1,3])(cube);
-DRAW(translatedCube);
-```
+> ```js
+> var cube = CUBE(3);
+> var translatedCube = T([1,2])([1,3])(cube);
+> DRAW(translatedCube);
+> ```
 
 - - -
 
@@ -745,7 +749,8 @@ Create a tiangle fan: first point is the center of the fan,
 center point is used with next two points to form a triangle.  
 Every successive point is used with center point and the previuos point to form a triangle.
 
-####I/O
+#### I/O
+
 > #### in
 > `Array` `points`: an array of points, represented as arrays of coordinates.
 >
@@ -754,11 +759,11 @@ Every successive point is used with center point and the previuos point to form 
 
 #### Example
 
-```js
-var points = [[0,0,0],[0,1,0],[1,0,0],[0,-1,0],[-1,0,0]];
-var triStrip = TRIANGLE_FAN(points);
-DRAW(triStrip);
-```
+> ```js
+> var points = [[0,0,0],[0,1,0],[1,0,0],[0,-1,0],[-1,0,0]];
+> var triStrip = TRIANGLE_FAN(points);
+> DRAW(triStrip);
+> ```
 
 - - -
 
@@ -777,11 +782,11 @@ every other point is used with next two points to form a triangle.
 
 #### Example
 
-```js
-var points = [[0,0,0],[0,1,0],[1,0,0],[1,1,0],[2,0,0]];
-var triStrip = TRIANGLE_STRIP(points);
-DRAW(triStrip);
-```
+> ```js
+> var points = [[0,0,0],[0,1,0],[1,0,0],[1,1,0],[2,0,0]];
+> var triStrip = TRIANGLE_STRIP(points);
+> DRAW(triStrip);
+> ```
 
 - - -
 

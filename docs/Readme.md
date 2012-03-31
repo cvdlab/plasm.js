@@ -521,6 +521,7 @@ Show a hidden `model`.
 #### I/O
 
 > #### in
+
 > `plasm.Model` `model`: the model to show.
 > 
 > #### out
@@ -539,36 +540,39 @@ Show a hidden `model`.
 
 ### `SIMPLEX(dim)`
 
-Descr.
+Create a `dim`-dimensional simplex with sides length equal to 1.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Number` `dim`: simplex dimension.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: a simplex of dim `dim`.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var simplex = SIMPLEX(3);
+> DRAW(simplex);
 > ```
 
 - - -
 
-### `SIMPLEXGRID(quotes)`
+### `SIMPLEX_GRID(quotes)`
 
-
+Create a grid simplicial complex.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `quotes`: an array of array of quotes for each dimension of the grid, starting from dimension 0.  
+> Quotes may be both positive and negative: 
+>   - positive ones are actually generated, 
+>   - negative ones are considered as a positive spacing.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: a grid simplicial complex.
 
 #### Example
 

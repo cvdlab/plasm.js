@@ -328,6 +328,28 @@ Explode a `model`.
 
 #### `EXTRUDE(values)(model)`
 
+Extrude a `model`.
+
+#### I/O
+> #### in
+> `Array` `values`
+> 
+> #### out 
+> `Function`: an anonimous function. 
+>   
+> > #### in
+> > `plasm.Model` `model`: the model to extrude.
+> >  
+> > #### out
+> > `plasm.Model`: the model extruded.
+
+#### Example
+> ```js
+> var model = SIMPLEX([1]);
+> var extruded = EXTRUDE([1])(simplex);
+> DRAW(extruded);
+>```
+
 - - -
 
 #### `HIDE(model)`

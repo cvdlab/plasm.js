@@ -543,7 +543,7 @@ Descr.
 
 ### `SIMPLEXGRID(quotes)`
 
-Descr.
+
 
 #### I/O
 
@@ -562,23 +562,29 @@ Descr.
 
 - - -
 
-### `SIMPLICIALCOMPLEX(points)(complex)`
+### `SIMPLICIAL_COMPLEX(points)(cells)`
 
-Descr.
+Create a simplicial complex.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `points`: an array of points, represented as arrays of coordinates.
 > 
 > #### out
-> `type` `name`: descr.
-
-#### Example
+> `Function`: anonymous function.
+> 
+> > #### in
+> > `Array` `cells`: complex's highest order cells represented as arrays of indices of `points`.
+> >
+> > #### out
+> > `plasm.Model`: a simplicial complex.
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var points = [[0,0],[1,0],[0,1],[1,1],[0.5,1.5]];
+> var cells = [[0,1,2],[2,3,4],[4,5,6]];
+> var simplicialComplex = SIMPLICIAL_COMPLEX(points)(cells);
+> DRAW(simplicialComplex);
 > ```
 
 - - -
@@ -741,7 +747,7 @@ Every successive point is used with center point and the previuos point to form 
 
 ####I/O
 > #### in
-> `Array` `points`: an array of points, represented as arrays.
+> `Array` `points`: an array of points, represented as arrays of coordinates.
 >
 > #### out
 > instance of `plasm.Model`: a triangle fan.
@@ -764,7 +770,7 @@ every other point is used with next two points to form a triangle.
 #### I/O
 
 > #### in
-> `Array` `points`: an array of points, represented as arrays.
+> `Array` `points`: an array of points, represented as arrays of coordinates.
 >
 > #### out
 > instance of `plasm.Model`: a triangle strip.

@@ -1,5 +1,9 @@
 {
-  "author": "cvd-lab <cvd-lab@email.com> (https://github.com/cvd-lab/)",
+  "author": {
+    "name": "cvd-lab",
+    "email": "cvd-lab@email.com",
+    "site": "https://github.com/cvd-lab/)"
+  },
   "name": "plasm.js",
   "description": "JavaScript Programming Language for Solid Modeling",
   "version": "0.0.1",

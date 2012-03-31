@@ -581,6 +581,7 @@ Create a grid simplicial complex.
 > #### in
 > `Array` `quotes`: an array of array of quotes for each dimension of the grid, starting from dimension 0.  
 > Quotes may be both positive and negative: 
+> 
 >   - positive ones are actually generated, 
 >   - negative ones are considered as a positive spacing.
 > 
@@ -590,8 +591,8 @@ Create a grid simplicial complex.
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = SIMPLEX_GRID([1,-1,1]);
+> DRAW(model);
 > ```
 
 - - -

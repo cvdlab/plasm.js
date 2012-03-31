@@ -401,21 +401,35 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 ### `MAP(mapping)(domain)`
 
-Descr.
+Map a `domain` by a `mapping` function.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Function` `mapping`: the mapping function.
+>
+> > #### in
+> > `Array` `v`: point of the `domain`.
+> >
+> > #### out
+> > `Array`: the mapped point. 
 > 
 > #### out
-> `type` `name`: descr.
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `plasm.Model` `domain`: the domain to map.
+> >
+> > #### out
+> > `plasm.Model`: the mapped domain.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var mapping = function (v) { return [v[0] + 1, v[1], v[2]];
+> var model = TORUS_SURFACE()();
+> var mapped = MAP(mapping)(model);
+> DRAW(mapped);
 > ```
 
 - - -

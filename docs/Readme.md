@@ -493,23 +493,36 @@ Rotate `model` by `angle` on the rotational plane described by `axis`
 
 - - -
 
-### `SCALE(dims)(values)(model)` / `S(dims)(values)(model)`
+### `SCALE(axis)(values)(model)` / `S(axis)(values)(model)`
 
-Descr.
+Scale `model` by `values` along `axis`.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `Array` `axis`: axis to scale along.
 > 
 > #### out
-> `type` `name`: descr.
+> `Funciton`: an anonymous function.
+>
+> > #### in
+> > `Array` `values`: scaling factors.
+> > 
+> > #### out
+> > `Function`: an anonymous function.
+> > 
+> > > #### in
+> > > `plasm.Model` `model`: the model to scale.
+> > > 
+> > > #### out
+> > > `plasm.Model`: the scaled model.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var model = TORUS_SURFACE()();
+> var scaled = SCALE([1,3])([2,0.5])(model);
+> DRAW(scaled);
 > ```
 
 - - -

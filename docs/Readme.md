@@ -378,21 +378,23 @@ Descr.
 
 ### `SHOW(model)`
 
-Descr.
+Show a `plasm.Model` drawn and then hidden.
 
 #### I/O
 
 > #### in
-> `type` `name`: descr.
+> `plasm.Model` `model`: model to be shown.
 > 
 > #### out
-> `type` `name`: descr.
+> `plasm.Model`: shown model.
 
 #### Example
 
 > ```js
-> var x = ;
-> DRAW(x);
+> var cube = CUBE(3);
+> DRAW(cube);
+> HIDE(cube);
+> SHOW(cube);
 > ```
 
 - - -

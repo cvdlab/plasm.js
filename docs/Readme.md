@@ -171,7 +171,7 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz, ...]`.
 
 - - -
 
-### `CYLSURFACE(dims)(divs)`
+### `CYL_SURFACE(dims)(divs)`
 
 Create a cylindrical surface.
 

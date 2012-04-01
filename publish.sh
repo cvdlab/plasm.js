@@ -69,6 +69,7 @@ else
   git push -f origin gh-pages
 
   git checkout master
+  git submodule update
   git branch -D gh-pages
 
   fi

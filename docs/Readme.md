@@ -27,17 +27,17 @@ Get the `d`-boundary of the `model`.
 
 - - -
 
-### `CANCEL(model)`
+### `CANCEL(object)`
 
-Remove the `model` from the scene graph.
+Remove the `object` from the scene graph.
 
 #### I/O
 
 > #### in
-> `plasm.Model` `model`: the model to cancel.
+> `plasm.Model` or `plasm.Struct` `object`: the object to cancel.
 > 
 > #### out
-> `plasm.Model` `model`: the model cancelled.
+> `plasm.Model` or `plasm.Struct` `object`: the cancelled object.
 
 #### Example
 
@@ -78,9 +78,9 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 - - -
 
-### `COLOR(color)(model)`
+### `COLOR(color)(object)`
 
-Color the `model` with `color`.
+Color the `object` with `color`.
 
 #### I/O
 
@@ -95,10 +95,10 @@ Color the `model` with `color`.
 > `Function`: an anonymous function.
 >
 > > #### in
-> > `plasm.Model` `model`: the model to color.
+> > `plasm.Model` or `plasm.Struct` `object`: the object to color.
 > > 
 > > #### out
-> > `plasm.Model`: the model `colored` with `color`. 
+> > `plasm.Model` or `plasm.Struct`: the colored object. 
 
 #### Example
 
@@ -113,7 +113,7 @@ Color the `model` with `color`.
 
 ### `CUBE(dim)`
 
-Create a cube with `dim` dimension.
+Create a `dim`-dimensional cube.
 
 #### I/O
 
@@ -135,19 +135,20 @@ Create a cube with `dim` dimension.
 
 ### `CUBOID(dims)`
 
-Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
+Create a cuboidal simplicial complex with dimensions `[dx, dy, dz, ...]`.
 
 #### I/O
 
 > #### in
-> `Array` `dims`: dimensions of the simplicial complex.
+> `Array` `dims`: sides length for each dimension of the simplicial complex.
 > 
 > - `Number` `dx`: dimension along x axe
 > - `Number` `dy`: dimension along y axe
 > - `Number` `dz`: dimension along z axe
+> - ...
 > 
 > #### out
-> `plasm.Model`: a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
+> `plasm.Model`: a cuboidal simplicial complex with dimensions `[dx, dy, dz, ...]`.
 
 #### Example
 
@@ -170,7 +171,7 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz]`.
 
 - - -
 
-### `CYLSURFACE(dims)(divs)`
+### `CYL_SURFACE(dims)(divs)`
 
 Create a cylindrical surface.
 
@@ -240,7 +241,7 @@ Create a domain.
 #### I/O
 
 > #### in
-> `Array` `dims`: dimensions `[dx, dy, dz]`.
+> `Array` `dims`: dimensions `[dx, dy, dz, ...]`.
 > 
 > - `Array` `dx`: intervals `[start_x, end_x]`
 >   - `Number` `start_x`: x min
@@ -251,16 +252,18 @@ Create a domain.
 > - `Array` `dz`: intervals `[start_z, end_z]`
 >   - `Number` `start_z`: z min
 >   - `Number` `end_z`: z max
+> - ...
 > 
 > #### out
 > `Function`: an anonymous function.
 > 
 > > #### in
-> > `Array` `divs`: divisions `[nx, ny, nz]`.
+> > `Array` `divs`: divisions `[nx, ny, nz, ...]`.
 > > 
 > > - `Number` `nx`: division along x axes.
 > > - `Number` `ny`: division along y axes.
 > > - `Number` `nz`: division along z axes.
+> > - ...
 > > 
 > > #### out
 > > `plasm.Model`: a domain. 
@@ -282,17 +285,17 @@ Create a domain.
 
 - - -
 
-### `DRAW(model)`
+### `DRAW(object)`
 
-Draw a model.
+Draw an object of 3 or less dimensions.
 
 #### I/O
 
 > #### in
-> `plasm.Model` or `plasm.Struct` `model`: the model to draw.
+> `plasm.Model` or `plasm.Struct` `object`: the object to draw.
 > 
 > #### out
-> `plasm.Model` or `plasm.Struct` `model`: the model drawn.
+> `plasm.Model` or `plasm.Struct` `object`: the object drawn.
 
 - - -
 
@@ -302,11 +305,12 @@ Explode a `model`.
 
 #### I/O
 > #### in
-> `Array` `values`: `[dx, dy, dz]`
+> `Array` `values`: `[dx, dy, dz, ...]`
 > 
 > - `Number` `dx`: explosion factor along x axe
 > - `Number` `dy`: explosion factor along y axe
 > - `Number` `dx`: explosion factor along z axe
+> - ...
 > 
 > #### out 
 > `Function`: an anonimous function. 
@@ -352,17 +356,17 @@ Extrude a `model`.
 
 - - -
 
-#### `HIDE(model)`
+#### `HIDE(object)`
 
-Hide the `model`.
+Hide the `object`.
 
 #### I/O
 
 > #### in
-> `plasm.Model` `model`: the model to hide.
+> `plasm.Model` or `plasm.Struct` `objetc`: the object to hide.
 > 
 > #### out
-> `plasm.Model`: the hidden model.
+> `plasm.Model` or `plasm.Struct`: the hidden model.
 
 #### Example
 
@@ -459,9 +463,9 @@ Create a polyline made by `points`.
 
 - - -
 
-### `ROTATE(axis)(angle)(model)` / `R(axis)(angle)(model)`
+### `ROTATE(axis)(angle)(object)` / `R(axis)(angle)(object)`
 
-Rotate `model` by `angle` on the rotational plane described by `axis`
+Rotate `object` by `angle` on the rotational plane described by `axis`
 
 #### I/O
 
@@ -478,10 +482,10 @@ Rotate `model` by `angle` on the rotational plane described by `axis`
 > > `Function`: an anonymous function.
 > > 
 > > > #### in
-> > > `plasm.Model` `model`: the model to rotate.
+> > > `plasm.Model` or `plasm.Struct` `object`: the object to rotate.
 > > > 
 > > > #### out
-> > > `plasm.Model`: the rotated model.
+> > > `plasm.Model` or `plasm.Struct`: the rotated object.
 
 #### Example
 
@@ -493,7 +497,7 @@ Rotate `model` by `angle` on the rotational plane described by `axis`
 
 - - -
 
-### `SCALE(axis)(values)(model)` / `S(axis)(values)(model)`
+### `SCALE(axis)(values)(object)` / `S(axis)(values)(object)`
 
 Scale `model` by `values` along `axis`.
 
@@ -512,10 +516,10 @@ Scale `model` by `values` along `axis`.
 > > `Function`: an anonymous function.
 > > 
 > > > #### in
-> > > `plasm.Model` `model`: the model to scale.
+> > > `plasm.Model` or `plasm.Struct` `object`: the object to scale.
 > > > 
 > > > #### out
-> > > `plasm.Model`: the scaled model.
+> > > `plasm.Model` or `plasm.Struct`: the scaled object.
 
 #### Example
 
@@ -527,18 +531,18 @@ Scale `model` by `values` along `axis`.
 
 - - -
 
-### `SHOW(model)`
+### `SHOW(object)`
 
-Show a hidden `model`.
+Show a hidden `object`.
 
 #### I/O
 
 > #### in
 
-> `plasm.Model` `model`: the model to show.
+> `plasm.Model` or `plasm.Struct` `object`: the object to show.
 > 
 > #### out
-> `plasm.Model`: the shown model.
+> `plasm.Model` or `plasm.Struct`: the shown model.
 
 #### Example
 
@@ -582,8 +586,8 @@ Create a grid simplicial complex.
 > `Array` `quotes`: an array of array of quotes for each dimension of the grid, starting from dimension 0.  
 > Quotes may be both positive and negative: 
 > 
->   - positive ones are actually generated, 
->   - negative ones are considered as a positive spacing.
+> - positive ones are actually generated, 
+> - negative ones are considered as a positive spacing.
 > 
 > #### out
 > `plasm.Model`: a grid simplicial complex.
@@ -661,7 +665,7 @@ it is applied to all of the following items.
 #### I/O
 
 > #### in
-> `Array` `items`: an array of `plasm.Model` or plasm.Struct` or `Function`
+> `Array` `items`: an array of `plasm.Model` or `plasm.Struct` or `Function`
 >
 > #### out
 > instance of `plasm.Struct`: a struct.
@@ -744,7 +748,7 @@ Create a toroidal surface.
 
 - - -
 
-### `TRANSLATE(dims)(values)(model)` / `T(dims)(values)(model)`
+### `TRANSLATE(dims)(values)(object)` / `T(dims)(values)(object)`
 
 Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
@@ -763,10 +767,10 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 > > `Function`: anonymous function.
 > > 
 > > > #### in
-> > > `plasm.Model` `model`: the model to translate.
+> > > `plasm.Model` or `plasm.Struct` `object`: the object to translate.
 > > > 
-> > > #### out:
-> > > instance of `plasm.Model`: a translated clone of `model`.
+> > > #### out
+> > > `plasm.Model` or `plasm.Struct`: the translated object.
 
 #### Example
 

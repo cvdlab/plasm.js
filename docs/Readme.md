@@ -470,7 +470,7 @@ Rotate `object` by `angle` on the rotational plane described by `axis`
 #### I/O
 
 > #### in
-> `Array` `axis`: axis that describe the rotational plane.
+> `Array` `axis`: the axis around which rotation rotate the object.
 > 
 > #### out
 > `Funciton`: an anonymous function.

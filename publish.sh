@@ -22,6 +22,15 @@ else
 
   fi
 
+  version=$(grep -Eo '# version [[:digit:]]+' plasm.js.manifest | grep -Eo [[:digit:]]+)
+  version=$(($version + 1))
+  echo $version
+  sed 's/# version [[:digit:]]*/# version '$version'/g' plasm.js.manifest > version.manifest.temp
+  rm plasm.js.manifest
+  mv version.manifest.temp plasm.js.manifest
+
+  git commit -a -m "update plasm.js.manifest version: ready for publish"
+
   git checkout -b gh-pages
   git submodule update
 

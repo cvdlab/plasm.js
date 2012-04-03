@@ -126,7 +126,7 @@ Create a `dim`-dimensional cube.
 #### Example
 
 > ```js
-> var dim = 2.5;
+> var dim = 2;
 > var cube = CUBE(dim);
 > DRAW(cube);
 > ```

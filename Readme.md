@@ -39,7 +39,7 @@ git submodule update
 
 (The MIT License)
 
-Copyright (c) 2011 Enrico Marino and Federico Spini for CVDLab &lt;cvd-lab@email.com&gt;
+Copyright (c) 2011 Enrico Marino and Federico Spini for CVDLab (https://github.com/cvd-lab)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

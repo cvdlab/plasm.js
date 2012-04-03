@@ -8,7 +8,23 @@ see [docs](https://github.com/cvd-lab/plasm.js/blob/master/docs/Readme.md)
 
 ## Installation
 
-    npm install plasm.js
+type in a terminal, from your workspace directory
+
+```
+git clone git@github.com:cvd-lab/plasm.js.git
+```
+
+```
+cd plasm.js
+```
+
+```
+git submodule init
+```
+
+```
+git submodule update
+```
 
 ## Authors
 
@@ -23,7 +39,7 @@ see [docs](https://github.com/cvd-lab/plasm.js/blob/master/docs/Readme.md)
 
 (The MIT License)
 
-Copyright (c) 2011 cvd-lab &lt;cvd-lab@email.com&gt;
+Copyright (c) 2012 Enrico Marino and Federico Spini for CVDLab (https://github.com/cvd-lab)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

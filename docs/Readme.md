@@ -397,8 +397,8 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 #### Example
 > ```js
-> i = INTERVALS(10)(5);
-> DRAW(i);
+> var intervals = INTERVALS(10)(5);
+> DRAW(intervals);
 >```
 
 - - -

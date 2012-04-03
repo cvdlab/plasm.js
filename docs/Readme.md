@@ -126,7 +126,7 @@ Create a `dim`-dimensional cube.
 #### Example
 
 > ```js
-> var dim = 2.5;
+> var dim = 2;
 > var cube = CUBE(dim);
 > DRAW(cube);
 > ```
@@ -491,7 +491,7 @@ Rotate `object` by `angle` on the rotational plane described by `axis`
 
 > ```js
 > var model = TORUS_SURFACE()();
-> var rotated = ROTATE([1,3])(PI/3)(model);
+> var rotated = ROTATE(2)(PI/3)(model);
 > DRAW(rotated);
 > ```
 
@@ -525,7 +525,7 @@ Scale `model` by `values` along `axis`.
 
 > ```js
 > var model = TORUS_SURFACE()();
-> var scaled = SCALE([1,3])([2,0.5])(model);
+> var scaled = SCALE([1,2])([2,0.5])(model);
 > DRAW(scaled);
 > ```
 

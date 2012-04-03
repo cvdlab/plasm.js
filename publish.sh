@@ -24,7 +24,7 @@ else
 
   version=$(grep -Eo '# version [[:digit:]]+' plasm.js.manifest | grep -Eo [[:digit:]]+)
   version=$(($version + 1))
-  echo 'plasm.js.manifest switched to version ' $version
+  echo "plasm.js.manifest switched to version "  $version
   sed 's/# version [[:digit:]]*/# version '$version'/g' plasm.js.manifest > version.manifest.temp
   rm plasm.js.manifest
   mv version.manifest.temp plasm.js.manifest

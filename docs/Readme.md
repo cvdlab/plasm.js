@@ -20,7 +20,7 @@ Get the `d`-boundary of the `model`.
 
 > ```js
 > var d = 1;
-> var model = TORUSSURFACE()();
+> var model = TORUS_SURFACE()();
 > var boundary = BOUNDARY(d)(model);
 > DRAW(boundary);
 > ```
@@ -42,7 +42,7 @@ Remove the `object` from the scene graph.
 #### Example
 
 > ```js
-> var model = TORUSSURFACE()();
+> var model = TORUS_SURFACE()();
 > DRAW(model);
 > CANCEL(model);
 > ```
@@ -104,7 +104,7 @@ Color the `object` with `color`.
 
 > ```js
 > var color = [0.8, 0.4, 0.2];
-> var model = TORUSSURFACE()();
+> var model = TORUS_SURFACE()();
 > COLOR(color)(model);
 > DRAW(model);
 > ```
@@ -323,7 +323,7 @@ Explode a `model`.
 
 #### Example
 > ```js
-> var model = TORUSSURFACE()();
+> var model = TORUS_SURFACE()();
 > var exploded = EXLODE([2,2,2])(model);
 > DRAW(exploded);
 >```
@@ -371,7 +371,7 @@ Hide the `object`.
 #### Example
 
 > ```js
-> var model = TORUSSURFACE()();
+> var model = TORUS_SURFACE()();
 > DRAW(model);
 > HIDE(model);
 > ```
@@ -547,7 +547,7 @@ Show a hidden `object`.
 #### Example
 
 > ```js
-> var model = TORUSSURFACE()();
+> var model = TORUS_SURFACE()();
 > DRAW(model);
 > HIDE(model);
 > SHOW(model);

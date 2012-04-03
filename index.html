@@ -33,6 +33,13 @@
   </script>
 
   <script type="text/javascript">
+    window.applicationCache.onupdateready = function (e) {
+      console.log("Application update ready");
+      window.applicationCache.swapCache();
+    }
+  </script>
+
+  <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-30496335-1']);
     _gaq.push(['_trackPageview']);

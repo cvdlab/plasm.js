@@ -1,7 +1,6 @@
 CACHE MANIFEST
-# version 19
+# version 30
 
-NETWORK:
 styles/reset.css
 styles/style.css
 
@@ -19,4 +18,6 @@ lib/plasm.js
 lib/plasm-fun.js
 
 index.html
+
+NETWORK:
 http://www.google-analytics.com/

@@ -1,6 +1,0 @@
-[submodule "support/f.js"]
-	path = support/f.js
-	url = git@github.com:onirame/f.git
-[submodule "support/simplexn.js"]
-	path = support/simplexn.js
-	url = git@github.com:cvd-lab/simplexn.git

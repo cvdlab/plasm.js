@@ -2,20 +2,35 @@
   "author": {
     "name": "cvd-lab",
     "email": "cvd-lab@email.com",
-    "site": "https://github.com/cvd-lab/)"
+    "site": "https://github.com/cvdlab/)"
   },
+  "contributors": [ 
+    {
+      "name": "Enrico Marino",
+      "email": "enrico.marino@email.com",
+      "url": "http://onirame.no.de"
+    },
+    {
+      "name": "Federico Spini",
+      "email": "federico.spini@gmail.com",
+      "url": "http://spini.no.de"
+    }
+  ],
   "name": "plasm.js",
   "description": "JavaScript Programming Language for Solid Modeling",
   "version": "0.0.1",
-  "homepage": "https://github.com/cvd-lab/plasm.js",
+  "homepage": "https://github.com/cvdlab/plasm.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cvd-lab/plasm.js.git"
+    "url": "git://github.com/cvdlab/plasm.js.git"
   },
   "main": "index.js",
   "engines": {
     "node": "*"
   },
-  "dependencies": {},
+  "dependencies": {
+    "f.js": "0.x.x",
+    "simplexn.js": "0.x.x"
+    },
   "devDependencies": {}
 }

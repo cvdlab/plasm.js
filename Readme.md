@@ -18,13 +18,7 @@ type in a terminal, from your workspace directory
 
 ```
 git clone git@github.com:cvdlab/plasm.js.git
-```
-
-```
 cd plasm.js
-```
-
-```
 npm install 
 ```
 

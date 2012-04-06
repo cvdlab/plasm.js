@@ -17,7 +17,7 @@ you need [Node.js](http://nodejs.org/) to install **plasm.js** locally
 type in a terminal, from your workspace directory
 
 ```
-git clone git@github.com:cvd-lab/plasm.js.git
+git clone git@github.com:cvdlab/plasm.js.git
 ```
 
 ```

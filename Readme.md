@@ -8,11 +8,11 @@ see [docs](https://github.com/cvd-lab/plasm.js/blob/master/docs/Readme.md)
 
 ## Installation
 
-### Prerequisite
+### pre-requisite
 
-you need [Node.js](http://nodejs.org/) to install **plasm.js** locally
+install [Node.js](http://nodejs.org/)
 
-### Instructions
+### install
 
 type in a terminal, from your workspace directory
 
@@ -22,6 +22,14 @@ cd plasm.js
 npm install 
 ```
 
+### update
+
+type in a terminal, from your `plasm.js` directory
+
+```
+git pull origin master
+npm update
+```
 
 ## Authors
 

@@ -11,9 +11,8 @@ support/three-frame.js
 support/three-stats.js
 support/three-trackball.js
 
-support/simplexn.js/lib/simplexn.js
-
-support/f.js/lib/f.js
+node_modules/simplexn.js/lib/simplexn.js
+node_modules/f.js/lib/f.js
 
 lib/plasm.js
 lib/plasm-fun.js

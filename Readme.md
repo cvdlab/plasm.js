@@ -8,26 +8,28 @@ see [docs](https://github.com/cvd-lab/plasm.js/blob/master/docs/Readme.md)
 
 ## Installation
 
-### Prerequisite
+### pre-requisite
 
-you need [Node.js](http://nodejs.org/) to install **plasm.js** locally
+install [Node.js](http://nodejs.org/)
 
-### Instructions
+### install
 
 type in a terminal, from your workspace directory
 
 ```
-git clone git@github.com:cvd-lab/plasm.js.git
-```
-
-```
+git clone git@github.com:cvdlab/plasm.js.git
 cd plasm.js
-```
-
-```
 npm install 
 ```
 
+### update
+
+type in a terminal, from your `plasm.js` directory
+
+```
+git pull origin master
+npm update
+```
 
 ## Authors
 
@@ -42,7 +44,7 @@ npm install
 
 (The MIT License)
 
-Copyright (c) 2012 Enrico Marino and Federico Spini for CVDLab (https://github.com/cvd-lab)
+Copyright (c) 2012 Enrico Marino and Federico Spini for CVD Lab ([http://dia.uniroma3.it/~cvdlab](http://dia.uniroma3.it/~cvdlab))
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

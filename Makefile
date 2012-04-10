@@ -1,21 +1,27 @@
 SRC = lib/plasm.js lib/plasm-fun.js
-DEP_SRC = node_modules/f.js/lib/f.js node_modules/simplexn.js/lib/simplexn.js
-DEP_3D_ENGINE = support/three.js support/three-detector.js support/three-frame.js support/three-stats.js support/three-trackball.js
+DEP_SRC = node_modules/simplexn.js/lib/simplexn.js node_modules/f.js/lib/f.js
+VIEWER_TO_MIN = support/three-detector.js support/three-frame.js support/three-trackball.js
+VIEWER_MIN = support/three-detector.min.js support/three-frame.min.js support/three-trackball.min.js
+VIEWER = support/three.js support/three-detector.min.js support/three-frame.min.js support/three-stats.js support/three-trackball.min.js
 
-all: plasm.js plasm.min.js
+%.min.js: %.js
+	uglifyjs -nc -nm $< > $@
 
-plasm.js:  $(DEP_3D_ENGINE) $(DEP_SRC) $(SRC)
+all: viewer.min.js plasm.min.js
+
+viewer.min.js: $(VIEWER)
+	cat $^ > $@
+
+plasm.js: $(DEP_SRC) $(SRC)
 	npm install
 	cat $^ > $@
 
-plasm.min.js: plasm.js
-	uglifyjs -nc $< > $@
-
 clean:
+	rm -f $(VIEWER_MIN)
+	rm -f viewer.min.js
 	rm -f plasm{,.min}.js
 
-publish:
-	echo "publishing..."
-
+gh-pages: all
+	sh ./publish.sh
 
 .PHONY: clean

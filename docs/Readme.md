@@ -463,6 +463,89 @@ Create a polyline made by `points`.
 
 - - -
 
+### `PROD1x1(array)`
+
+Return cartesian product of the two models in `array`.
+Each model must have Rn equals to 1.
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[2.2],[3.5],[7.8],[9.0]]);
+> var axb = PROD1x1([a,b]);
+> DRAW(STRUCT([axb, SKELETON(1)(axb)]));
+> ```
+
+- - -
+
+### `PROD1x2(array)`
+
+Return cartesian product of the two models in `array`.
+The first model must have Rn equals to 1.
+The second model must have Rn equals to 2.
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[0,2],[1,1],[2,1],[3,0]]);
+> var axb = PROD1x2([a,b]);
+> DRAW(STRUCT([axb, SKELETON(1)(axb)]));
+> ```
+
+- - -
+
+### `PROD2x1(array)`
+
+Return cartesian product of the two models in `array`.
+The first model must have Rn equals to 2.
+The second model must have Rn equals to 1.
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[0,2],[1,1],[2,1],[3,0]]);
+> var bxa = PROD2x1([b,a]);
+> DRAW(STRUCT([bxa, SKELETON(1)(bxa)]));
+> ```
+
+- - -
+
 ### `ROTATE(axis)(angle)(object)` / `R(axis)(angle)(object)`
 
 Rotate `object` by `angle` on the rotational plane described by `axis`

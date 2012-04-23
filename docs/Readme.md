@@ -80,16 +80,17 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 ### `COLOR(color)(object)`
 
-Color the `object` with `color`.
+Clone `object` and color cloned object with `color`.
 
 #### I/O
 
 > #### in
-> `Array` `color`: rgb color components (from `0` to `1`).
+> `Array` `color`: rgba color components (from `0` to `1`).
 > 
 > - `Number` `r`: red component (from `0` to `1`, `0` by default).
 > - `Number` `g`: green component (from `0` to `1`, `0` by default).
 > - `Number` `b`: blue component (from `0` to `1`, `0` by default).
+> - `Number` `a`: alpha component (from `0` to `1`, `1` by default).
 > 
 > #### out
 > `Function`: an anonymous function.
@@ -98,15 +99,15 @@ Color the `object` with `color`.
 > > `plasm.Model` or `plasm.Struct` `object`: the object to color.
 > > 
 > > #### out
-> > `plasm.Model` or `plasm.Struct`: the colored object. 
+> > `plasm.Model` or `plasm.Struct`: the cloned colored object. 
 
 #### Example
 
 > ```js
-> var color = [0.8, 0.4, 0.2];
+> var color = [0.8, 0.4, 0.2, 0.7];
 > var model = TORUS_SURFACE()();
-> COLOR(color)(model);
-> DRAW(model);
+> var coloredModel = COLOR(color)(model);
+> DRAW(coloredModel);
 > ```
 
 - - -
@@ -459,6 +460,89 @@ Create a polyline made by `points`.
 > var points = [[0,0], [1,1], [2,0]];
 > var polyline = POLYLINE(points);
 > DRAW(polyline);
+> ```
+
+- - -
+
+### `PROD1x1(array)`
+
+Return cartesian product of the two models in `array`.
+Each model must have Rn equals to 1.
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[2.2],[3.5],[7.8],[9.0]]);
+> var axb = PROD1x1([a,b]);
+> DRAW(STRUCT([axb, SKELETON(1)(axb)]));
+> ```
+
+- - -
+
+### `PROD1x2(array)`
+
+Return cartesian product of the two models in `array`.
+The first model must have Rn equals to 1.
+The second model must have Rn equals to 2.
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[0,2],[1,1],[2,1],[3,0]]);
+> var axb = PROD1x2([a,b]);
+> DRAW(STRUCT([axb, SKELETON(1)(axb)]));
+> ```
+
+- - -
+
+### `PROD2x1(array)`
+
+Return cartesian product of the two models in `array`.
+The first model must have Rn equals to 2.
+The second model must have Rn equals to 1.
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[0,2],[1,1],[2,1],[3,0]]);
+> var bxa = PROD2x1([b,a]);
+> DRAW(STRUCT([bxa, SKELETON(1)(bxa)]));
 > ```
 
 - - -

@@ -69,7 +69,11 @@ lib\/plasm.min.js/g' plasm.js.manifest
     rm index.js
     rm package.json
     rm -rf test
-    rm -rf support
+    rm support/three-detector.js
+    rm support/three-frame.js
+    rm support/three-stats.js
+    rm support/three-trackball.js 
+    rm support/three.js
     rm -rf lib
     rm publish.sh
     rm Makefile

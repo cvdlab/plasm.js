@@ -4,6 +4,7 @@ CACHE MANIFEST
 styles/reset.css
 styles/style.css
 
+support/numeric.js
 support/three.js
 support/three-detector.js
 support/three-frame.js

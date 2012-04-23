@@ -466,7 +466,7 @@ Create a polyline made by `points`.
 
 ### `PROD1x1(array)`
 
-Return cartesian product of the two models in `array`.
+Return cartesian product of the two models in `array`.  
 Each model must have Rn equals to 1.
 
 #### I/O
@@ -493,9 +493,9 @@ Each model must have Rn equals to 1.
 
 ### `PROD1x2(array)`
 
-Return cartesian product of the two models in `array`.
-The first model must have Rn equals to 1.
-The second model must have Rn equals to 2.
+Return cartesian product of the two models in `array`.  
+The first model must have Rn equals to 1.  
+The second model must have Rn equals to 2.  
 
 #### I/O
 
@@ -521,9 +521,9 @@ The second model must have Rn equals to 2.
 
 ### `PROD2x1(array)`
 
-Return cartesian product of the two models in `array`.
-The first model must have Rn equals to 2.
-The second model must have Rn equals to 1.
+Return cartesian product of the two models in `array`.  
+The first model must have Rn equals to 2.  
+The second model must have Rn equals to 1.  
 
 #### I/O
 
@@ -549,7 +549,7 @@ The second model must have Rn equals to 1.
 
 ### `ROTATE(axis)(angle)(object)` / `R(axis)(angle)(object)`
 
-Rotate `object` by `angle` on the rotational plane described by `axis`
+Rotate `object` by `angle` on the rotational plane described by `axis`.
 
 #### I/O
 

@@ -4,6 +4,51 @@
 
 - - -
 
+### `BEZIER(sel)(controlpoints)`
+Transfinite mapping function of genric degree Bezier curve.
+
+#### I/O
+
+> #### in
+> `Function` `selector`: domain coordinate selector function.
+>
+> > #### in
+> > `Array` `v`: point of the `domain`.
+> >
+> > #### out
+> > `Number`: the selected coordinate. 
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `Function`: an anonymous mapping function.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(32);
+> var controlpoints = [[-0,0],[1,0],[1,1],[2,1],[3,1]];
+> var curveMapping = BEZIER(S0)(controlpoints);
+> var curve = MAP(curveMapping)(domain);
+> DRAW(curve);
+> ```
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
+> var c0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
+> var c1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+> var c2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+> var c3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+> var out = MAP(BEZIER(S1)([c0,c1,c2,c3]))(domain);
+> DRAW(out);
+>```
+
+- - -
+
 ### `BOUNDARY(d)(model)`
 
 Get the `d`-boundary of the `model`.
@@ -131,6 +176,106 @@ Create a `dim`-dimensional cube.
 > var cube = CUBE(dim);
 > DRAW(cube);
 > ```
+
+- - -
+
+### `CUBIC_CARDINAL(domain)`
+Tranfinite Cubic cardinal splines curve generator function on `domain`.
+
+#### I/O
+
+> #### in
+> `plasm.Model` `domain`: domain of the generator function.
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `plasm.Model`: a spline segment.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+> var splineCardinal = SPLINE(CUBIC_CARDINAL(domain))(points);
+> DRAW(splineCardinal);
+>```
+
+- - -
+
+### `CUBIC_HERMITE(selector)(controlpoints)`
+Transfinite mapping function of cubic Hermite curve.
+
+#### I/O
+
+> #### in
+> `Function` `selector`: domain coordinate selector function.
+>
+> > #### in
+> > `Array` `v`: point of the `domain`.
+> >
+> > #### out
+> > `Number`: the selected coordinate. 
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `Function`: an anonymous mapping function.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[1,0],[1,1],[ -1, 1],[ 1,0]];
+> var curveMapping = CUBIC_HERMITE(S0)(controlpoints);
+> var curve = MAP(curveMapping)(domain);
+> DRAW(curve);
+> ```
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(14),INTERVALS(1)(14)]);
+> var c1 = CUBIC_HERMITE(S0)([[1,0,0],[0,1,0],[0,3,0],[-3,0,0]]);
+> var c2 = CUBIC_HERMITE(S0)([[0.5,0,0],[0,0.5,0],[0,1,0],[-1,0,0]]);
+> var sur3 = CUBIC_HERMITE(S1)([c1,c2,[1,1,1],[-1,-1,-1]]);
+> var out = MAP(sur3)(domain);
+> DRAW(out);
+>```
+
+- - -
+
+### `CUBIC_UBSPLINE(domain)`
+Tranfinite cubic uniform B-splines curve generator function on `domain`.
+
+#### I/O
+
+> #### in
+> `plasm.Model` `domain`: domain of the generator function.
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `plasm.Model`: a spline segment.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+> var splineCubic = SPLINE(CUBIC_UBSPLINE(domain))(points);
+> DRAW(splineCubic);
+>```
 
 - - -
 
@@ -331,22 +476,22 @@ Explode a `model`.
 
 - - -
 
-#### `EXTRUDE(values)(model)`
+#### `EXTRUDE(hlist)(object)`
 
-Extrude a `model`.
+Extrude an `object`.
 
 #### I/O
 > #### in
-> `Array` `values`
+> `Array` `hlist`
 > 
 > #### out 
 > `Function`: an anonimous function. 
 >   
 > > #### in
-> > `plasm.Model` `model`: the model to extrude.
+> > `plasm.Model` or `plasm.Struct` `objetc`: the object to extrude.
 > >  
 > > #### out
-> > `plasm.Model`: the model extruded.
+> > `plasm.Model` or `plasm.Struct` `objetc`: the extruded object.
 
 #### Example
 > ```js
@@ -547,14 +692,17 @@ The second model must have Rn equals to 1.
 
 - - -
 
-### `ROTATE(axis)(angle)(object)` / `R(axis)(angle)(object)`
+### `ROTATE(dims)(angle)(object)` / `R(dims)(angle)(object)`
 
-Rotate `object` by `angle` on the rotational plane described by `axis`.
+Rotate `object` by `angle` on the rotational plane described by `dims`.
 
 #### I/O
 
 > #### in
-> `Number` `axis`: the axis around which rotation rotate the object.
+> `Array` `dims`: an array of `Number` specifying dimensions forming the rotational plane on which rotate the object.
+>
+> - `Array` `dims[0]` `dims1`: the first dimension of the rotational plane.
+> - `Array` `dims[1]` `dims2`: the second dimension of the rotational plane.
 > 
 > #### out
 > `Funciton`: an anonymous function.
@@ -737,6 +885,37 @@ Extract the `dim`-skeleton of the `model`.
 > var skeleton1 = SKELETON(1)(cuboid);
 > DRAW(skeleton1);
 > ```
+
+- - -
+
+### `SPLINE(curve)(controlpoints)`
+Create spline curve.
+
+#### I/O
+
+> #### in
+> `Function` `curve`: spline curve generator function, such as the result of application of `CUBIC_UBSPLINE` or `CUBIC_CARDINAL` to a domain.
+>
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `plasm.Struct`: the spline.
+
+#### Example
+
+>```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+> var splineCardinal = COLOR([1,0,0])(SPLINE(CUBIC_CARDINAL(domain))(controlpoints));
+> var splineCubic = COLOR([0,1,0])(SPLINE(CUBIC_UBSPLINE(domain))(controlpoints));
+> var points = SIMPLICIAL_COMPLEX(controlpoints)([[0],[1],[2],[3],[4],[5],[6],[7],[8],[9]]);
+> var out = STRUCT([splineCardinal,splineCubic,points]);
+> DRAW(out);
+>```
 
 - - -
 

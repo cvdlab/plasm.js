@@ -201,7 +201,7 @@ Tranfinite Cubic cardinal splines curve generator function on `domain`.
 > ```js
 > var domain = INTERVALS(1)(20);
 > var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
-> var splineCardinal = SPLINE(CUBIC_CARDINAL(domain))(points);
+> var splineCardinal = SPLINE(CUBIC_CARDINAL(domain))(controlpoints);
 > DRAW(splineCardinal);
 >```
 
@@ -273,7 +273,7 @@ Tranfinite cubic uniform B-splines curve generator function on `domain`.
 > ```js
 > var domain = INTERVALS(1)(20);
 > var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
-> var splineCubic = SPLINE(CUBIC_UBSPLINE(domain))(points);
+> var splineCubic = SPLINE(CUBIC_UBSPLINE(domain))(controlpoints);
 > DRAW(splineCubic);
 >```
 
@@ -495,7 +495,7 @@ Extrude an `object`.
 
 #### Example
 > ```js
-> var model = SIMPLEX([1]);
+> var model = SIMPLEX(1);
 > var extruded = EXTRUDE([1])(simplex);
 > DRAW(extruded);
 >```
@@ -723,7 +723,7 @@ Rotate `object` by `angle` on the rotational plane described by `dims`.
 
 > ```js
 > var model = TORUS_SURFACE()();
-> var rotated = ROTATE(2)(PI/3)(model);
+> var rotated = ROTATE([0,1])(PI/3)(model);
 > DRAW(rotated);
 > ```
 

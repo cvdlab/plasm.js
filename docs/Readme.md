@@ -331,22 +331,22 @@ Explode a `model`.
 
 - - -
 
-#### `EXTRUDE(values)(model)`
+#### `EXTRUDE(hlist)(object)`
 
-Extrude a `model`.
+Extrude an `object`.
 
 #### I/O
 > #### in
-> `Array` `values`
+> `Array` `hlist`
 > 
 > #### out 
 > `Function`: an anonimous function. 
 >   
 > > #### in
-> > `plasm.Model` `model`: the model to extrude.
+> > `plasm.Model` or `plasm.Struct` `objetc`: the object to extrude.
 > >  
 > > #### out
-> > `plasm.Model`: the model extruded.
+> > `plasm.Model` or `plasm.Struct` `objetc`: the extruded object.
 
 #### Example
 > ```js
@@ -547,14 +547,17 @@ The second model must have Rn equals to 1.
 
 - - -
 
-### `ROTATE(axis)(angle)(object)` / `R(axis)(angle)(object)`
+### `ROTATE(dims)(angle)(object)` / `R(dims)(angle)(object)`
 
-Rotate `object` by `angle` on the rotational plane described by `axis`.
+Rotate `object` by `angle` on the rotational plane described by `dims`.
 
 #### I/O
 
 > #### in
-> `Number` `axis`: the axis around which rotation rotate the object.
+> `Array` `dims`: an array of `Number` specifying dimensions forming the rotational plane on which rotate the object.
+>
+> - `Array` `dims[0]` `dims1`: the first dimension of the rotational plane.
+> - `Array` `dims[1]` `dims2`: the second dimension of the rotational plane.
 > 
 > #### out
 > `Funciton`: an anonymous function.

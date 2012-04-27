@@ -496,7 +496,7 @@ Extrude an `object`.
 #### Example
 > ```js
 > var model = SIMPLEX(1);
-> var extruded = EXTRUDE([1])(simplex);
+> var extruded = EXTRUDE([1])(model);
 > DRAW(extruded);
 >```
 

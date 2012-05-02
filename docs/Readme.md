@@ -620,6 +620,43 @@ Non-uniform B-Spline.
 
 - - -
 
+### `NURBSLINE(degree)(knots)(controls)`
+
+Non-uniform Rational B-Spline.
+
+#### I/O
+
+> #### in
+> `Number` `degree`: spline degree.
+> `Number` `[totpoints=80]`: total number of spline's points.
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `knots`: Array of integer describing spline's knots.
+> >
+> > #### out
+> > `Function`: an anonymous function.
+> >
+> > > #### in
+> > > `Array` `controls`: Array of integer describing spline's control points.
+> > >
+> > > #### out
+> > > `plasm.Model`: non uniform rational spline.
+
+#### Example
+
+> ```js
+> var _p = Math.sqrt(2)/2.0;
+> var controls = [[-1,0,1], [-_p,_p,_p], [0,1,1], [_p,_p,_p],[1,0,1], [_p,-_p,_p], [0,-1,1], [-_p,-_p,_p], [-1,0,1]];
+> var knots = [0,0,0,1,1,2,2,3,3,4,4,4];
+> var nurbs = NURBSPLINE(2)(knots)(controls);
+> DRAW(nurbs);
+> ```
+
+- - -
+
 ### `POLYLINE(points)`
 
 Create a polyline made by `points`.

@@ -584,6 +584,42 @@ Map a `domain` by a `mapping` function.
 
 - - -
 
+### `NUBSLINE(degree)(knots)(controls)`
+
+Non-uniform B-Spline.
+
+#### I/O
+
+> #### in
+> `Number` `degree`: spline degree.
+> `Number` `[totpoints=80]`: total number of spline's points.
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `knots`: Array of integer describing spline's knots.
+> >
+> > #### out
+> > `Function`: an anonymous function.
+> >
+> > > #### in
+> > > `Array` `controls`: Array of integer describing spline's control points.
+> > >
+> > > #### out
+> > > `plasm.Model`: non uniform spline.
+
+#### Example
+
+> ```js
+> var controls = [[0,0],[-1,2],[1,4],[2,3],[1,1],[1,2],[2.5,1],[2.5,3],[4,4],[5,0]];
+> var knots = [0,0,0,0,1,2,3,4,5,6,7,7,7,7];
+> var nubspline = NUBSPLINE(3)(knots)(controls);
+> DRAW(nubspline);
+> ```
+
+- - -
+
 ### `POLYLINE(points)`
 
 Create a polyline made by `points`.

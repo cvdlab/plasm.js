@@ -18,6 +18,7 @@
     <div id="plasm-inspector"></div>
   </footer>
 
+  <script src="../support/jquery.js"></script>
   <script src="../support/three.js"></script>
   <script src="../support/three-detector.js"></script>
   <script src="../support/three-frame.js"></script>
@@ -33,14 +34,26 @@
   </script>
   <script src="test.js"></script>
 
-  <script type="text/javascript">
+  <script>
+    console.log('...');
+    $(function () {
+      var logo = $('#plasm-logo');
+      console.log('ready');
+      logo.on('click', function () {
+        console.log('Plasm.js');
+        alert('Plasm.js\nEnrico Marino and Federico Spini for CVD Lab');
+      });
+    });
+  </script>
+
+  <script>
     window.applicationCache.onupdateready = function (e) {
       console.log("Application update ready");
       window.applicationCache.swapCache();
     }
   </script>
 
-  <script type="text/javascript">
+  <script>
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-30496335-1']);
     _gaq.push(['_trackPageview']);

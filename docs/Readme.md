@@ -556,7 +556,7 @@ Map a `domain` by a `mapping` function.
 #### I/O
 
 > #### in
-> `Function` `mapping`: the mapping function.
+> `Function|Array` `mapping`: the mapping function (or array of function)
 >
 > > #### in
 > > `Array` `v`: point of the `domain`.
@@ -580,6 +580,23 @@ Map a `domain` by a `mapping` function.
 > var model = TORUS_SURFACE()();
 > var mapped = MAP(mapping)(model);
 > DRAW(mapped);
+> ```
+
+> ```js
+> var domain = DOMAIN([[0,1]],[0,2*PI]);
+> var mapping = function (v) { return [SIN(v[0]), COS(v[1])]; });
+> var model = MAP(mapping)(domain);
+> DRAW(model);
+> ```
+
+> ```js
+> var domain = DOMAIN([[0,1]],[0,2*PI]);
+> var mapping = [
+>   function (v) { return SIN(v[0]); }, 
+>   function (v) { return COS(v[1]); }
+> ]);
+> var model = MAP(mapping)(domain)
+> DRAW(model);
 > ```
 
 - - -

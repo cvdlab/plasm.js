@@ -10,7 +10,7 @@ header {
   height: 40px;
   opacity: .80;
   background-color: black;
-  z-index: 2000;
+  z-index: 20000;
 }
 
 #plasm {

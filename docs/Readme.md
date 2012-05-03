@@ -620,6 +620,60 @@ Non-uniform B-Spline.
 
 - - -
 
+### `NUBS(sel)(degree)(knots)(controls)`
+
+Transfinite Non-uniform B-Spline.
+
+#### I/O
+
+> #### in
+> `Function` `sel`: selctor function.
+> 
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Number` `degree`: spline degree.
+> > 
+> > #### out
+> > `Function`: an anonymous function.
+> >
+> > > #### in
+> > > `Array` `knots`: Array of integer describing spline's knots.
+> > >
+> > > #### out
+> > > `Function`: an anonymous function.
+> > >
+> > > > #### in
+> > > > `Array` `controls`: Array of integer describing spline's control points.
+> > > >
+> > > > #### out
+> > > > `plasm.Model`: non uniform spline.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controls = [[0,0],[-1,2],[1,4],[2,3],[1,1],[1,2],[2.5,1],[2.5,3],[4,4],[5,0]];
+> var nubs = NUBS(S0)(3)([0,0,0,0,1,2,3,4,5,6,7,7,7,7])(controls);
+> var model = MAP(nubs)(domain);
+> DRAW(model);
+> ```
+>
+> ```js
+> var domain = DOMAIN([[0,1],[0,1]])([30,30]);
+> var b0 = BEZIER(S0)([[0,0,0],[5,-10,0],[10,0,0]]);
+> var b1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+> var b2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+> var b3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+> var controls = [b0,b1,b2,b3];
+> var nubs = NUBS(S1)(3)([0,0,0,0,7,7,7,7])(controls);
+> var model = MAP(nubs)(domain);
+> DRAW(model);
+>```
+
+- - -
+
 ### `NURBSLINE(degree)(knots)(controls)`
 
 Non-uniform Rational B-Spline.

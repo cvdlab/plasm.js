@@ -18,7 +18,7 @@
   ],
   "name": "plasm.js",
   "description": "JavaScript Programming Language for Solid Modeling",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "homepage": "https://github.com/cvdlab/plasm.js",
   "repository": {
     "type": "git",

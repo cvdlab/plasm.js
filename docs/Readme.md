@@ -753,6 +753,31 @@ Create a polyline made by `points`.
 
 - - -
 
+### `POLYPOINT(points)`
+
+Create a 0D complex.
+
+#### I/O
+
+> #### in
+> `Array` `points`: an array of points (`[p0, p1, ...]`):
+>
+> - `Array` `points[i]` `point`: `i`-th point
+>   - `Number` `point[k]`: `k`-th coord of `point`
+> 
+> #### out
+> `plasm.Model`: a polypoint made by `points`.
+
+#### Example
+
+> ```js
+> var points = [[0,0], [1,1], [2,0]];
+> var polypoint = POLYPOINT(points);
+> DRAW(polypoint);
+> ```
+
+- - -
+
 ### `PROD1x1(array)`
 
 Return cartesian product of the two models in `array`.  

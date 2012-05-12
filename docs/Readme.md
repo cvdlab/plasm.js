@@ -4,6 +4,51 @@
 
 - - -
 
+### `BEZIER(sel)(controlpoints)`
+Transfinite mapping function of genric degree Bezier curve.
+
+#### I/O
+
+> #### in
+> `Function` `selector`: domain coordinate selector function.
+>
+> > #### in
+> > `Array` `v`: point of the `domain`.
+> >
+> > #### out
+> > `Number`: the selected coordinate. 
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `Function`: an anonymous mapping function.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(32);
+> var controlpoints = [[-0,0],[1,0],[1,1],[2,1],[3,1]];
+> var curveMapping = BEZIER(S0)(controlpoints);
+> var curve = MAP(curveMapping)(domain);
+> DRAW(curve);
+> ```
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
+> var c0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
+> var c1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+> var c2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+> var c3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+> var out = MAP(BEZIER(S1)([c0,c1,c2,c3]))(domain);
+> DRAW(out);
+>```
+
+- - -
+
 ### `BOUNDARY(d)(model)`
 
 Get the `d`-boundary of the `model`.
@@ -80,16 +125,17 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 ### `COLOR(color)(object)`
 
-Color the `object` with `color`.
+Clone `object` and color cloned object with `color`.
 
 #### I/O
 
 > #### in
-> `Array` `color`: rgb color components (from `0` to `1`).
+> `Array` `color`: rgba color components (from `0` to `1`).
 > 
 > - `Number` `r`: red component (from `0` to `1`, `0` by default).
 > - `Number` `g`: green component (from `0` to `1`, `0` by default).
 > - `Number` `b`: blue component (from `0` to `1`, `0` by default).
+> - `Number` `a`: alpha component (from `0` to `1`, `1` by default).
 > 
 > #### out
 > `Function`: an anonymous function.
@@ -98,15 +144,15 @@ Color the `object` with `color`.
 > > `plasm.Model` or `plasm.Struct` `object`: the object to color.
 > > 
 > > #### out
-> > `plasm.Model` or `plasm.Struct`: the colored object. 
+> > `plasm.Model` or `plasm.Struct`: the cloned colored object. 
 
 #### Example
 
 > ```js
-> var color = [0.8, 0.4, 0.2];
+> var color = [0.8, 0.4, 0.2, 0.7];
 > var model = TORUS_SURFACE()();
-> COLOR(color)(model);
-> DRAW(model);
+> var coloredModel = COLOR(color)(model);
+> DRAW(coloredModel);
 > ```
 
 - - -
@@ -130,6 +176,106 @@ Create a `dim`-dimensional cube.
 > var cube = CUBE(dim);
 > DRAW(cube);
 > ```
+
+- - -
+
+### `CUBIC_CARDINAL(domain)`
+Tranfinite Cubic cardinal splines curve generator function on `domain`.
+
+#### I/O
+
+> #### in
+> `plasm.Model` `domain`: domain of the generator function.
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `plasm.Model`: a spline segment.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+> var splineCardinal = SPLINE(CUBIC_CARDINAL(domain))(controlpoints);
+> DRAW(splineCardinal);
+>```
+
+- - -
+
+### `CUBIC_HERMITE(selector)(controlpoints)`
+Transfinite mapping function of cubic Hermite curve.
+
+#### I/O
+
+> #### in
+> `Function` `selector`: domain coordinate selector function.
+>
+> > #### in
+> > `Array` `v`: point of the `domain`.
+> >
+> > #### out
+> > `Number`: the selected coordinate. 
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `Function`: an anonymous mapping function.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[1,0],[1,1],[ -1, 1],[ 1,0]];
+> var curveMapping = CUBIC_HERMITE(S0)(controlpoints);
+> var curve = MAP(curveMapping)(domain);
+> DRAW(curve);
+> ```
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(14),INTERVALS(1)(14)]);
+> var c1 = CUBIC_HERMITE(S0)([[1,0,0],[0,1,0],[0,3,0],[-3,0,0]]);
+> var c2 = CUBIC_HERMITE(S0)([[0.5,0,0],[0,0.5,0],[0,1,0],[-1,0,0]]);
+> var sur3 = CUBIC_HERMITE(S1)([c1,c2,[1,1,1],[-1,-1,-1]]);
+> var out = MAP(sur3)(domain);
+> DRAW(out);
+>```
+
+- - -
+
+### `CUBIC_UBSPLINE(domain)`
+Tranfinite cubic uniform B-splines curve generator function on `domain`.
+
+#### I/O
+
+> #### in
+> `plasm.Model` `domain`: domain of the generator function.
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `plasm.Model`: a spline segment.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+> var splineCubic = SPLINE(CUBIC_UBSPLINE(domain))(controlpoints);
+> DRAW(splineCubic);
+>```
 
 - - -
 
@@ -330,27 +476,27 @@ Explode a `model`.
 
 - - -
 
-#### `EXTRUDE(values)(model)`
+#### `EXTRUDE(hlist)(object)`
 
-Extrude a `model`.
+Extrude an `object`.
 
 #### I/O
 > #### in
-> `Array` `values`
+> `Array` `hlist`
 > 
 > #### out 
 > `Function`: an anonimous function. 
 >   
 > > #### in
-> > `plasm.Model` `model`: the model to extrude.
+> > `plasm.Model` or `plasm.Struct` `objetc`: the object to extrude.
 > >  
 > > #### out
-> > `plasm.Model`: the model extruded.
+> > `plasm.Model` or `plasm.Struct` `objetc`: the extruded object.
 
 #### Example
 > ```js
-> var model = SIMPLEX([1]);
-> var extruded = EXTRUDE([1])(simplex);
+> var model = SIMPLEX(1);
+> var extruded = EXTRUDE([1])(model);
 > DRAW(extruded);
 >```
 
@@ -410,7 +556,7 @@ Map a `domain` by a `mapping` function.
 #### I/O
 
 > #### in
-> `Function` `mapping`: the mapping function.
+> `Function|Array` `mapping`: the mapping function (or array of function)
 >
 > > #### in
 > > `Array` `v`: point of the `domain`.
@@ -434,6 +580,150 @@ Map a `domain` by a `mapping` function.
 > var model = TORUS_SURFACE()();
 > var mapped = MAP(mapping)(model);
 > DRAW(mapped);
+> ```
+
+> ```js
+> var domain = DOMAIN([[0,1]],[0,2*PI]);
+> var mapping = function (v) { return [SIN(v[0]), COS(v[1])]; });
+> var model = MAP(mapping)(domain);
+> DRAW(model);
+> ```
+
+> ```js
+> var domain = DOMAIN([[0,1]],[0,2*PI]);
+> var mapping = [
+>   function (v) { return SIN(v[0]); }, 
+>   function (v) { return COS(v[1]); }
+> ]);
+> var model = MAP(mapping)(domain)
+> DRAW(model);
+> ```
+
+- - -
+
+### `NUBSLINE(degree)(knots)(controls)`
+
+Non-uniform B-Spline.
+
+#### I/O
+
+> #### in
+> `Number` `degree`: spline degree.
+> `Number` `[totpoints=80]`: total number of spline's points.
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `knots`: Array of integer describing spline's knots.
+> >
+> > #### out
+> > `Function`: an anonymous function.
+> >
+> > > #### in
+> > > `Array` `controls`: Array of integer describing spline's control points.
+> > >
+> > > #### out
+> > > `plasm.Model`: non uniform spline.
+
+#### Example
+
+> ```js
+> var controls = [[0,0],[-1,2],[1,4],[2,3],[1,1],[1,2],[2.5,1],[2.5,3],[4,4],[5,0]];
+> var knots = [0,0,0,0,1,2,3,4,5,6,7,7,7,7];
+> var nubspline = NUBSPLINE(3)(knots)(controls);
+> DRAW(nubspline);
+> ```
+
+- - -
+
+### `NUBS(sel)(degree)(knots)(controls)`
+
+Transfinite Non-uniform B-Spline.
+
+#### I/O
+
+> #### in
+> `Function` `sel`: selctor function.
+> 
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Number` `degree`: spline degree.
+> > 
+> > #### out
+> > `Function`: an anonymous function.
+> >
+> > > #### in
+> > > `Array` `knots`: Array of integer describing spline's knots.
+> > >
+> > > #### out
+> > > `Function`: an anonymous function.
+> > >
+> > > > #### in
+> > > > `Array` `controls`: Array of integer describing spline's control points.
+> > > >
+> > > > #### out
+> > > > `plasm.Model`: non uniform spline.
+
+#### Example
+
+> ```js
+> var domain = INTERVALS(1)(20);
+> var controls = [[0,0],[-1,2],[1,4],[2,3],[1,1],[1,2],[2.5,1],[2.5,3],[4,4],[5,0]];
+> var nubs = NUBS(S0)(3)([0,0,0,0,1,2,3,4,5,6,7,7,7,7])(controls);
+> var model = MAP(nubs)(domain);
+> DRAW(model);
+> ```
+>
+> ```js
+> var domain = DOMAIN([[0,1],[0,1]])([30,30]);
+> var b0 = BEZIER(S0)([[0,0,0],[5,-10,0],[10,0,0]]);
+> var b1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+> var b2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+> var b3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+> var controls = [b0,b1,b2,b3];
+> var nubs = NUBS(S1)(3)([0,0,0,0,7,7,7,7])(controls);
+> var model = MAP(nubs)(domain);
+> DRAW(model);
+>```
+
+- - -
+
+### `NURBSLINE(degree)(knots)(controls)`
+
+Non-uniform Rational B-Spline.
+
+#### I/O
+
+> #### in
+> `Number` `degree`: spline degree.
+> `Number` `[totpoints=80]`: total number of spline's points.
+> 
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `knots`: Array of integer describing spline's knots.
+> >
+> > #### out
+> > `Function`: an anonymous function.
+> >
+> > > #### in
+> > > `Array` `controls`: Array of integer describing spline's control points.
+> > >
+> > > #### out
+> > > `plasm.Model`: non uniform rational spline.
+
+#### Example
+
+> ```js
+> var _p = Math.sqrt(2)/2.0;
+> var controls = [[-1,0,1], [-_p,_p,_p], [0,1,1], [_p,_p,_p],[1,0,1], [_p,-_p,_p], [0,-1,1], [-_p,-_p,_p], [-1,0,1]];
+> var knots = [0,0,0,1,1,2,2,3,3,4,4,4];
+> var nurbs = NURBSPLINE(2)(knots)(controls);
+> DRAW(nurbs);
 > ```
 
 - - -
@@ -463,14 +753,100 @@ Create a polyline made by `points`.
 
 - - -
 
-### `ROTATE(axis)(angle)(object)` / `R(axis)(angle)(object)`
+### `PROD1x1(array)`
 
-Rotate `object` by `angle` on the rotational plane described by `axis`
+Return cartesian product of the two models in `array`.  
+Each model must have Rn equals to 1.
 
 #### I/O
 
 > #### in
-> `Number` `axis`: the axis around which rotation rotate the object.
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[2.2],[3.5],[7.8],[9.0]]);
+> var axb = PROD1x1([a,b]);
+> DRAW(STRUCT([axb, SKELETON(1)(axb)]));
+> ```
+
+- - -
+
+### `PROD1x2(array)`
+
+Return cartesian product of the two models in `array`.  
+The first model must have Rn equals to 1.  
+The second model must have Rn equals to 2.  
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[0,2],[1,1],[2,1],[3,0]]);
+> var axb = PROD1x2([a,b]);
+> DRAW(STRUCT([axb, SKELETON(1)(axb)]));
+> ```
+
+- - -
+
+### `PROD2x1(array)`
+
+Return cartesian product of the two models in `array`.  
+The first model must have Rn equals to 2.  
+The second model must have Rn equals to 1.  
+
+#### I/O
+
+> #### in
+> `Array` `array`: an array of the two operand models (`[model1, model2]`):
+>
+> - `Array` `array[0]` `model1`: the first operand model
+> - `Array` `array[1]` `model2`: the second operand model
+> 
+> #### out
+> `plasm.Model`: result of the product of the two models
+
+#### Example
+
+> ```js
+> var a = POLYLINE([[1],[3],[4]]);
+> var b = POLYLINE([[0,2],[1,1],[2,1],[3,0]]);
+> var bxa = PROD2x1([b,a]);
+> DRAW(STRUCT([bxa, SKELETON(1)(bxa)]));
+> ```
+
+- - -
+
+### `ROTATE(dims)(angle)(object)` / `R(dims)(angle)(object)`
+
+Rotate `object` by `angle` on the rotational plane described by `dims`.
+
+#### I/O
+
+> #### in
+> `Array` `dims`: an array of `Number` specifying dimensions forming the rotational plane on which rotate the object.
+>
+> - `Array` `dims[0]` `dims1`: the first dimension of the rotational plane.
+> - `Array` `dims[1]` `dims2`: the second dimension of the rotational plane.
 > 
 > #### out
 > `Funciton`: an anonymous function.
@@ -491,8 +867,32 @@ Rotate `object` by `angle` on the rotational plane described by `axis`
 
 > ```js
 > var model = TORUS_SURFACE()();
-> var rotated = ROTATE(2)(PI/3)(model);
+> var rotated = ROTATE([0,1])(PI/3)(model);
 > DRAW(rotated);
+> ```
+
+- - -
+
+### `ROTATIONAL_SURFACE(profile)`
+
+Create a rotational surface mapping given the mapping of the profile to rotate.
+
+#### I/O
+
+> #### in
+> `Function` `profile`: mapping of the profile to rotate.
+> 
+> #### out
+> `Function`: mapping of the rotational surface
+>
+
+#### Example
+
+> ```js
+> var domain = DOMAIN([[0,1],[0,2*PI]])([20,20]);
+> var profile = BEZIER(S0)([[0,0,0],[3,0,3],[3,0,5],[0,0,7]]);
+> var mapping = ROTATIONAL_SURFACE(profile);
+> var surface = MAP(mapping)(domain);
 > ```
 
 - - -
@@ -507,7 +907,7 @@ Scale `model` by `values` along `axis`.
 > `Array` `axis`: axis to scale along.
 > 
 > #### out
-> `Funciton`: an anonymous function.
+> `Function`: an anonymous function.
 >
 > > #### in
 > > `Array` `values`: scaling factors.
@@ -653,6 +1053,37 @@ Extract the `dim`-skeleton of the `model`.
 > var skeleton1 = SKELETON(1)(cuboid);
 > DRAW(skeleton1);
 > ```
+
+- - -
+
+### `SPLINE(curve)(controlpoints)`
+Create spline curve.
+
+#### I/O
+
+> #### in
+> `Function` `curve`: spline curve generator function, such as the result of application of `CUBIC_UBSPLINE` or `CUBIC_CARDINAL` to a domain.
+>
+> #### out
+> `Function`: an anonymous function.
+> 
+> > #### in
+> > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > #### out
+> > `plasm.Struct`: the spline.
+
+#### Example
+
+>```js
+> var domain = INTERVALS(1)(20);
+> var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+> var splineCardinal = COLOR([1,0,0])(SPLINE(CUBIC_CARDINAL(domain))(controlpoints));
+> var splineCubic = COLOR([0,1,0])(SPLINE(CUBIC_UBSPLINE(domain))(controlpoints));
+> var points = SIMPLICIAL_COMPLEX(controlpoints)([[0],[1],[2],[3],[4],[5],[6],[7],[8],[9]]);
+> var out = STRUCT([splineCardinal,splineCubic,points]);
+> DRAW(out);
+>```
 
 - - -
 

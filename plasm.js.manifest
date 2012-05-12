@@ -1,22 +1,23 @@
 CACHE MANIFEST
-# version 19
+# version 33
 
-NETWORK:
 styles/reset.css
 styles/style.css
 
+support/numeric.js
 support/three.js
 support/three-detector.js
 support/three-frame.js
 support/three-stats.js
 support/three-trackball.js
 
-support/simplexn.js/lib/simplexn.js
-
-support/f.js/lib/f.js
+node_modules/simplexn.js/lib/simplexn.js
+node_modules/f.js/lib/f.js
 
 lib/plasm.js
 lib/plasm-fun.js
 
 index.html
+
+NETWORK:
 http://www.google-analytics.com/

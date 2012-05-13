@@ -133,7 +133,7 @@ footer #plasm-inspector {
 }
 
 .plasm-sc-element {
-  margin: 3px;
+  margin: 3px 3px 6px 3px;
   display: inline;
   cursor: pointer;
   float: left;

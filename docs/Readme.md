@@ -898,6 +898,30 @@ Rotate `object` by `angle` on the rotational plane described by `dims`.
 
 - - -
 
+### `ROTATIONAL_SURFACE(profile)`
+
+Create a rotational surface mapping given the mapping of the profile to rotate.
+
+#### I/O
+
+> #### in
+> `Function` `profile`: mapping of the profile to rotate.
+> 
+> #### out
+> `Function`: mapping of the rotational surface
+>
+
+#### Example
+
+> ```js
+> var domain = DOMAIN([[0,1],[0,2*PI]])([20,20]);
+> var profile = BEZIER(S0)([[0,0,0],[3,0,3],[3,0,5],[0,0,7]]);
+> var mapping = ROTATIONAL_SURFACE(profile);
+> var surface = MAP(mapping)(domain);
+> ```
+
+- - -
+
 ### `SCALE(axis)(values)(object)` / `S(axis)(values)(object)`
 
 Scale `model` by `values` along `axis`.
@@ -908,7 +932,7 @@ Scale `model` by `values` along `axis`.
 > `Array` `axis`: axis to scale along.
 > 
 > #### out
-> `Funciton`: an anonymous function.
+> `Function`: an anonymous function.
 >
 > > #### in
 > > `Array` `values`: scaling factors.

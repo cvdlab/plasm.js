@@ -5,19 +5,2168 @@
   <title>plasm.js</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/md.css">
 </head>
 <body>
 
   <header>
-    <h1 id="plasm-logo">Plasm.js</h1>
+    <div id="plasm-bar">
+      <a id="plasm-logo">
+        <h1><span>Plasm.js<span><span id="plasm-alpha">&nbsp;alpha</span></h1>
+      </a>
+      <div id="plasm-navbar">
+        <ul>
+          <li><a href="https://github.com/cvdlab/plasm.js" id="plasm-link-github">github</a></li>
+          <li><a id="plasm-link-documentation">documentation</a></li>
+          <li><a id="plasm-link-demo">demo</a></li>
+          <li><a id="plasm-link-about">about</a></li>
+        </ul>
+      </div>
   </header>
 
   <div id="plasm"></div>
+
+  <div id="plasm-container-about" class="plasm-container">
+    <div>
+      <span id="plasm-about-logo">Plasm.js<span><span id="plasm-alpha">&nbsp;alpha</span>
+    </div>
+    <div id="plasm-copyright">
+      <p>Plasm.js has been created at <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>, Computational Visual Design Laboratory at the university RomaTre, by Enrico Marino and Federico Spini under the supervision and guidance of <a href="http://paoluzzi.dia.uniroma3.it/">Alberto Paoluzzi</a>, creator of the original PLaSM.</p>
+
+      <p>PLaSM is a functional Programming Language for Symbolic Modeling, based on a dimesion-indipendet geometric kernel.</p>
+
+
+      <p>Copyright (c) 2012 <a href="https://github.com/onirame">Enrico Marino</a> and <a href="https://github.com/spini">Federico Spini</a> for <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>.</p>
+    </div>
+  </div>
+
+  <div id="plasm-container-documentation" class="plasm-container">
+<h3>
+<a name="bezierselcontrolpoints" class="anchor" href="#bezierselcontrolpoints"><span class="mini-icon link"></span></a><code>BEZIER(sel)(controlpoints)</code>
+</h3>
+
+<p>Transfinite mapping function of genric degree Bezier curve.</p>
+
+<h4>
+<a name="io" class="anchor" href="#io"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in" class="anchor" href="#in"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Function</code> <code>selector</code>: domain coordinate selector function.</p>
+
+<blockquote>
+<h4>
+<a name="in-1" class="anchor" href="#in-1"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>v</code>: point of the <code>domain</code>.</p>
+
+<h4>
+<a name="out" class="anchor" href="#out"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Number</code>: the selected coordinate. </p>
+</blockquote>
+
+<h4>
+<a name="out-1" class="anchor" href="#out-1"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-2" class="anchor" href="#in-2"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controlpoints</code>: an array of points and curve mapping functions describing curve control points.</p>
+
+<h4>
+<a name="out-2" class="anchor" href="#out-2"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous mapping function.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example" class="anchor" href="#example"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">32</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">controlpoints</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">curveMapping</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)(</span><span class="nx">controlpoints</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">curve</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">curveMapping</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">curve</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">PROD1x1</span><span class="p">([</span><span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">16</span><span class="p">),</span><span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">16</span><span class="p">)]);</span>
+<span class="kd">var</span> <span class="nx">c0</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">c1</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">c2</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">c3</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S1</span><span class="p">)([</span><span class="nx">c0</span><span class="p">,</span><span class="nx">c1</span><span class="p">,</span><span class="nx">c2</span><span class="p">,</span><span class="nx">c3</span><span class="p">]))(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="boundarydmodel" class="anchor" href="#boundarydmodel"><span class="mini-icon link"></span></a><code>BOUNDARY(d)(model)</code>
+</h3>
+
+<p>Get the <code>d</code>-boundary of the <code>model</code>.</p>
+
+<h4>
+<a name="io-1" class="anchor" href="#io-1"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-3" class="anchor" href="#in-3"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>d</code>: space dimension.</p>
+
+<h4>
+<a name="out-3" class="anchor" href="#out-3"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: the <code>d</code>-boundary of the <code>model</code>.</p>
+</blockquote>
+
+<h4>
+<a name="example-1" class="anchor" href="#example-1"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="kd">var</span> <span class="nx">boundary</span> <span class="o">=</span> <span class="nx">BOUNDARY</span><span class="p">(</span><span class="nx">d</span><span class="p">)(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">boundary</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cancelobject" class="anchor" href="#cancelobject"><span class="mini-icon link"></span></a><code>CANCEL(object)</code>
+</h3>
+
+<p>Remove the <code>object</code> from the scene graph.</p>
+
+<h4>
+<a name="io-2" class="anchor" href="#io-2"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-4" class="anchor" href="#in-4"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to cancel.</p>
+
+<h4>
+<a name="out-4" class="anchor" href="#out-4"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the cancelled object.</p>
+</blockquote>
+
+<h4>
+<a name="example-2" class="anchor" href="#example-2"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">CANCEL</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="circlerdivs" class="anchor" href="#circlerdivs"><span class="mini-icon link"></span></a><code>CIRCLE(r)(divs)</code>
+</h3>
+
+<p>Create a circle with radius <code>r</code>, approximated by <code>divs</code> segments.</p>
+
+<h4>
+<a name="io-3" class="anchor" href="#io-3"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-5" class="anchor" href="#in-5"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>r</code>: the radius of the circle.</p>
+
+<h4>
+<a name="out-5" class="anchor" href="#out-5"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-6" class="anchor" href="#in-6"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>divs</code>: the number of segments that approximate the circle.</p>
+
+<h4>
+<a name="out-6" class="anchor" href="#out-6"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: the circle with radius <code>r</code>, approximated by <code>divs</code> segments.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-3" class="anchor" href="#example-3"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">divs</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">circle</span> <span class="o">=</span> <span class="nx">CIRCLE</span><span class="p">(</span><span class="nx">r</span><span class="p">)(</span><span class="nx">divs</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">circle</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="colorcolorobject" class="anchor" href="#colorcolorobject"><span class="mini-icon link"></span></a><code>COLOR(color)(object)</code>
+</h3>
+
+<p>Clone <code>object</code> and color cloned object with <code>color</code>.</p>
+
+<h4>
+<a name="io-4" class="anchor" href="#io-4"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-7" class="anchor" href="#in-7"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>color</code>: rgba color components (from <code>0</code> to <code>1</code>).</p>
+
+<ul>
+<li>
+<code>Number</code> <code>r</code>: red component (from <code>0</code> to <code>1</code>, <code>0</code> by default).</li>
+<li>
+<code>Number</code> <code>g</code>: green component (from <code>0</code> to <code>1</code>, <code>0</code> by default).</li>
+<li>
+<code>Number</code> <code>b</code>: blue component (from <code>0</code> to <code>1</code>, <code>0</code> by default).</li>
+<li>
+<code>Number</code> <code>a</code>: alpha component (from <code>0</code> to <code>1</code>, <code>1</code> by default).</li>
+</ul>
+<h4>
+<a name="out-7" class="anchor" href="#out-7"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-8" class="anchor" href="#in-8"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to color.</p>
+
+<h4>
+<a name="out-8" class="anchor" href="#out-8"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code>: the cloned colored object. </p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-4" class="anchor" href="#example-4"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">color</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="kd">var</span> <span class="nx">coloredModel</span> <span class="o">=</span> <span class="nx">COLOR</span><span class="p">(</span><span class="nx">color</span><span class="p">)(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">coloredModel</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cubedim" class="anchor" href="#cubedim"><span class="mini-icon link"></span></a><code>CUBE(dim)</code>
+</h3>
+
+<p>Create a <code>dim</code>-dimensional cube.</p>
+
+<h4>
+<a name="io-5" class="anchor" href="#io-5"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-9" class="anchor" href="#in-9"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>dim</code>: dimension of the cube.</p>
+
+<h4>
+<a name="out-9" class="anchor" href="#out-9"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a cube with <code>dim</code> dimension.</p>
+</blockquote>
+
+<h4>
+<a name="example-5" class="anchor" href="#example-5"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="nx">CUBE</span><span class="p">(</span><span class="nx">dim</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">cube</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cubic_cardinaldomain" class="anchor" href="#cubic_cardinaldomain"><span class="mini-icon link"></span></a><code>CUBIC_CARDINAL(domain)</code>
+</h3>
+
+<p>Tranfinite Cubic cardinal splines curve generator function on <code>domain</code>.</p>
+
+<h4>
+<a name="io-6" class="anchor" href="#io-6"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-10" class="anchor" href="#in-10"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> <code>domain</code>: domain of the generator function.</p>
+
+<h4>
+<a name="out-10" class="anchor" href="#out-10"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-11" class="anchor" href="#in-11"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controlpoints</code>: an array of points and curve mapping functions describing curve control points.</p>
+
+<h4>
+<a name="out-11" class="anchor" href="#out-11"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a spline segment.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-6" class="anchor" href="#example-6"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">20</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">controlpoints</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">splineCardinal</span> <span class="o">=</span> <span class="nx">SPLINE</span><span class="p">(</span><span class="nx">CUBIC_CARDINAL</span><span class="p">(</span><span class="nx">domain</span><span class="p">))(</span><span class="nx">controlpoints</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">splineCardinal</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cubic_hermiteselectorcontrolpoints" class="anchor" href="#cubic_hermiteselectorcontrolpoints"><span class="mini-icon link"></span></a><code>CUBIC_HERMITE(selector)(controlpoints)</code>
+</h3>
+
+<p>Transfinite mapping function of cubic Hermite curve.</p>
+
+<h4>
+<a name="io-7" class="anchor" href="#io-7"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-12" class="anchor" href="#in-12"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Function</code> <code>selector</code>: domain coordinate selector function.</p>
+
+<blockquote>
+<h4>
+<a name="in-13" class="anchor" href="#in-13"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>v</code>: point of the <code>domain</code>.</p>
+
+<h4>
+<a name="out-12" class="anchor" href="#out-12"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Number</code>: the selected coordinate. </p>
+</blockquote>
+
+<h4>
+<a name="out-13" class="anchor" href="#out-13"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-14" class="anchor" href="#in-14"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controlpoints</code>: an array of points and curve mapping functions describing curve control points.</p>
+
+<h4>
+<a name="out-14" class="anchor" href="#out-14"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous mapping function.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-7" class="anchor" href="#example-7"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">20</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">controlpoints</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],[</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">curveMapping</span> <span class="o">=</span> <span class="nx">CUBIC_HERMITE</span><span class="p">(</span><span class="nx">S0</span><span class="p">)(</span><span class="nx">controlpoints</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">curve</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">curveMapping</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">curve</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">PROD1x1</span><span class="p">([</span><span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">14</span><span class="p">),</span><span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">14</span><span class="p">)]);</span>
+<span class="kd">var</span> <span class="nx">c1</span> <span class="o">=</span> <span class="nx">CUBIC_HERMITE</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">c2</span> <span class="o">=</span> <span class="nx">CUBIC_HERMITE</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">sur3</span> <span class="o">=</span> <span class="nx">CUBIC_HERMITE</span><span class="p">(</span><span class="nx">S1</span><span class="p">)([</span><span class="nx">c1</span><span class="p">,</span><span class="nx">c2</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">sur3</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cubic_ubsplinedomain" class="anchor" href="#cubic_ubsplinedomain"><span class="mini-icon link"></span></a><code>CUBIC_UBSPLINE(domain)</code>
+</h3>
+
+<p>Tranfinite cubic uniform B-splines curve generator function on <code>domain</code>.</p>
+
+<h4>
+<a name="io-8" class="anchor" href="#io-8"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-15" class="anchor" href="#in-15"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> <code>domain</code>: domain of the generator function.</p>
+
+<h4>
+<a name="out-15" class="anchor" href="#out-15"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-16" class="anchor" href="#in-16"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controlpoints</code>: an array of points and curve mapping functions describing curve control points.</p>
+
+<h4>
+<a name="out-16" class="anchor" href="#out-16"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a spline segment.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-8" class="anchor" href="#example-8"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">20</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">controlpoints</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">splineCubic</span> <span class="o">=</span> <span class="nx">SPLINE</span><span class="p">(</span><span class="nx">CUBIC_UBSPLINE</span><span class="p">(</span><span class="nx">domain</span><span class="p">))(</span><span class="nx">controlpoints</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">splineCubic</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cuboiddims" class="anchor" href="#cuboiddims"><span class="mini-icon link"></span></a><code>CUBOID(dims)</code>
+</h3>
+
+<p>Create a cuboidal simplicial complex with dimensions <code>[dx, dy, dz, ...]</code>.</p>
+
+<h4>
+<a name="io-9" class="anchor" href="#io-9"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-17" class="anchor" href="#in-17"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: sides length for each dimension of the simplicial complex.</p>
+
+<ul>
+<li>
+<code>Number</code> <code>dx</code>: dimension along x axe</li>
+<li>
+<code>Number</code> <code>dy</code>: dimension along y axe</li>
+<li>
+<code>Number</code> <code>dz</code>: dimension along z axe</li>
+<li>...</li>
+</ul>
+<h4>
+<a name="out-17" class="anchor" href="#out-17"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a cuboidal simplicial complex with dimensions <code>[dx, dy, dz, ...]</code>.</p>
+</blockquote>
+
+<h4>
+<a name="example-9" class="anchor" href="#example-9"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">dx</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">dy</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">dz</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">cuboid1</span> <span class="o">=</span> <span class="nx">CUBOID</span><span class="p">([</span><span class="nx">dx</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">cuboid1</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">cuboid2</span> <span class="o">=</span> <span class="nx">CUBOID</span><span class="p">([</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">cuboid2</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">cuboid3</span> <span class="o">=</span> <span class="nx">CUBOID</span><span class="p">([</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">,</span> <span class="nx">dz</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">cuboid3</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="cyl_surfacedimsdivs" class="anchor" href="#cyl_surfacedimsdivs"><span class="mini-icon link"></span></a><code>CYL_SURFACE(dims)(divs)</code>
+</h3>
+
+<p>Create a cylindrical surface.</p>
+
+<h4>
+<a name="io-10" class="anchor" href="#io-10"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-18" class="anchor" href="#in-18"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: dimensions <code>[r, h]</code>.</p>
+
+<ul>
+<li>
+<code>Number</code> <code>r</code>: the radius (<code>1</code> by default).</li>
+<li>
+<code>Number</code> <code>h</code>: the height (<code>1</code> by default).</li>
+</ul>
+<h4>
+<a name="out-18" class="anchor" href="#out-18"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-19" class="anchor" href="#in-19"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>divs</code>: divisions <code>[slices, stacks]</code>.</p>
+
+<ul>
+<li>
+<code>Number</code> <code>slices</code>: slices (<code>16</code> by default).</li>
+<li>
+<code>Number</code> <code>stacks</code>: stacks (<code>2</code> by default).</li>
+</ul>
+<h4>
+<a name="out-19" class="anchor" href="#out-19"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a cylindrical surface with radius <code>r</code> and height <code>h</code>, divided in <code>slices</code> and <code>stacks</code>. </p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-10" class="anchor" href="#example-10"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">CYLSURFACE</span><span class="p">()();</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="diskrdivs" class="anchor" href="#diskrdivs"><span class="mini-icon link"></span></a><code>DISK(r)(divs)</code>
+</h3>
+
+<p>Create a disk surface with radius <code>r</code>.</p>
+
+<h4>
+<a name="io-11" class="anchor" href="#io-11"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-20" class="anchor" href="#in-20"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>r</code>: the radius (<code>1</code> by default).</p>
+
+<h4>
+<a name="out-20" class="anchor" href="#out-20"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-21" class="anchor" href="#in-21"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>divs</code>: divisions <code>[slices, stacks]</code>.</p>
+
+<ul>
+<li>
+<code>Number</code> <code>slices</code>: slices (<code>16</code> by default).</li>
+<li>
+<code>Number</code> <code>stacks</code>: stacks (<code>2</code> by default).</li>
+</ul>
+<h4>
+<a name="out-21" class="anchor" href="#out-21"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a disk with radius <code>r</code>, divided in <code>slices</code> and <code>stacks</code>. </p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-11" class="anchor" href="#example-11"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">DISK</span><span class="p">()();</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="domaindimsdivs" class="anchor" href="#domaindimsdivs"><span class="mini-icon link"></span></a><code>DOMAIN(dims)(divs)</code>
+</h3>
+
+<p>Create a domain.</p>
+
+<h4>
+<a name="io-12" class="anchor" href="#io-12"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-22" class="anchor" href="#in-22"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: dimensions <code>[dx, dy, dz, ...]</code>.</p>
+
+<ul>
+<li>
+<code>Array</code> <code>dx</code>: intervals <code>[start_x, end_x]</code>
+
+<ul>
+<li>
+<code>Number</code> <code>start_x</code>: x min</li>
+<li>
+<code>Number</code> <code>end_x</code>: x max</li>
+</ul>
+</li>
+<li>
+<code>Array</code> <code>dy</code>: intervals <code>[start_y, end_y]</code>
+
+<ul>
+<li>
+<code>Number</code> <code>start_y</code>: y min</li>
+<li>
+<code>Number</code> <code>end_y</code>: y max</li>
+</ul>
+</li>
+<li>
+<code>Array</code> <code>dz</code>: intervals <code>[start_z, end_z]</code>
+
+<ul>
+<li>
+<code>Number</code> <code>start_z</code>: z min</li>
+<li>
+<code>Number</code> <code>end_z</code>: z max</li>
+</ul>
+</li>
+<li>...</li>
+</ul>
+<h4>
+<a name="out-22" class="anchor" href="#out-22"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-23" class="anchor" href="#in-23"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>divs</code>: divisions <code>[nx, ny, nz, ...]</code>.</p>
+
+<ul>
+<li>
+<code>Number</code> <code>nx</code>: division along x axes.</li>
+<li>
+<code>Number</code> <code>ny</code>: division along y axes.</li>
+<li>
+<code>Number</code> <code>nz</code>: division along z axes.</li>
+<li>...</li>
+</ul>
+<h4>
+<a name="out-23" class="anchor" href="#out-23"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a domain. </p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-12" class="anchor" href="#example-12"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain1</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="nx">PI</span><span class="p">])([</span><span class="mi">32</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">domain1</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain2</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="nx">PI</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])([</span><span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">domain2</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain3</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="nx">PI</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])([</span><span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">domain3</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="drawobject" class="anchor" href="#drawobject"><span class="mini-icon link"></span></a><code>DRAW(object)</code>
+</h3>
+
+<p>Draw an object of 3 or less dimensions.</p>
+
+<h4>
+<a name="io-13" class="anchor" href="#io-13"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-24" class="anchor" href="#in-24"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to draw.</p>
+
+<h4>
+<a name="out-24" class="anchor" href="#out-24"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object drawn.</p>
+</blockquote>
+
+<hr><h4>
+<a name="explodevaluesmodel" class="anchor" href="#explodevaluesmodel"><span class="mini-icon link"></span></a><code>EXPLODE(values)(model)</code>
+</h4>
+
+<p>Explode a <code>model</code>.</p>
+
+<h4>
+<a name="io-14" class="anchor" href="#io-14"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-25" class="anchor" href="#in-25"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>values</code>: <code>[dx, dy, dz, ...]</code></p>
+
+<ul>
+<li>
+<code>Number</code> <code>dx</code>: explosion factor along x axe</li>
+<li>
+<code>Number</code> <code>dy</code>: explosion factor along y axe</li>
+<li>
+<code>Number</code> <code>dx</code>: explosion factor along z axe</li>
+<li>...</li>
+</ul>
+<h4>
+<a name="out-25" class="anchor" href="#out-25"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonimous function. </p>
+
+<blockquote>
+<h4>
+<a name="in-26" class="anchor" href="#in-26"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> <code>model</code>: the model to explode.</p>
+
+<h4>
+<a name="out-26" class="anchor" href="#out-26"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: the model exploded.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-13" class="anchor" href="#example-13"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="kd">var</span> <span class="nx">exploded</span> <span class="o">=</span> <span class="nx">EXLODE</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">exploded</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h4>
+<a name="extrudehlistobject" class="anchor" href="#extrudehlistobject"><span class="mini-icon link"></span></a><code>EXTRUDE(hlist)(object)</code>
+</h4>
+
+<p>Extrude an <code>object</code>.</p>
+
+<h4>
+<a name="io-15" class="anchor" href="#io-15"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-27" class="anchor" href="#in-27"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>hlist</code></p>
+
+<h4>
+<a name="out-27" class="anchor" href="#out-27"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonimous function. </p>
+
+<blockquote>
+<h4>
+<a name="in-28" class="anchor" href="#in-28"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>objetc</code>: the object to extrude.</p>
+
+<h4>
+<a name="out-28" class="anchor" href="#out-28"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>objetc</code>: the extruded object.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-14" class="anchor" href="#example-14"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">SIMPLEX</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">extruded</span> <span class="o">=</span> <span class="nx">EXTRUDE</span><span class="p">([</span><span class="mi">1</span><span class="p">])(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">extruded</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h4>
+<a name="hideobject" class="anchor" href="#hideobject"><span class="mini-icon link"></span></a><code>HIDE(object)</code>
+</h4>
+
+<p>Hide the <code>object</code>.</p>
+
+<h4>
+<a name="io-16" class="anchor" href="#io-16"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-29" class="anchor" href="#in-29"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>objetc</code>: the object to hide.</p>
+
+<h4>
+<a name="out-29" class="anchor" href="#out-29"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code>: the hidden model.</p>
+</blockquote>
+
+<h4>
+<a name="example-15" class="anchor" href="#example-15"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">HIDE</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="intervalslengthn" class="anchor" href="#intervalslengthn"><span class="mini-icon link"></span></a><code>INTERVALS(length)(n)</code>
+</h3>
+
+<p>Create a segment from <code>0</code> to <code>length</code> divided in <code>n</code> parts.</p>
+
+<h4>
+<a name="io-17" class="anchor" href="#io-17"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-30" class="anchor" href="#in-30"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>length</code>: the length of the interval.</p>
+
+<h4>
+<a name="out-30" class="anchor" href="#out-30"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonimous function. </p>
+
+<blockquote>
+<h4>
+<a name="in-31" class="anchor" href="#in-31"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>n</code>: the number of divisions.</p>
+
+<h4>
+<a name="out-31" class="anchor" href="#out-31"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a segment from <code>0</code> to <code>length</code> divided in <code>n</code> parts.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-16" class="anchor" href="#example-16"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">intervals</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">10</span><span class="p">)(</span><span class="mi">5</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">intervals</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="mapmappingdomain" class="anchor" href="#mapmappingdomain"><span class="mini-icon link"></span></a><code>MAP(mapping)(domain)</code>
+</h3>
+
+<p>Map a <code>domain</code> by a <code>mapping</code> function.</p>
+
+<h4>
+<a name="io-18" class="anchor" href="#io-18"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-32" class="anchor" href="#in-32"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Function|Array</code> <code>mapping</code>: the mapping function (or array of function)</p>
+
+<blockquote>
+<h4>
+<a name="in-33" class="anchor" href="#in-33"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>v</code>: point of the <code>domain</code>.</p>
+
+<h4>
+<a name="out-32" class="anchor" href="#out-32"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Array</code>: the mapped point. </p>
+</blockquote>
+
+<h4>
+<a name="out-33" class="anchor" href="#out-33"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-34" class="anchor" href="#in-34"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> <code>domain</code>: the domain to map.</p>
+
+<h4>
+<a name="out-34" class="anchor" href="#out-34"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: the mapped domain.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-17" class="anchor" href="#example-17"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">mapping</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">[</span><span class="nx">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="kd">var</span> <span class="nx">mapped</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">mapping</span><span class="p">)(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">mapped</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nx">PI</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">mapping</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">[</span><span class="nx">SIN</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nx">COS</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])];</span> <span class="p">});</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">mapping</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nx">PI</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">mapping</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">SIN</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="p">},</span> 
+  <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">COS</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="p">}</span>
+<span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">mapping</span><span class="p">)(</span><span class="nx">domain</span><span class="p">)</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="nubslinedegreeknotscontrols" class="anchor" href="#nubslinedegreeknotscontrols"><span class="mini-icon link"></span></a><code>NUBSLINE(degree)(knots)(controls)</code>
+</h3>
+
+<p>Non-uniform B-Spline.</p>
+
+<h4>
+<a name="io-19" class="anchor" href="#io-19"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-35" class="anchor" href="#in-35"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>degree</code>: spline degree.
+<code>Number</code> <code>[totpoints=80]</code>: total number of spline's points.</p>
+
+<h4>
+<a name="out-35" class="anchor" href="#out-35"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-36" class="anchor" href="#in-36"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>knots</code>: Array of integer describing spline's knots.</p>
+
+<h4>
+<a name="out-36" class="anchor" href="#out-36"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-37" class="anchor" href="#in-37"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controls</code>: Array of integer describing spline's control points.</p>
+
+<h4>
+<a name="out-37" class="anchor" href="#out-37"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: non uniform spline.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-18" class="anchor" href="#example-18"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">controls</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">knots</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">nubspline</span> <span class="o">=</span> <span class="nx">NUBSPLINE</span><span class="p">(</span><span class="mi">3</span><span class="p">)(</span><span class="nx">knots</span><span class="p">)(</span><span class="nx">controls</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">nubspline</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="nubsseldegreeknotscontrols" class="anchor" href="#nubsseldegreeknotscontrols"><span class="mini-icon link"></span></a><code>NUBS(sel)(degree)(knots)(controls)</code>
+</h3>
+
+<p>Transfinite Non-uniform B-Spline.</p>
+
+<h4>
+<a name="io-20" class="anchor" href="#io-20"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-38" class="anchor" href="#in-38"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Function</code> <code>sel</code>: selctor function.</p>
+
+<h4>
+<a name="out-38" class="anchor" href="#out-38"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-39" class="anchor" href="#in-39"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>degree</code>: spline degree.</p>
+
+<h4>
+<a name="out-39" class="anchor" href="#out-39"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-40" class="anchor" href="#in-40"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>knots</code>: Array of integer describing spline's knots.</p>
+
+<h4>
+<a name="out-40" class="anchor" href="#out-40"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-41" class="anchor" href="#in-41"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controls</code>: Array of integer describing spline's control points.</p>
+
+<h4>
+<a name="out-41" class="anchor" href="#out-41"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: non uniform spline.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-19" class="anchor" href="#example-19"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">20</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">controls</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">nubs</span> <span class="o">=</span> <span class="nx">NUBS</span><span class="p">(</span><span class="nx">S0</span><span class="p">)(</span><span class="mi">3</span><span class="p">)([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">])(</span><span class="nx">controls</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">nubs</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])([</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">b0</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">b1</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">b2</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">b3</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">controls</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b0</span><span class="p">,</span><span class="nx">b1</span><span class="p">,</span><span class="nx">b2</span><span class="p">,</span><span class="nx">b3</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">nubs</span> <span class="o">=</span> <span class="nx">NUBS</span><span class="p">(</span><span class="nx">S1</span><span class="p">)(</span><span class="mi">3</span><span class="p">)([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">])(</span><span class="nx">controls</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">nubs</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="nurbslinedegreeknotscontrols" class="anchor" href="#nurbslinedegreeknotscontrols"><span class="mini-icon link"></span></a><code>NURBSLINE(degree)(knots)(controls)</code>
+</h3>
+
+<p>Non-uniform Rational B-Spline.</p>
+
+<h4>
+<a name="io-21" class="anchor" href="#io-21"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-42" class="anchor" href="#in-42"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>degree</code>: spline degree.
+<code>Number</code> <code>[totpoints=80]</code>: total number of spline's points.</p>
+
+<h4>
+<a name="out-42" class="anchor" href="#out-42"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-43" class="anchor" href="#in-43"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>knots</code>: Array of integer describing spline's knots.</p>
+
+<h4>
+<a name="out-43" class="anchor" href="#out-43"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-44" class="anchor" href="#in-44"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controls</code>: Array of integer describing spline's control points.</p>
+
+<h4>
+<a name="out-44" class="anchor" href="#out-44"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: non uniform rational spline.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-20" class="anchor" href="#example-20"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">_p</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">controls</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="nx">_p</span><span class="p">,</span><span class="nx">_p</span><span class="p">,</span><span class="nx">_p</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="nx">_p</span><span class="p">,</span><span class="nx">_p</span><span class="p">,</span><span class="nx">_p</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="nx">_p</span><span class="p">,</span><span class="o">-</span><span class="nx">_p</span><span class="p">,</span><span class="nx">_p</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="nx">_p</span><span class="p">,</span><span class="o">-</span><span class="nx">_p</span><span class="p">,</span><span class="nx">_p</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">knots</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">nurbs</span> <span class="o">=</span> <span class="nx">NURBSPLINE</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nx">knots</span><span class="p">)(</span><span class="nx">controls</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">nurbs</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="polylinepoints" class="anchor" href="#polylinepoints"><span class="mini-icon link"></span></a><code>POLYLINE(points)</code>
+</h3>
+
+<p>Create a polyline made by <code>points</code>.</p>
+
+<h4>
+<a name="io-22" class="anchor" href="#io-22"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-45" class="anchor" href="#in-45"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>points</code>: an array of points (<code>[p0, p1, ...]</code>):</p>
+
+<ul>
+<li>
+<code>Array</code> <code>points[i]</code> <code>point</code>: <code>i</code>-th point
+
+<ul>
+<li>
+<code>Number</code> <code>point[k]</code>: <code>k</code>-th coord of <code>point</code>
+</li>
+</ul>
+</li>
+</ul>
+<h4>
+<a name="out-45" class="anchor" href="#out-45"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a polyline made by <code>points</code>.</p>
+</blockquote>
+
+<h4>
+<a name="example-21" class="anchor" href="#example-21"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">polyline</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">(</span><span class="nx">points</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">polyline</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="polypointpoints" class="anchor" href="#polypointpoints"><span class="mini-icon link"></span></a><code>POLYPOINT(points)</code>
+</h3>
+
+<p>Create a 0D complex.</p>
+
+<h4>
+<a name="io-23" class="anchor" href="#io-23"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-46" class="anchor" href="#in-46"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>points</code>: an array of points (<code>[p0, p1, ...]</code>):</p>
+
+<ul>
+<li>
+<code>Array</code> <code>points[i]</code> <code>point</code>: <code>i</code>-th point
+
+<ul>
+<li>
+<code>Number</code> <code>point[k]</code>: <code>k</code>-th coord of <code>point</code>
+</li>
+</ul>
+</li>
+</ul>
+<h4>
+<a name="out-46" class="anchor" href="#out-46"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a polypoint made by <code>points</code>.</p>
+</blockquote>
+
+<h4>
+<a name="example-22" class="anchor" href="#example-22"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">polypoint</span> <span class="o">=</span> <span class="nx">POLYPOINT</span><span class="p">(</span><span class="nx">points</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">polypoint</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="prod1x1array" class="anchor" href="#prod1x1array"><span class="mini-icon link"></span></a><code>PROD1x1(array)</code>
+</h3>
+
+<p>Return cartesian product of the two models in <code>array</code>.<br>
+Each model must have Rn equals to 1.</p>
+
+<h4>
+<a name="io-24" class="anchor" href="#io-24"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-47" class="anchor" href="#in-47"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>array</code>: an array of the two operand models (<code>[model1, model2]</code>):</p>
+
+<ul>
+<li>
+<code>Array</code> <code>array[0]</code> <code>model1</code>: the first operand model</li>
+<li>
+<code>Array</code> <code>array[1]</code> <code>model2</code>: the second operand model</li>
+</ul>
+<h4>
+<a name="out-47" class="anchor" href="#out-47"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: result of the product of the two models</p>
+</blockquote>
+
+<h4>
+<a name="example-23" class="anchor" href="#example-23"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">([[</span><span class="mf">2.2</span><span class="p">],[</span><span class="mf">3.5</span><span class="p">],[</span><span class="mf">7.8</span><span class="p">],[</span><span class="mf">9.0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">axb</span> <span class="o">=</span> <span class="nx">PROD1x1</span><span class="p">([</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">STRUCT</span><span class="p">([</span><span class="nx">axb</span><span class="p">,</span> <span class="nx">SKELETON</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="nx">axb</span><span class="p">)]));</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="prod1x2array" class="anchor" href="#prod1x2array"><span class="mini-icon link"></span></a><code>PROD1x2(array)</code>
+</h3>
+
+<p>Return cartesian product of the two models in <code>array</code>.<br>
+The first model must have Rn equals to 1.<br>
+The second model must have Rn equals to 2.  </p>
+
+<h4>
+<a name="io-25" class="anchor" href="#io-25"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-48" class="anchor" href="#in-48"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>array</code>: an array of the two operand models (<code>[model1, model2]</code>):</p>
+
+<ul>
+<li>
+<code>Array</code> <code>array[0]</code> <code>model1</code>: the first operand model</li>
+<li>
+<code>Array</code> <code>array[1]</code> <code>model2</code>: the second operand model</li>
+</ul>
+<h4>
+<a name="out-48" class="anchor" href="#out-48"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: result of the product of the two models</p>
+</blockquote>
+
+<h4>
+<a name="example-24" class="anchor" href="#example-24"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">axb</span> <span class="o">=</span> <span class="nx">PROD1x2</span><span class="p">([</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">STRUCT</span><span class="p">([</span><span class="nx">axb</span><span class="p">,</span> <span class="nx">SKELETON</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="nx">axb</span><span class="p">)]));</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="prod2x1array" class="anchor" href="#prod2x1array"><span class="mini-icon link"></span></a><code>PROD2x1(array)</code>
+</h3>
+
+<p>Return cartesian product of the two models in <code>array</code>.<br>
+The first model must have Rn equals to 2.<br>
+The second model must have Rn equals to 1.  </p>
+
+<h4>
+<a name="io-26" class="anchor" href="#io-26"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-49" class="anchor" href="#in-49"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>array</code>: an array of the two operand models (<code>[model1, model2]</code>):</p>
+
+<ul>
+<li>
+<code>Array</code> <code>array[0]</code> <code>model1</code>: the first operand model</li>
+<li>
+<code>Array</code> <code>array[1]</code> <code>model2</code>: the second operand model</li>
+</ul>
+<h4>
+<a name="out-49" class="anchor" href="#out-49"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: result of the product of the two models</p>
+</blockquote>
+
+<h4>
+<a name="example-25" class="anchor" href="#example-25"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">POLYLINE</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">bxa</span> <span class="o">=</span> <span class="nx">PROD2x1</span><span class="p">([</span><span class="nx">b</span><span class="p">,</span><span class="nx">a</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">STRUCT</span><span class="p">([</span><span class="nx">bxa</span><span class="p">,</span> <span class="nx">SKELETON</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="nx">bxa</span><span class="p">)]));</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="rotatedimsangleobject--rdimsangleobject" class="anchor" href="#rotatedimsangleobject--rdimsangleobject"><span class="mini-icon link"></span></a><code>ROTATE(dims)(angle)(object)</code> / <code>R(dims)(angle)(object)</code>
+</h3>
+
+<p>Rotate <code>object</code> by <code>angle</code> on the rotational plane described by <code>dims</code>.</p>
+
+<h4>
+<a name="io-27" class="anchor" href="#io-27"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-50" class="anchor" href="#in-50"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: an array of <code>Number</code> specifying dimensions forming the rotational plane on which rotate the object.</p>
+
+<ul>
+<li>
+<code>Array</code> <code>dims[0]</code> <code>dims1</code>: the first dimension of the rotational plane.</li>
+<li>
+<code>Array</code> <code>dims[1]</code> <code>dims2</code>: the second dimension of the rotational plane.</li>
+</ul>
+<h4>
+<a name="out-50" class="anchor" href="#out-50"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Funciton</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-51" class="anchor" href="#in-51"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>angle</code>: rotational angle (in radiant, from <code>0</code> to <code>2π</code>).</p>
+
+<h4>
+<a name="out-51" class="anchor" href="#out-51"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-52" class="anchor" href="#in-52"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to rotate.</p>
+
+<h4>
+<a name="out-52" class="anchor" href="#out-52"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code>: the rotated object.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-26" class="anchor" href="#example-26"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="kd">var</span> <span class="nx">rotated</span> <span class="o">=</span> <span class="nx">ROTATE</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])(</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">)(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">rotated</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="rotational_surfaceprofile" class="anchor" href="#rotational_surfaceprofile"><span class="mini-icon link"></span></a><code>ROTATIONAL_SURFACE(profile)</code>
+</h3>
+
+<p>Create a rotational surface mapping given the mapping of the profile to rotate.</p>
+
+<h4>
+<a name="io-28" class="anchor" href="#io-28"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-53" class="anchor" href="#in-53"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Function</code> <code>profile</code>: mapping of the profile to rotate.</p>
+
+<h4>
+<a name="out-53" class="anchor" href="#out-53"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: mapping of the rotational surface</p>
+</blockquote>
+
+<h4>
+<a name="example-27" class="anchor" href="#example-27"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nx">PI</span><span class="p">]])([</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">profile</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">mapping</span> <span class="o">=</span> <span class="nx">ROTATIONAL_SURFACE</span><span class="p">(</span><span class="nx">profile</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">surface</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">mapping</span><span class="p">)(</span><span class="nx">domain</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="scaleaxisvaluesobject--saxisvaluesobject" class="anchor" href="#scaleaxisvaluesobject--saxisvaluesobject"><span class="mini-icon link"></span></a><code>SCALE(axis)(values)(object)</code> / <code>S(axis)(values)(object)</code>
+</h3>
+
+<p>Scale <code>model</code> by <code>values</code> along <code>axis</code>.</p>
+
+<h4>
+<a name="io-29" class="anchor" href="#io-29"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-54" class="anchor" href="#in-54"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>axis</code>: axis to scale along.</p>
+
+<h4>
+<a name="out-54" class="anchor" href="#out-54"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-55" class="anchor" href="#in-55"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>values</code>: scaling factors.</p>
+
+<h4>
+<a name="out-55" class="anchor" href="#out-55"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-56" class="anchor" href="#in-56"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to scale.</p>
+
+<h4>
+<a name="out-56" class="anchor" href="#out-56"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code>: the scaled object.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-28" class="anchor" href="#example-28"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="kd">var</span> <span class="nx">scaled</span> <span class="o">=</span> <span class="nx">SCALE</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])([</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">scaled</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="showobject" class="anchor" href="#showobject"><span class="mini-icon link"></span></a><code>SHOW(object)</code>
+</h3>
+
+<p>Show a hidden <code>object</code>.</p>
+
+<h4>
+<a name="io-30" class="anchor" href="#io-30"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-57" class="anchor" href="#in-57"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to show.</p>
+
+<h4>
+<a name="out-57" class="anchor" href="#out-57"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code>: the shown model.</p>
+</blockquote>
+
+<h4>
+<a name="example-29" class="anchor" href="#example-29"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">()();</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">HIDE</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+<span class="nx">SHOW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="simplexdim" class="anchor" href="#simplexdim"><span class="mini-icon link"></span></a><code>SIMPLEX(dim)</code>
+</h3>
+
+<p>Create a <code>dim</code>-dimensional simplex with sides length equal to 1.</p>
+
+<h4>
+<a name="io-31" class="anchor" href="#io-31"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-58" class="anchor" href="#in-58"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>dim</code>: simplex dimension.</p>
+
+<h4>
+<a name="out-58" class="anchor" href="#out-58"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a simplex of dim <code>dim</code>.</p>
+</blockquote>
+
+<h4>
+<a name="example-30" class="anchor" href="#example-30"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">simplex</span> <span class="o">=</span> <span class="nx">SIMPLEX</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">simplex</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="simplex_gridquotes" class="anchor" href="#simplex_gridquotes"><span class="mini-icon link"></span></a><code>SIMPLEX_GRID(quotes)</code>
+</h3>
+
+<p>Create a grid simplicial complex.</p>
+
+<h4>
+<a name="io-32" class="anchor" href="#io-32"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-59" class="anchor" href="#in-59"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>quotes</code>: an array of array of quotes for each dimension of the grid, starting from dimension 0.<br>
+Quotes may be both positive and negative: </p>
+
+<ul>
+<li>positive ones are actually generated, </li>
+<li>negative ones are considered as a positive spacing.</li>
+</ul>
+<h4>
+<a name="out-59" class="anchor" href="#out-59"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a grid simplicial complex.</p>
+</blockquote>
+
+<h4>
+<a name="example-31" class="anchor" href="#example-31"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">SIMPLEX_GRID</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="simplicial_complexpointscells" class="anchor" href="#simplicial_complexpointscells"><span class="mini-icon link"></span></a><code>SIMPLICIAL_COMPLEX(points)(cells)</code>
+</h3>
+
+<p>Create a simplicial complex.</p>
+
+<h4>
+<a name="io-33" class="anchor" href="#io-33"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-60" class="anchor" href="#in-60"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>points</code>: an array of points, represented as arrays of coordinates.</p>
+
+<h4>
+<a name="out-60" class="anchor" href="#out-60"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-61" class="anchor" href="#in-61"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>cells</code>: complex's highest order cells represented as arrays of indices of <code>points</code>.</p>
+
+<h4>
+<a name="out-61" class="anchor" href="#out-61"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a simplicial complex.</p>
+</blockquote>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">cells</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">simplicialComplex</span> <span class="o">=</span> <span class="nx">SIMPLICIAL_COMPLEX</span><span class="p">(</span><span class="nx">points</span><span class="p">)(</span><span class="nx">cells</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">simplicialComplex</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="skeletondimmodel" class="anchor" href="#skeletondimmodel"><span class="mini-icon link"></span></a><code>SKELETON(dim)(model)</code>
+</h3>
+
+<p>Extract the <code>dim</code>-skeleton of the <code>model</code>.</p>
+
+<h4>
+<a name="io-34" class="anchor" href="#io-34"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-62" class="anchor" href="#in-62"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Number</code> <code>dim</code>: dimension of the skeleton.</p>
+
+<h4>
+<a name="out-62" class="anchor" href="#out-62"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-63" class="anchor" href="#in-63"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> <code>model</code>: model to which extract skeleton. </p>
+
+<h4>
+<a name="out-63" class="anchor" href="#out-63"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: <code>dim</code>-skeleton of the <code>model</code>.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-32" class="anchor" href="#example-32"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">cuboid</span> <span class="o">=</span> <span class="nx">CUBOID</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">skeleton1</span> <span class="o">=</span> <span class="nx">SKELETON</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="nx">cuboid</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">skeleton1</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="splinecurvecontrolpoints" class="anchor" href="#splinecurvecontrolpoints"><span class="mini-icon link"></span></a><code>SPLINE(curve)(controlpoints)</code>
+</h3>
+
+<p>Create spline curve.</p>
+
+<h4>
+<a name="io-35" class="anchor" href="#io-35"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-64" class="anchor" href="#in-64"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Function</code> <code>curve</code>: spline curve generator function, such as the result of application of <code>CUBIC_UBSPLINE</code> or <code>CUBIC_CARDINAL</code> to a domain.</p>
+
+<h4>
+<a name="out-64" class="anchor" href="#out-64"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: an anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-65" class="anchor" href="#in-65"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>controlpoints</code>: an array of points and curve mapping functions describing curve control points.</p>
+
+<h4>
+<a name="out-65" class="anchor" href="#out-65"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Struct</code>: the spline.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-33" class="anchor" href="#example-33"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">20</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">controlpoints</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">splineCardinal</span> <span class="o">=</span> <span class="nx">COLOR</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])(</span><span class="nx">SPLINE</span><span class="p">(</span><span class="nx">CUBIC_CARDINAL</span><span class="p">(</span><span class="nx">domain</span><span class="p">))(</span><span class="nx">controlpoints</span><span class="p">));</span>
+<span class="kd">var</span> <span class="nx">splineCubic</span> <span class="o">=</span> <span class="nx">COLOR</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])(</span><span class="nx">SPLINE</span><span class="p">(</span><span class="nx">CUBIC_UBSPLINE</span><span class="p">(</span><span class="nx">domain</span><span class="p">))(</span><span class="nx">controlpoints</span><span class="p">));</span>
+<span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="nx">SIMPLICIAL_COMPLEX</span><span class="p">(</span><span class="nx">controlpoints</span><span class="p">)([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">],[</span><span class="mi">6</span><span class="p">],[</span><span class="mi">7</span><span class="p">],[</span><span class="mi">8</span><span class="p">],[</span><span class="mi">9</span><span class="p">]]);</span>
+<span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">STRUCT</span><span class="p">([</span><span class="nx">splineCardinal</span><span class="p">,</span><span class="nx">splineCubic</span><span class="p">,</span><span class="nx">points</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="structitems" class="anchor" href="#structitems"><span class="mini-icon link"></span></a><code>STRUCT(items)</code>
+</h3>
+
+<p>Structure together <code>plasm.Model</code> and <code>plasm.Struct</code>.<br>
+If a transformation is encountered in <code>items</code>,<br>
+it is applied to all of the following items.</p>
+
+<h4>
+<a name="io-36" class="anchor" href="#io-36"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-66" class="anchor" href="#in-66"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>items</code>: an array of <code>plasm.Model</code> or <code>plasm.Struct</code> or <code>Function</code></p>
+
+<h4>
+<a name="out-66" class="anchor" href="#out-66"><span class="mini-icon link"></span></a>out</h4>
+
+<p>instance of <code>plasm.Struct</code>: a struct.</p>
+</blockquote>
+
+<h4>
+<a name="example-34" class="anchor" href="#example-34"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">cube1</span> <span class="o">=</span> <span class="nx">CUBE</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">cube2</span> <span class="o">=</span> <span class="nx">T</span><span class="p">([</span><span class="mi">0</span><span class="p">])([</span><span class="mf">1.3</span><span class="p">])(</span><span class="nx">cube1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">struct1</span> <span class="o">=</span> <span class="nx">STRUCT</span><span class="p">([</span><span class="nx">cube1</span><span class="p">,</span> <span class="nx">cube2</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">T</span><span class="p">([</span><span class="mi">1</span><span class="p">])([</span><span class="mf">1.3</span><span class="p">]);</span>
+<span class="kd">var</span> <span class="nx">struct</span> <span class="o">=</span> <span class="nx">STRUCT</span><span class="p">([</span><span class="nx">struct1</span><span class="p">,</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">struct1</span><span class="p">,</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">cube1</span><span class="p">]);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="torus_soliddimsdivs" class="anchor" href="#torus_soliddimsdivs"><span class="mini-icon link"></span></a><code>TORUS_SOLID(dims)(divs)</code>
+</h3>
+
+<p>Create a torus solid.</p>
+
+<h4>
+<a name="io-37" class="anchor" href="#io-37"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-67" class="anchor" href="#in-67"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: size of the radii <code>[rMin, rMax]</code></p>
+
+<ul>
+<li>
+<code>Number</code> <code>rMin</code>: internal radius (<code>0.1</code> by default)</li>
+<li>
+<code>Number</code> <code>rMax</code>: external radius (<code>0.9</code> by default)</li>
+</ul>
+<h4>
+<a name="out-67" class="anchor" href="#out-67"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-68" class="anchor" href="#in-68"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>divs</code>: a triple of approssimation values <code>[m, n, o]</code></p>
+
+<ul>
+<li>
+<code>Number</code> <code>m</code>: (<code>12</code> by default)</li>
+<li>
+<code>Number</code> <code>n</code>: (<code>8</code> by default)</li>
+<li>
+<code>Number</code> <code>o</code>: (<code>8</code> by default)</li>
+</ul>
+<h4>
+<a name="out-68" class="anchor" href="#out-68"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a solid torus.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-35" class="anchor" href="#example-35"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="nx">torusSolid</span> <span class="o">=</span> <span class="nx">TORUS_SOLID</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])([</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">torusSolid</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="torus_surfacedimsdivs" class="anchor" href="#torus_surfacedimsdivs"><span class="mini-icon link"></span></a><code>TORUS_SURFACE(dims)(divs)</code>
+</h3>
+
+<p>Create a toroidal surface.</p>
+
+<h4>
+<a name="io-38" class="anchor" href="#io-38"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-69" class="anchor" href="#in-69"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: size of the radii <code>[rMin, rMax]</code></p>
+
+<ul>
+<li>
+<code>Number</code> <code>rMin</code>: internal radius (<code>0.1</code> by default)</li>
+<li>
+<code>Number</code> <code>rMax</code>: external radius (<code>0.9</code> by default)</li>
+</ul>
+<h4>
+<a name="out-69" class="anchor" href="#out-69"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-70" class="anchor" href="#in-70"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>divs</code>: a couple of approssimation values <code>[m, n, o]</code></p>
+
+<ul>
+<li>
+<code>Number</code> <code>m</code>: slices (<code>12</code> by default)</li>
+<li>
+<code>Number</code> <code>n</code>: stacks (<code>8</code> by default)</li>
+</ul>
+<h4>
+<a name="out-70" class="anchor" href="#out-70"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code>: a toroidal surface.</p>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-36" class="anchor" href="#example-36"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">torusSurface</span> <span class="o">=</span> <span class="nx">TORUS_SURFACE</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])([</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">]);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">torusSurface</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="translatedimsvaluesobject--tdimsvaluesobject" class="anchor" href="#translatedimsvaluesobject--tdimsvaluesobject"><span class="mini-icon link"></span></a><code>TRANSLATE(dims)(values)(object)</code> / <code>T(dims)(values)(object)</code>
+</h3>
+
+<p>Clone <code>model</code> and translate cloned model by <code>values</code> on dimensions <code>dims</code>.</p>
+
+<h4>
+<a name="io-39" class="anchor" href="#io-39"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-71" class="anchor" href="#in-71"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>dims</code>: an array of <code>Number</code> specifying which dimensions translate (first dim has index 0).</p>
+
+<h4>
+<a name="out-71" class="anchor" href="#out-71"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-72" class="anchor" href="#in-72"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>values</code>: an array of <code>Number</code> specifying translation quantity for every dimension in <code>dims</code>.</p>
+
+<h4>
+<a name="out-72" class="anchor" href="#out-72"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>Function</code>: anonymous function.</p>
+
+<blockquote>
+<h4>
+<a name="in-73" class="anchor" href="#in-73"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object to translate.</p>
+
+<h4>
+<a name="out-73" class="anchor" href="#out-73"><span class="mini-icon link"></span></a>out</h4>
+
+<p><code>plasm.Model</code> or <code>plasm.Struct</code>: the translated object.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h4>
+<a name="example-37" class="anchor" href="#example-37"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="nx">CUBE</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">translatedCube</span> <span class="o">=</span> <span class="nx">T</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])(</span><span class="nx">cube</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">translatedCube</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="triangle_fanpoints" class="anchor" href="#triangle_fanpoints"><span class="mini-icon link"></span></a><code>TRIANGLE_FAN(points)</code>
+</h3>
+
+<p>Create a tiangle fan: first point is the center of the fan,<br>
+center point is used with next two points to form a triangle.<br>
+Every successive point is used with center point and the previuos point to form a triangle.</p>
+
+<h4>
+<a name="io-40" class="anchor" href="#io-40"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-74" class="anchor" href="#in-74"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>points</code>: an array of points, represented as arrays of coordinates.</p>
+
+<h4>
+<a name="out-74" class="anchor" href="#out-74"><span class="mini-icon link"></span></a>out</h4>
+
+<p>instance of <code>plasm.Model</code>: a triangle fan.</p>
+</blockquote>
+
+<h4>
+<a name="example-38" class="anchor" href="#example-38"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">triStrip</span> <span class="o">=</span> <span class="nx">TRIANGLE_FAN</span><span class="p">(</span><span class="nx">points</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">triStrip</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+
+<hr><h3>
+<a name="triangle_strippoints" class="anchor" href="#triangle_strippoints"><span class="mini-icon link"></span></a><code>TRIANGLE_STRIP(points)</code>
+</h3>
+
+<p>Create a tiangle strip: first three points made a triangle,<br>
+every other point is used with next two points to form a triangle.</p>
+
+<h4>
+<a name="io-41" class="anchor" href="#io-41"><span class="mini-icon link"></span></a>I/O</h4>
+
+<blockquote>
+<h4>
+<a name="in-75" class="anchor" href="#in-75"><span class="mini-icon link"></span></a>in</h4>
+
+<p><code>Array</code> <code>points</code>: an array of points, represented as arrays of coordinates.</p>
+
+<h4>
+<a name="out-75" class="anchor" href="#out-75"><span class="mini-icon link"></span></a>out</h4>
+
+<p>instance of <code>plasm.Model</code>: a triangle strip.</p>
+</blockquote>
+
+<h4>
+<a name="example-39" class="anchor" href="#example-39"><span class="mini-icon link"></span></a>Example</h4>
+
+<blockquote>
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">points</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]];</span>
+<span class="kd">var</span> <span class="nx">triStrip</span> <span class="o">=</span> <span class="nx">TRIANGLE_STRIP</span><span class="p">(</span><span class="nx">points</span><span class="p">);</span>
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">triStrip</span><span class="p">);</span>
+</pre>
+</div>
+
+</blockquote>
+  </div>
+
+  <div id="plasm-container-demo" class="plasm-container"></div>
 
   <footer>
     <div id="plasm-inspector"></div>
   </footer>
 
+  <script type="text/template" id="template-showcase">
+    {{#showcase}}
+      <div class="plasm-sc-element">
+          <div class="plasm-sc-act" data-script="{{script}}">
+              <img class="snapshot" src="{{imgsrc}}" width="200" height="150" />
+              <!-- <img class="loading" src="./styles/282.gif" width="200" height="150" /> -->
+          </div>
+          <div>
+              by <a href="{{autorLink}}">{{autorName}}</a>
+          </div>
+      </div>
+    {{/showcase}}
+  </script>
+
+  <script src="support/jquery.js"></script>
+  <script src="support/mustache.js"></script>
   <script src="support/numeric.js"></script>
   <script src="support/three.js"></script>
   <script src="support/three-detector.js"></script>
@@ -27,7 +2176,8 @@
   <script src="node_modules/simplexn.js/lib/simplexn.js"></script>
   <script src="node_modules/f.js/lib/f.js"></script>
   <script src="lib/plasm.js"></script>
-  <script src="lib/plasm-fun.js"></script> 
+  <script src="lib/plasm-fun.js"></script>
+  <script src="lib/plasm-env.js"></script>
 
   <script>
     p = new Plasm('plasm', 'plasm-inspector');
@@ -55,5 +2205,6 @@
       s.parentNode.insertBefore(ga, s);
     })();
   </script>
+
 </body>
 </html>

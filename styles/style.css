@@ -20,11 +20,32 @@ header {
   height: 100%;
 }
 
-#plasm-logo {
-  padding-top: 7px;
+#plasm-bar {
+  padding-top: 1px;
   padding-left: 7px;
+}
+
+#plasm-logo {
+  cursor: default;
+  text-shadow: 0 0 0px #000000;
+  -webkit-transition: text-shadow 0.25s linear;
+}
+
+#plasm-logo:hover{
+  text-shadow: 0 0 5px rgb(155,225,85);
+  -webkit-transition: text-shadow 0.25s linear;
+}
+
+
+#plasm-logo h1{
+  float: left;
   font-size: 30px; 
   color: #efefef; 
+}
+
+#plasm-alpha {
+  vertical-align: super;
+  font-size: 18px;
 }
 
 footer #plasm-inspector {
@@ -32,3 +53,92 @@ footer #plasm-inspector {
   bottom: 11px;
   right: 7px;
 }
+
+#plasm-navbar {
+    float: right;
+}
+
+#plasm-navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: normal;
+}
+
+#plasm-navbar li {
+    float: right;
+    display: block;
+}
+
+#plasm-navbar a {
+    float: right;
+    margin-right: 20px;
+    padding: 9px 7px 0px 13px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #efefef;
+    cursor: pointer;
+    text-shadow: 0 0 0px #000000;
+    -webkit-transition: text-shadow 0.25s linear;
+}
+
+#plasm-navbar a:hover {
+  text-shadow: 0 0 3px #c6c6c6;
+  -webkit-transition: text-shadow 0.25s linear;
+}
+
+.plasm-container {
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  overflow: scroll;
+  padding: 10px;
+  background-color: rgba(222,222,222,0.95);
+}
+
+#plasm-container-about {
+  top: 40px;
+  width: 380px;
+  left: 0px;
+  right: 0px;
+  line-height: 1;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#plasm-about-logo {
+  font-size: 30px; 
+  color: #efefef;
+  text-shadow: 0 0 1px rgb(155,225,85);
+  margin-bottom: 10px;
+}
+
+#plasm-copyright {
+  margin-top: 20px;
+}
+
+#plasm-container-documentation {
+  top: 40px;
+  right: 0px;
+  width: 560px;
+  bottom: 0px;
+  line-height: 1;
+}
+
+#plasm-container-demo {
+  top: 40px;
+  left: 0px;
+  right: 0px;
+}
+
+.plasm-sc-element {
+  margin: 3px 3px 6px 3px;
+  display: inline;
+  cursor: pointer;
+  float: left;
+}
+
+/*.loading {
+  display: none;
+}*/

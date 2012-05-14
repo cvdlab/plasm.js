@@ -1,0 +1,131 @@
+#plasm-container-documentation h1, h2, h3, h4 {
+    color: #111111;
+    font-weight: 400;
+}
+#plasm-container-documentation h1, h2, h3, h4, h5, p {
+    margin-bottom: 24px;
+    padding: 0;
+}
+#plasm-container-documentation h1 {
+    font-size: 48px;
+}
+#plasm-container-documentation h2 {
+    font-size: 36px;
+    /* The bottom margin is small. It's designed to be used with gray meta text
+     * below a post title. */
+    margin: 24px 0 6px;
+}
+#plasm-container-documentation h3 {
+    font-size: 24px;
+}
+#plasm-container-documentation h4 {
+    font-size: 18px;
+}
+#plasm-container-documentation h5 {
+    font-size: 16px;
+}
+#plasm-container-documentation a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+#plasm-container-documentation a:hover {
+    text-decoration: none;
+    color: #ff6600;
+}
+#plasm-container-documentation a:visited {
+    color: purple;
+}
+#plasm-container-documentation ul, ol {
+    padding: 0;
+    margin: 0;
+}
+#plasm-container-documentation li {
+    line-height: 24px;
+}
+#plasm-container-documentation li ul, li ul {
+    margin-left: 24px;
+}
+#plasm-container-documentation p, ul, ol {
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 540px;
+}
+#plasm-container-documentation pre {
+    padding: 0px 24px;
+    max-width: 800px;
+    white-space: pre-wrap;
+}
+#plasm-container-documentation code {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+}
+#plasm-container-documentation aside {
+    display: block;
+    float: right;
+    width: 390px;
+}
+#plasm-container-documentation blockquote {
+    border-left:.5em solid #5C5C5C;
+    padding: 0 2em;
+    margin-left:0;
+    max-width: 476px;
+}
+#plasm-container-documentation blockquote  cite {
+    font-size:14px;
+    line-height:20px;
+    color:#bfbfbf;
+}
+#plasm-container-documentation blockquote cite:before {
+    content: '\2014 \00A0';
+}
+#plasm-container-documentation blockquote p {  
+    color: #666;
+    max-width: 460px;
+}
+#plasm-container-documentation hr {
+    width: 540px;
+    text-align: left;
+    margin: 0 auto 0 0;
+    color: #999;
+}
+
+#plasm-container-documentation h3 code {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 24px;
+    margin-top: 10px;
+}
+#plasm-container-documentation pre {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 3px 3px 3px 5px;
+    margin-bottom: 10px;
+    border : 1px solid rgb(192,192,192);
+    background-color: rgba(232,232,232,0.9);
+}
+
+#plasm-container-documentation pre {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 3px 3px 3px 5px;
+    margin-bottom: 10px;
+    border : 1px solid rgb(192,192,192);
+    background-color: rgba(232,232,232,0.9);
+}
+#plasm-container-documentation code {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 4px 3px 2px 3px;
+    /*margin-bottom: 10px;*/
+    border : 1px solid rgb(192,192,192);
+    background-color: rgba(232,232,232,0.9);
+}
+#plasm-container-documentation hr {
+    margin-bottom: 10px;
+}

@@ -95,6 +95,37 @@
 #plasm-container-documentation h3 code {
     font-family: Consolas, Monaco, Andale Mono, monospace;
     line-height: 1.5;
-    font-size:24px;
-    margin-top:10px;
+    font-size: 24px;
+    margin-top: 10px;
+}
+#plasm-container-documentation pre {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 3px 3px 3px 5px;
+    margin-bottom: 10px;
+    border : 1px solid rgb(192,192,192);
+    background-color: rgba(232,232,232,0.9);
+}
+
+#plasm-container-documentation pre {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 3px 3px 3px 5px;
+    margin-bottom: 10px;
+    border : 1px solid rgb(192,192,192);
+    background-color: rgba(232,232,232,0.9);
+}
+#plasm-container-documentation code {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+    padding: 4px 3px 2px 3px;
+    /*margin-bottom: 10px;*/
+    border : 1px solid rgb(192,192,192);
+    background-color: rgba(232,232,232,0.9);
+}
+#plasm-container-documentation hr {
+    margin-bottom: 10px;
 }

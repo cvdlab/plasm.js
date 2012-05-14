@@ -138,3 +138,7 @@ footer #plasm-inspector {
   cursor: pointer;
   float: left;
 }
+
+/*.loading {
+  display: none;
+}*/

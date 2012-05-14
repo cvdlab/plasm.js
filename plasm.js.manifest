@@ -1,21 +1,17 @@
 CACHE MANIFEST
-# version 36
+# version 35
 
 styles/reset.css
 styles/style.css
+styles/md.css
 
+support/jquery.js
+support/mustache.js
 support/numeric.js
-support/three.js
-support/three-detector.js
-support/three-frame.js
-support/three-stats.js
-support/three-trackball.js
 
-node_modules/simplexn.js/lib/simplexn.js
-node_modules/f.js/lib/f.js
-
-lib/plasm.js
-lib/plasm-fun.js
+lib/plasm.min.js
+lib/viewer.min.js
+lib/plasm-env.js
 
 index.html
 

@@ -6,22 +6,6 @@ JavaScript Programming Language for Solid Modeling
 
 see [docs](https://github.com/cvdlab/plasm.js/blob/master/docs/Readme.md)
 
-# On-line version
-
-To work with on-line varsion on plasm.js go to (...)[...]
-
-## Caching issue
-
-**plasm.js** make use of *HTML5 Offline API*.  
-To make sure your're experiencing the very last version of the environment:
-
-1. go to (chrome://appcache-internals/)[chrome://appcache-internals/]
-2. remove **plasm.js** cached application
-
-# Local version
-
-To get **plasm.js** on your local machine, follow installation instructions.
-
 ## Installation
 
 ### pre-requisite

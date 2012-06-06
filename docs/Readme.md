@@ -1285,6 +1285,39 @@ every other point is used with next two points to form a triangle.
 
 - - -
 
+### `PROFILEPROD_SURFACE(profiles)`
+
+Create a surface S mapping as profile product between two plane curves A and B (in `profiles`)
+
+#### I/O
+
+> #### in
+> `Array` `profiles`: mapping `Function` of the two plane curves profile to product.
+> 
+> #### out
+> `Function`: mapping of the profile product surface
+>
+
+#### Example
+
+> ```js
+> var dom1D = INTERVALS(1)(32);
+> var Su0 = BEZIER(S0)([[0,0,0],[2,0,0],[0,0,4],[1,0,5]]);
+> var curve0 = MAP(Su0)(dom1D);
+> DRAW(COLOR([0,0,1])(curve0));
+> 
+> var Su1 = BEZIER(S1)([[0,0,0],[3,-0.5,0],[3,3.5,0],[0,3,0]]);
+> var Su1Draw = BEZIER(S0)([[0,0,0],[3,-0.5,0],[3,3.5,0],[0,3,0]]);
+> var curve1 = MAP(Su1Draw)(dom1D);
+> DRAW(COLOR([1,0,1])(curve1));
+> 
+> var dom2D = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]); // DOMAIN([[0,1],[0,1]])([20,20]);
+> var out = MAP(PROFILEPROD_SURFACE([Su0,Su1]))(dom2D);
+> DRAW(out); 
+> ```
+
+- - -
+
 ## Demos
 
 ### Demo 01

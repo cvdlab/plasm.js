@@ -1285,6 +1285,29 @@ every other point is used with next two points to form a triangle.
 
 - - -
 
+### `TRIANGLE_DOMAIN(n, points)`
+
+Create a tiangle domain using points as vertices. Every edge is subdivided in n parts.
+
+#### I/O
+
+> #### in
+> `n` `number`: number of subdivisions for every edge
+> `Array` `points`: an array of points, represented as arrays of coordinates.
+>
+> #### out
+> instance of `plasm.Model`: a triangle domain.
+
+#### Example
+
+> ```js
+> var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+> DRAW(dom2D);
+> DRAW(SKELETON(1)(dom2D));
+> ```
+
+- - -
+
 ## Demos
 
 ### Demo 01

@@ -1008,6 +1008,47 @@ Create a rotational surface mapping given the mapping of the profile to rotate.
 
 - - -
 
+### `RULED_SURFACE(profiles)`
+
+Create a ruled surface S mapping between two profile curves A and B (in `profiles`).
+The curves can either be a known profile function, like BEZIER, or a custom one (see examples).
+
+#### I/O
+
+> #### in
+> `Array` `functions`: mapping `Function` of the two curves.
+> 
+> #### out
+> `Function`: mapping of the profile ruled surface
+>
+
+#### Example
+
+> ```js
+> // Hyperbolic paraboloid
+> var dom2D = T([0,1])([-1,-1])( PROD1x1([INTERVALS(2)(10),INTERVALS(2)(10)]) );
+> var funAlfa = function(pt) { return [ pt[0], pt[0], 0 ]; };
+> var funBeta = function(pt) { return [ 1, -1, pt[0] ]; };
+> var out = MAP(RULED_SURFACE([funAlfa,funBeta]))(dom2D);
+> DRAW(out);
+> ```
+
+> ```js
+> // Linear interpolation of curves: surface connecting a Bézier curve and a portion of a circle
+> var dom2D = PROD1x1([INTERVALS(1)(50),INTERVALS(1)(50)]);
+> var funAlfa = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+> var funBeta = function(curveFun) {
+>   return function(pt) {
+>       var pAlfa = curveFun(pt);
+>       return [ COS( PI * (3/2) * pt[0] ) - pAlfa[0], SIN( PI * (3/2) * pt[0] ) - pAlfa[1], 1 - pAlfa[2] ];
+>   };
+> };
+> var out = MAP(RULED_SURFACE([funAlfa,funBeta(funAlfa)]))(dom2D);
+> DRAW(out);
+> ```
+
+- - -
+
 ### `SCALE(axis)(values)(object)` / `S(axis)(values)(object)`
 
 Scale `model` by `values` along `axis`.

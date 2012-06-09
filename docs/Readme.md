@@ -157,6 +157,59 @@ Clone `object` and color cloned object with `color`.
 
 - - -
 
+### `COONS_PATCH(controlpoints)`
+
+Mapping function of a Coons Patch.
+
+#### I/O
+
+> #### in
+> `Array` `controlcurves`: an array of curves mapping functions describing surface's boundaries
+> 
+> #### out
+> `Function`: an anonymous mapping function.
+
+#### Example
+
+> ```js
+> var dom1D = INTERVALS(1)(32);
+> var dom2D = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
+> ```
+
+> ```js
+> var Su0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
+> var curve0 = MAP(Su0)(dom1D);
+> DRAW(curve0);
+>```
+
+> ```js
+> var Su1 = BEZIER(S0)([[0,10,0],[2.5,10,3],[5,10,-3],[7.5,10,3],[10,10,0]]);
+> var curve1 = MAP(Su1)(dom1D);
+> DRAW(curve1);
+>```
+
+> ```js
+> var control2 = [[0,0,0],[0,0,3],[0,10,3],[0,10,0]];
+> var Sv0 = BEZIER(S1)(control2);
+> var curve2 = MAP(BEZIER(S0)(control2))(dom1D);
+> DRAW(curve2);
+>```
+
+> ```js
+> var control3 = [[10,0,0],[10,5,3],[10,10,0]];
+> var Sv1 = BEZIER(S1)(control3);
+> var curve3 = MAP( BEZIER(S0)(control3))(dom1D);
+> DRAW(curve3);
+>```
+
+> ```js
+> var out = MAP(COONS_PATCH([Su0,Su1,Sv0,Sv1]))(dom2D);
+> DRAW(out);
+>```
+
+
+- - -
+
 ### `CUBE(dim)`
 
 Create a `dim`-dimensional cube.

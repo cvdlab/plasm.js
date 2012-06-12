@@ -123,6 +123,38 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 - - -
 
+### `CYLINDRICAL_SURFACE(profile)(vector)`
+
+Create a specific ruled surface S called cylindrical where the direction of the lines is given by the `vector` with constant components that is non complanar with the section curve (`profile`).
+The `profile` curve can be a known profile function, like `BEZIER`, or a custom one.
+
+#### I/O
+
+> #### in
+> `Function` `profile`: mapping `Function` of the profile curve.
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Array` `vector`: an array of vector costant components.
+> > 
+> > #### out
+> > `Function`: mapping of the profile of the cylindrical surface.
+
+
+#### Example
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
+> var ncpVector = [0,0,1];
+> var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+> var out = MAP(CYLINDRICAL_SURFACE(funProfile)(ncpVector))(domain);
+> DRAW(out); 
+> ```
+
+- - -
+
 ### `COLOR(color)(object)`
 
 Clone `object` and color cloned object with `color`.
@@ -153,38 +185,6 @@ Clone `object` and color cloned object with `color`.
 > var model = TORUS_SURFACE()();
 > var coloredModel = COLOR(color)(model);
 > DRAW(coloredModel);
-> ```
-
-- - -
-
-### `CYLINDRICAL_SURFACE(profile)(vector)`
-
-Create a specific ruled surface S called cylindrical where the direction of the lines is given by the `vector` with constant components that is non complanar with the section curve (`profile`).
-The `profile` curve can be a known profile function, like `BEZIER`, or a custom one.
-
-#### I/O
-
-> #### in
-> `Function` `profile`: mapping `Function` of the profile curve.
->
-> #### out
-> `Function`: an anonymous function.
->
-> > #### in
-> > `Array` `vector`: an array of vector costant components.
-> > 
-> > #### out
-> > `Function`: mapping of the profile of the cylindrical surface.
-
-
-#### Example
-
-> ```js
-> var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
-> var ncpVector = [0,0,1];
-> var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
-> var out = MAP(CYLINDRICAL_SURFACE(funProfile)(ncpVector))(domain);
-> DRAW(out); 
 > ```
 
 - - -

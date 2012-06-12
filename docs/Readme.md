@@ -181,7 +181,7 @@ The curve can be a known profile function, like `BEZIER`, or a custome one.
 
 > ```js
 > var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
-> var apex = [0,2,1];
+> var apex = [0,0,1];
 > var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
 > var out = MAP(CONICAL_SURFACE(apex)(funProfile))(domain);
 > DRAW(out); 

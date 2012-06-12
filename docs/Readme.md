@@ -1324,6 +1324,41 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
 - - -
 
+### `TRIANGULAR_COONS_PATCH(controlcurves)`
+
+Create a triangular Coons patch interpolating three control curves
+
+#### I/O
+
+> #### in
+> `Array` `curves`: an array of three curves
+>
+> #### out
+> instance of `plasm.Model`: a triangular Coons patch.
+
+#### Example
+
+> ```js
+> var dom1D = INTERVALS(1)(32);
+>var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+>
+> var Cab0 = BEZIER(S0)([[10,0,0],[6,0,3],[3,0,3],[0,0,0]]);
+>DRAW(MAP(Cab0)(dom1D));
+>
+>var Cbc0 = BEZIER(S0)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+>var Cbc1 = BEZIER(S1)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+>DRAW(MAP(Cbc0)(dom1D));
+>
+>var Cca0 = BEZIER(S0)([[0,10,0],[0,6,-5],[0,3,5],[0,0,0]]);
+>DRAW(MAP(Cca0)(dom1D));
+>
+>var out = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+>DRAW(out);
+>DRAW(SKELETON(1)(out));
+> ```
+
+- - -
+
 ### `TRIANGLE_FAN(points)`
 
 Create a tiangle fan: first point is the center of the fan,  

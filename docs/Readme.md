@@ -1324,6 +1324,29 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 
 - - -
 
+### `TRIANGLE_DOMAIN(n, points)`
+
+Create a triangle domain using three points as vertices. Every edge is subdivided in n parts.
+
+#### I/O
+
+> #### in
+> `Number` `n`: number of subdivisions for every edge
+> `Array` `points`: an array of points, represented as arrays of coordinates.
+>
+> #### out
+> instance of `plasm.Model`: a triangle domain.
+
+#### Example
+
+> ```js
+> var domTRI = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+> DRAW(domTRI);
+> DRAW(SKELETON(1)(domTRI));
+> ```
+
+- - -
+
 ### `TRIANGLE_FAN(points)`
 
 Create a tiangle fan: first point is the center of the fan,  

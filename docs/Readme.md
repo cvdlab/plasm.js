@@ -157,6 +157,38 @@ Clone `object` and color cloned object with `color`.
 
 - - -
 
+### `CONICAL_SURFACE(apex)(profile)`
+
+Create a conical surface S between a vertex (`apex`) and a `profile` curve.
+The curve can be a known profile function, like `BEZIER`, or a custome one.
+
+#### I/O
+
+> #### in
+> `Array` `apex`: the cone's vertex (an array of coordinates).
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Function` `profile`: mapping of the profile.
+> > 
+> > #### out
+> > `Function`: mapping of the profile conical surface.
+
+
+#### Example
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
+> var apex = [0,2,1];
+> var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+> var out = MAP(CONICAL_SURFACE(apex)(funProfile))(domain);
+> DRAW(out); 
+> ```
+
+- - -
+
 ### `COONS_PATCH(controlpoints)`
 
 Mapping function of a Coons Patch.
@@ -602,6 +634,35 @@ Create a segment from `0` to `length` divided in `n` parts.
 
 - - -
 
+### `K(data)(anydata)`
+
+Return `object` when invoked on `anyObject`.
+
+#### I/O
+
+> #### in
+> `Object` `data`: any `Object`
+> 
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Object` `anydata`: any `Object` that will be discarded
+> > 
+> > #### out
+> > `Function`: an anonymous function.
+
+#### Example
+
+> ```js
+> var kContent = 5;
+> var identityCall = K(kContent);
+> var newCall = identityCall("plasm");
+> console.log(kContent === newCall);
+> ```
+
+- - -
+
 ### `MAP(mapping)(domain)`
 
 Map a `domain` by a `mapping` function.
@@ -1004,6 +1065,47 @@ Create a rotational surface mapping given the mapping of the profile to rotate.
 > var profile = BEZIER(S0)([[0,0,0],[3,0,3],[3,0,5],[0,0,7]]);
 > var mapping = ROTATIONAL_SURFACE(profile);
 > var surface = MAP(mapping)(domain);
+> ```
+
+- - -
+
+### `RULED_SURFACE(profiles)`
+
+Create a ruled surface S mapping between two profile curves A and B (in `profiles`).
+The curves can either be a known profile function, like `BEZIER`, or a custom one (see examples).
+
+#### I/O
+
+> #### in
+> `Array` `functions`: mapping `Function` of the two curves.
+> 
+> #### out
+> `Function`: mapping of the profile ruled surface
+>
+
+#### Example
+
+> ```js
+> // Hyperbolic paraboloid
+> var dom2D = T([0,1])([-1,-1])( PROD1x1([INTERVALS(2)(10),INTERVALS(2)(10)]) );
+> var funAlfa = function(pt) { return [ pt[0], pt[0], 0 ]; };
+> var funBeta = function(pt) { return [ 1, -1, pt[0] ]; };
+> var out = MAP(RULED_SURFACE([funAlfa,funBeta]))(dom2D);
+> DRAW(out);
+> ```
+
+> ```js
+> // Linear interpolation of curves: surface connecting a Bézier curve and a portion of a circle
+> var dom2D = PROD1x1([INTERVALS(1)(50),INTERVALS(1)(50)]);
+> var funAlfa = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+> var funBeta = function(curveFun) {
+>   return function(pt) {
+>       var pAlfa = curveFun(pt);
+>       return [ COS( PI * (3/2) * pt[0] ) - pAlfa[0], SIN( PI * (3/2) * pt[0] ) - pAlfa[1], 1 - pAlfa[2] ];
+>   };
+> };
+> var out = MAP(RULED_SURFACE([funAlfa,funBeta(funAlfa)]))(dom2D);
+> DRAW(out);
 > ```
 
 - - -

@@ -157,6 +157,38 @@ Clone `object` and color cloned object with `color`.
 
 - - -
 
+### `CONICAL_SURFACE(apex)(profile)`
+
+Create a conical surface S between a vertex (`apex`) and a `profile` curve.
+The curve can be a known profile function, like `BEZIER`, or a custome one.
+
+#### I/O
+
+> #### in
+> `Array` `apex`: the cone's vertex (an array of coordinates).
+>
+> #### out
+> `Function`: an anonymous function.
+>
+> > #### in
+> > `Function` `profile`: mapping of the profile.
+> > 
+> > #### out
+> > `Function`: mapping of the profile conical surface.
+
+
+#### Example
+
+> ```js
+> var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
+> var apex = [0,2,1];
+> var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+> var out = MAP(CONICAL_SURFACE(apex)(funProfile))(domain);
+> DRAW(out); 
+> ```
+
+- - -
+
 ### `COONS_PATCH(controlpoints)`
 
 Mapping function of a Coons Patch.
@@ -1040,7 +1072,7 @@ Create a rotational surface mapping given the mapping of the profile to rotate.
 ### `RULED_SURFACE(profiles)`
 
 Create a ruled surface S mapping between two profile curves A and B (in `profiles`).
-The curves can either be a known profile function, like BEZIER, or a custom one (see examples).
+The curves can either be a known profile function, like `BEZIER`, or a custom one (see examples).
 
 #### I/O
 

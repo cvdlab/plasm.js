@@ -238,39 +238,28 @@ Mapping function of a Coons Patch.
 > ```js
 > var dom1D = INTERVALS(1)(32);
 > var dom2D = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
-> ```
-
-> ```js
+>
 > var Su0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
 > var curve0 = MAP(Su0)(dom1D);
 > DRAW(curve0);
->```
-
-> ```js
+>
 > var Su1 = BEZIER(S0)([[0,10,0],[2.5,10,3],[5,10,-3],[7.5,10,3],[10,10,0]]);
 > var curve1 = MAP(Su1)(dom1D);
 > DRAW(curve1);
->```
-
-> ```js
+>
 > var control2 = [[0,0,0],[0,0,3],[0,10,3],[0,10,0]];
 > var Sv0 = BEZIER(S1)(control2);
 > var curve2 = MAP(BEZIER(S0)(control2))(dom1D);
 > DRAW(curve2);
->```
-
-> ```js
+>
 > var control3 = [[10,0,0],[10,5,3],[10,10,0]];
 > var Sv1 = BEZIER(S1)(control3);
 > var curve3 = MAP( BEZIER(S0)(control3))(dom1D);
 > DRAW(curve3);
->```
-
-> ```js
+>
 > var out = MAP(COONS_PATCH([Su0,Su1,Sv0,Sv1]))(dom2D);
 > DRAW(out);
 >```
-
 
 - - -
 
@@ -1454,6 +1443,64 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 > var cube = CUBE(3);
 > var translatedCube = T([1,2])([1,3])(cube);
 > DRAW(translatedCube);
+> ```
+
+- - -
+
+### `TRIANGULAR_COONS_PATCH(controlcurves)`
+
+Create a triangular Coons patch interpolating three control curves
+
+#### I/O
+
+> #### in
+> `Array` `curves`: an array of three curves
+>
+> #### out
+> instance of `plasm.Model`: a triangular Coons patch.
+
+#### Example
+
+> ```js
+> var dom1D = INTERVALS(1)(32);
+>var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+>
+> var Cab0 = BEZIER(S0)([[10,0,0],[6,0,3],[3,0,3],[0,0,0]]);
+>DRAW(MAP(Cab0)(dom1D));
+>
+>var Cbc0 = BEZIER(S0)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+>var Cbc1 = BEZIER(S1)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+>DRAW(MAP(Cbc0)(dom1D));
+>
+>var Cca0 = BEZIER(S0)([[0,10,0],[0,6,-5],[0,3,5],[0,0,0]]);
+>DRAW(MAP(Cca0)(dom1D));
+>
+>var out = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+>DRAW(out);
+>DRAW(SKELETON(1)(out));
+> ```
+
+- - -
+
+### `TRIANGLE_DOMAIN(n, points)`
+
+Create a triangle domain using three points as vertices. Every edge is subdivided in n parts.
+
+#### I/O
+
+> #### in
+> `Number` `n`: number of subdivisions for every edge
+> `Array` `points`: an array of points, represented as arrays of coordinates.
+>
+> #### out
+> instance of `plasm.Model`: a triangle domain.
+
+#### Example
+
+> ```js
+> var domTRI = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+> DRAW(domTRI);
+> DRAW(SKELETON(1)(domTRI));
 > ```
 
 - - -

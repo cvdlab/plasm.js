@@ -238,25 +238,20 @@ Mapping function of a Coons Patch.
 > ```js
 > var dom1D = INTERVALS(1)(32);
 > var dom2D = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
->
 > var Su0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
 > var curve0 = MAP(Su0)(dom1D);
 > DRAW(curve0);
->
 > var Su1 = BEZIER(S0)([[0,10,0],[2.5,10,3],[5,10,-3],[7.5,10,3],[10,10,0]]);
 > var curve1 = MAP(Su1)(dom1D);
 > DRAW(curve1);
->
 > var control2 = [[0,0,0],[0,0,3],[0,10,3],[0,10,0]];
 > var Sv0 = BEZIER(S1)(control2);
 > var curve2 = MAP(BEZIER(S0)(control2))(dom1D);
 > DRAW(curve2);
->
 > var control3 = [[10,0,0],[10,5,3],[10,10,0]];
 > var Sv1 = BEZIER(S1)(control3);
 > var curve3 = MAP( BEZIER(S0)(control3))(dom1D);
 > DRAW(curve3);
->
 > var out = MAP(COONS_PATCH([Su0,Su1,Sv0,Sv1]))(dom2D);
 > DRAW(out);
 >```
@@ -1463,21 +1458,42 @@ Create a triangular Coons patch interpolating three control curves
 
 > ```js
 > var dom1D = INTERVALS(1)(32);
->var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
->
+> var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
 > var Cab0 = BEZIER(S0)([[10,0,0],[6,0,3],[3,0,3],[0,0,0]]);
->DRAW(MAP(Cab0)(dom1D));
->
->var Cbc0 = BEZIER(S0)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
->var Cbc1 = BEZIER(S1)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
->DRAW(MAP(Cbc0)(dom1D));
->
->var Cca0 = BEZIER(S0)([[0,10,0],[0,6,-5],[0,3,5],[0,0,0]]);
->DRAW(MAP(Cca0)(dom1D));
->
->var out = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
->DRAW(out);
->DRAW(SKELETON(1)(out));
+> DRAW(MAP(Cab0)(dom1D));
+> var Cbc0 = BEZIER(S0)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+> var Cbc1 = BEZIER(S1)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+> DRAW(MAP(Cbc0)(dom1D));
+> var Cca0 = BEZIER(S0)([[0,10,0],[0,6,-5],[0,3,5],[0,0,0]]);
+> DRAW(MAP(Cca0)(dom1D));
+> var out = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+> DRAW(out);
+> DRAW(SKELETON(1)(out));
+> ```
+
+> ```js
+> var dom1D = INTERVALS(1)(32);
+> var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+> var Cab0 = BEZIER(S0)([[0,2,0],[-2,2,0],[-2,0,0],[-2,-2,0],[0,-2,0]]);
+> DRAW(MAP(Cab0)(dom1D));
+> var Cbc0 = BEZIER(S0)([[0,2,0],[-1,2,0],[-1,1,1],[-1,0,2],[0,0,2]]);
+> var Cbc1 = BEZIER(S1)([[0,2,0],[-1,2,0],[-1,1,1],[-1,0,2],[0,0,2]]);
+> DRAW(MAP(Cbc0)(dom1D));
+> var Cca0 = BEZIER(S0)([[0,0,2],[-1,0,2],[-1,-1,1],[-1,-2,0],[0,-2,0]]);
+> DRAW(MAP(Cca0)(dom1D));
+> var out1 = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+> DRAW(out1);
+> DRAW(SKELETON(1)(out1));
+> var Cab0 = BEZIER(S0)([[0,-2,0],[2,-2,0],[2,0,0],[2,2,0],[0,2,0]]);
+> DRAW(MAP(Cab0)(dom1D));
+> var Cbc0 = BEZIER(S0)([[0,-2,0],[1,-2,0],[1,-1,1],[1,0,2],[0,0,2]]);
+> var Cbc1 = BEZIER(S1)([[0,-2,0],[1,-2,0],[1,-1,1],[1,0,2],[0,0,2]]);
+> DRAW(MAP(Cbc0)(dom1D));
+> var Cca0 = BEZIER(S0)([[0,0,2],[1,0,2],[1,1,1],[1,2,0],[0,2,0]]);
+> DRAW(MAP(Cca0)(dom1D));
+> var out2 = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+> DRAW(out2);
+> DRAW(SKELETON(1)(out2));
 > ```
 
 - - -

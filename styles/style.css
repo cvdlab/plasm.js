@@ -43,7 +43,7 @@ header {
   color: #efefef; 
 }
 
-#plasm-alpha {
+.plasm-alpha {
   vertical-align: super;
   font-size: 18px;
 }
@@ -116,6 +116,20 @@ footer #plasm-inspector {
   margin-bottom: 10px;
 }
 
+.icon-close {
+  width: 16px;
+  height: 16px;
+  background: url(./images/close.png) no-repeat;
+  background-size: 100%;
+}
+
+#plasm-about-icon-close {
+  position: absolute;
+  background-size: 100%;
+  top: 10px;
+  right: 10px;
+}
+
 #plasm-copyright {
   margin-top: 20px;
 }
@@ -128,18 +142,25 @@ footer #plasm-inspector {
   line-height: 1;
 }
 
-#plasm-container-demo {
+#plasm-documentation-icon-close {
+  position: fixed;
+  top: 50px;
+  right: 10px;
+  z-index: 100;
+}
+
+/*#plasm-container-demo {
   top: 40px;
   bottom: 40px;
   margin: 10%;
-}
+}*/
 
-.plasm-sc-element {
+/*.plasm-sc-element {
   margin: 3px 3px 6px 3px;
   display: inline;
   cursor: pointer;
   float: left;
-}
+}*/
 
 /*.loading {
   display: none;

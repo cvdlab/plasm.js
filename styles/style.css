@@ -94,6 +94,7 @@ footer #plasm-inspector {
   overflow: scroll;
   padding: 10px;
   background-color: rgba(222,222,222,0.95);
+  box-shadow: 1px 1px 8px 1px #777;
 }
 
 #plasm-container-about {
@@ -101,10 +102,11 @@ footer #plasm-inspector {
   width: 380px;
   left: 0px;
   right: 0px;
-  line-height: 1;
+  /*line-height: 1;*/
 
   margin-left: auto;
   margin-right: auto;
+  vertical-align:middle;
 }
 
 #plasm-about-logo {
@@ -128,8 +130,8 @@ footer #plasm-inspector {
 
 #plasm-container-demo {
   top: 40px;
-  left: 0px;
-  right: 0px;
+  bottom: 40px;
+  margin: 10%;
 }
 
 .plasm-sc-element {

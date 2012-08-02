@@ -7,17 +7,17 @@
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/md.css">
 </head>
-<body>
+  <body>
 
   <header>
     <div id="plasm-bar">
       <a id="plasm-logo">
-        <h1><span>Plasm.js<span><span id="plasm-alpha">&nbsp;alpha</span></h1>
+        <h1><span>Plasm.js<span><span id="plasm-alpha">&nbsp;&alpha;</span></h1>
       </a>
       <div id="plasm-navbar">
         <ul>
           <li><a href="https://github.com/cvdlab/plasm.js" id="plasm-link-github">github</a></li>
-          <li><a id="plasm-link-documentation">documentation</a></li>
+          <li><a id="plasm-link-documentation">docs</a></li>
           <li><a id="plasm-link-demo">demo</a></li>
           <li><a id="plasm-link-about">about</a></li>
         </ul>
@@ -26,9 +26,10 @@
 
   <div id="plasm"></div>
 
+<div id="plasm-container-about-wrapper">
   <div id="plasm-container-about" class="plasm-container">
     <div>
-      <span id="plasm-about-logo">Plasm.js<span><span id="plasm-alpha">&nbsp;alpha</span>
+      <span id="plasm-about-logo">Plasm.js<span><span id="plasm-alpha">&nbsp;&alpha;</span>
     </div>
     <div id="plasm-copyright">
       <p>Plasm.js has been created at <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>, Computational Visual Design Laboratory at the university RomaTre, by Enrico Marino and Federico Spini under the supervision and guidance of <a href="http://paoluzzi.dia.uniroma3.it/">Alberto Paoluzzi</a>, creator of the original PLaSM.</p>
@@ -39,6 +40,7 @@
       <p>Copyright (c) 2012 <a href="https://github.com/onirame">Enrico Marino</a> and <a href="https://github.com/spini">Federico Spini</a> for <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>.</p>
     </div>
   </div>
+</div>
 
   <div id="plasm-container-documentation" class="plasm-container">
 <h3>
@@ -2524,7 +2526,21 @@ every other point is used with next two points to form a triangle.</p>
 </blockquote>
   </div>
 
-  <div id="plasm-container-demo" class="plasm-container"></div>
+  <div id="plasm-container-demo" class="plasm-container">
+    <div id="plasm-container-demo-header">
+      <div id="plasm-container-demo-header-back">Back</div>
+      <div id="plasm-container-demo-header-title">Demo</div>
+      <div id="plasm-container-demo-header-close">Close</div>
+    </div>
+    <div id="plasm-container-demo-tabs">
+      <span>Villas</span>
+      <span>Apple devices</span>
+      <span>Airplains</span>
+      <span>Objects</span>
+      <span>Others</span>
+    </div>
+    <div id="plasm-container-demo-wrapper"></div>
+  </div>
 
   <footer>
     <div id="plasm-inspector"></div>
@@ -2535,11 +2551,12 @@ every other point is used with next two points to form a triangle.</p>
       <div class="plasm-sc-element">
           <div class="plasm-sc-act" data-script="{{script}}">
               <img class="snapshot" src="{{imgsrc}}" width="200" height="150" />
-              <!-- <img class="loading" src="./styles/282.gif" width="200" height="150" /> -->
           </div>
+
           <div>
               by <a href="{{autorLink}}">{{autorName}}</a>
           </div>
+
       </div>
     {{/showcase}}
   </script>
@@ -2561,13 +2578,6 @@ every other point is used with next two points to form a triangle.</p>
   <script>
     p = new Plasm('plasm', 'plasm-inspector');
     fun.PLASM(p);
-  </script>
-
-  <script type="text/javascript">
-    window.applicationCache.onupdateready = function (e) {
-      console.log("Application update ready");
-      window.applicationCache.swapCache();
-    }
   </script>
 
   <script type="text/javascript">

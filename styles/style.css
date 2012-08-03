@@ -48,6 +48,16 @@ header {
   font-size: 18px;
 }
 
+
+#loading {
+  color: red;
+  font-size: 26px;
+  position: absolute;
+  top: 9px;
+  left: 153px;
+  display: none;
+}
+
 footer #plasm-inspector {
   position: absolute;
   bottom: 11px;

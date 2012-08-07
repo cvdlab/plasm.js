@@ -1,0 +1,103 @@
+html, body, #wrapper {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+#wrapper {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+#header {
+  height: 40px;
+  opacity: .80;
+  background-color: black;
+}
+
+#body {
+  -webkit-box-flex: 1;
+
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+
+#categories {
+  width: 150px;
+  background-color: rgb(239,239,239);
+}
+
+#showcase-panel {
+  -webkit-box-flex: 1;
+  background-color: rgb(222,222,222);
+  padding: 50px;
+
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+
+
+#plasm-bar {
+  padding-top: 1px;
+  padding-left: 7px;
+}
+
+#plasm-logo {
+  text-decoration: none;
+  cursor: default;
+  color: #efefef;
+  text-shadow: 0 0 0px #000000;
+  -webkit-transition: text-shadow 0.25s linear;
+}
+
+
+#plasm-logo:hover{
+  text-shadow: 0 0 5px rgb(155,225,85);
+  -webkit-transition: text-shadow 0.25s linear;
+}
+
+h1 {
+  float: left;
+  font-size: 30px; 
+  color: #efefef; 
+}
+
+.plasm-alpha {
+  vertical-align: super;
+  font-size: 18px;
+}
+
+#categories li {
+  font-size: 20px;
+  text-align: right;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+#categories li.selected {
+  background-color: rgb(222,222,222);
+}
+
+#categories li.over {
+  background-color: rgb(225,225,225);
+}
+
+.scimage {
+  width: 200px;
+  height: 150px;
+  background-size: 100%;
+  float: left;
+  margin: 2px;
+  cursor: pointer;
+  -webkit-box-shadow: rgb(155,225,85) 0px 0px 0px;
+  -webkit-transition: box-shadow 0.25s linear;
+}
+
+.scimage.over {
+  -webkit-box-shadow: rgb(155,225,85) 0px 0px 10px;
+  -webkit-transition: box-shadow 0.25s linear;
+}

@@ -1,8 +1,8 @@
 
 
 //
-// Generated on Thu Jul 26 2012 15:11:38 GMT-0400 (EDT) by Nodejitsu, Inc (Using Codesurgeon).
-// Version 1.1.3
+// Generated on Tue Dec 06 2011 04:47:21 GMT-0500 (EST) by Nodejitsu, Inc (Using Codesurgeon).
+// Version 1.0.7
 //
 
 (function (exports) {
@@ -39,7 +39,6 @@ var dloc = document.location;
 var listener = {
   mode: 'modern',
   hash: dloc.hash,
-  history: false,
 
   check: function () {
     var h = dloc.hash;
@@ -51,44 +50,30 @@ var listener = {
 
   fire: function () {
     if (this.mode === 'modern') {
-      this.history === true ? window.onpopstate() : window.onhashchange();
+      window.onhashchange();
     }
     else {
       this.onHashChanged();
     }
   },
 
-  init: function (fn, history) {
+  init: function (fn) {
     var self = this;
-    this.history = history;
 
     if (!window.Router.listeners) {
       window.Router.listeners = [];
     }
 
-    function onchange(onChangeEvent) {
+    function onchange() {
       for (var i = 0, l = window.Router.listeners.length; i < l; i++) {
-        window.Router.listeners[i](onChangeEvent);
+        window.Router.listeners[i]();
       }
     }
 
     //note IE8 is being counted as 'modern' because it has the hashchange event
     if ('onhashchange' in window && (document.documentMode === undefined
       || document.documentMode > 7)) {
-      // At least for now HTML5 history is available for 'modern' browsers only
-      if (this.history === true) {
-        // There is an old bug in Chrome that causes onpopstate to fire even
-        // upon initial page load. Since the handler is run manually in init(),
-        // this would cause Chrome to run it twise. Currently the only
-        // workaround seems to be to set the handler after the initial page load
-        // http://code.google.com/p/chromium/issues/detail?id=63040
-        setTimeout(function() {
-          window.onpopstate = onchange;
-        }, 500);
-      }
-      else {
-        window.onhashchange = onchange;
-      }
+      window.onhashchange = onchange;
       this.mode = 'modern';
     }
     else {
@@ -140,14 +125,7 @@ var listener = {
       this.writeFrame(s);
     }
 
-    if (this.history === true) {
-      window.history.pushState({}, document.title, s);
-      // Fire an onpopstate event manually since pushing does not obviously
-      // trigger the pop event.
-      this.fire();
-    } else {
-      dloc.hash = (s[0] === '/') ? s : '/' + s;
-    }
+    dloc.hash = (s[0] === '/') ? s : '/' + s;
     return this;
   },
 
@@ -183,46 +161,31 @@ var Router = exports.Router = function (routes) {
   this._insert = this.insert;
   this.insert = this.insertEx;
 
-  this.historySupport = (window.history != null ? window.history.pushState : null) != null
-
   this.configure();
   this.mount(routes || {});
 };
 
 Router.prototype.init = function (r) {
   var self = this;
-  this.handler = function(onChangeEvent) {
-    var url = self.history === true ? self.getPath() : onChangeEvent.newURL.replace(/.*#/, '');
-    self.dispatch('on', url);
+  this.handler = function() {
+    var hash = dloc.hash.replace(/^#/, '');
+    self.dispatch('on', hash);
   };
 
-  listener.init(this.handler, this.history);
-
-  if (this.history === false) {
-    if (dloc.hash === '' && r) {
-      dloc.hash = r;
-    } else if (dloc.hash.length > 0) {
-      self.dispatch('on', dloc.hash.replace(/^#/, ''));
-    }
-  }
-  else {
-    routeTo = dloc.hash === '' && r ? r : dloc.hash.length > 0 ? dloc.hash.replace(/^#/, '') : null;
-    if (routeTo) {
-      window.history.replaceState({}, document.title, routeTo);
-    }
-
-    // Router has been initialized, but due to the chrome bug it will not
-    // yet actually route HTML5 history state changes. Thus, decide if should route.
-    if (routeTo || this.run_in_init === true) {
-      this.handler();
-    }
+  if (dloc.hash === '' && r) {
+    dloc.hash = r;
   }
 
+  if (dloc.hash.length > 0) {
+    this.handler();
+  }
+
+  listener.init(this.handler);
   return this;
 };
 
 Router.prototype.explode = function () {
-  var v = this.history === true ? this.getPath() : dloc.hash;
+  var v = dloc.hash;
   if (v[1] === '/') { v=v.slice(1) }
   return v.slice(1, v.length).split("/");
 };
@@ -267,6 +230,11 @@ Router.prototype.insertEx = function(method, path, route, parent) {
   return this._insert(method, path, route, parent);
 };
 
+
+Router.prototype.getState = function () {
+  return this.state;
+};
+
 Router.prototype.getRoute = function (v) {
   var ret = v;
 
@@ -287,16 +255,7 @@ Router.prototype.getRoute = function (v) {
 Router.prototype.destroy = function () {
   listener.destroy(this.handler);
   return this;
-};
-
-Router.prototype.getPath = function () {
-  var path = window.location.pathname;
-  if (path.substr(0, 1) !== '/') {
-    path = '/' + path;
-  }
-  return path;
-};
-function _every(arr, iterator) {
+};function _every(arr, iterator) {
     for (var i = 0; i < arr.length; i += 1) {
         if (iterator(arr[i], i, arr) === false) {
             return;
@@ -344,7 +303,7 @@ function paramifyString(str, params, mod) {
             }
         }
     }
-    return mod === str ? "([._a-zA-Z0-9-]+)" : mod;
+    return mod === str ? "([a-zA-Z0-9-]+)" : mod;
 }
 
 function regifyString(str, params) {
@@ -372,8 +331,6 @@ Router.prototype.configure = function(options) {
     this.strict = typeof options.strict === "undefined" ? true : options.strict;
     this.notfound = options.notfound;
     this.resource = options.resource;
-    this.history = options.html5history && this.historySupport || false;
-    this.run_in_init = this.history === true && options.run_handler_in_init !== false;
     this.every = {
         after: options.after || null,
         before: options.before || null,
@@ -399,11 +356,6 @@ Router.prototype.on = Router.prototype.route = function(method, path, route) {
         path = method;
         method = "on";
     }
-    if (Array.isArray(path)) {
-        return path.forEach(function(p) {
-            self.on(method, p, route);
-        });
-    }
     if (path.source) {
         path = path.source.replace(/\\\//ig, "/");
     }
@@ -412,7 +364,8 @@ Router.prototype.on = Router.prototype.route = function(method, path, route) {
             self.on(m.toLowerCase(), path, route);
         });
     }
-    this.insert(method, this.scope.concat(path.split(new RegExp(this.delimiter))), route);
+    //this.insert(method, this.scope.concat(path.split(new RegExp(this.delimiter))), route);
+    this.insert(method, path.split(new RegExp(this.delimiter)), route);
 };
 
 Router.prototype.dispatch = function(method, path, callback) {
@@ -452,10 +405,8 @@ Router.prototype.dispatch = function(method, path, callback) {
 Router.prototype.invoke = function(fns, thisArg, callback) {
     var self = this;
     if (this.async) {
-        _asyncEverySeries(fns, function apply(fn, next) {
-            if (Array.isArray(fn)) {
-                return _asyncEverySeries(fn, apply, next);
-            } else if (typeof fn == "function") {
+        _asyncEverySeries(fns, function(fn, next) {
+            if (typeof fn == "function") {
                 fn.apply(thisArg, fns.captures.concat(next));
             }
         }, function() {
@@ -476,46 +427,14 @@ Router.prototype.invoke = function(fns, thisArg, callback) {
     }
 };
 
-Router.prototype.traverse = function(method, path, routes, regexp, filter) {
+Router.prototype.traverse = function(method, path, routes, regexp) {
     var fns = [], current, exact, match, next, that;
-    function filterRoutes(routes) {
-        if (!filter) {
-            return routes;
-        }
-        function deepCopy(source) {
-            var result = [];
-            for (var i = 0; i < source.length; i++) {
-                result[i] = Array.isArray(source[i]) ? deepCopy(source[i]) : source[i];
-            }
-            return result;
-        }
-        function applyFilter(fns) {
-            for (var i = fns.length - 1; i >= 0; i--) {
-                if (Array.isArray(fns[i])) {
-                    applyFilter(fns[i]);
-                    if (fns[i].length === 0) {
-                        fns.splice(i, 1);
-                    }
-                } else {
-                    if (!filter(fns[i])) {
-                        fns.splice(i, 1);
-                    }
-                }
-            }
-        }
-        var newRoutes = deepCopy(routes);
-        newRoutes.matched = routes.matched;
-        newRoutes.captures = routes.captures;
-        newRoutes.after = routes.after.filter(filter);
-        applyFilter(newRoutes);
-        return newRoutes;
-    }
     if (path === this.delimiter && routes[method]) {
         next = [ [ routes.before, routes[method] ].filter(Boolean) ];
         next.after = [ routes.after ].filter(Boolean);
         next.matched = true;
         next.captures = [];
-        return filterRoutes(next);
+        return next;
     }
     for (var r in routes) {
         if (routes.hasOwnProperty(r) && (!this._methods[r] || this._methods[r] && typeof routes[r] === "object" && !Array.isArray(routes[r]))) {
@@ -533,10 +452,10 @@ Router.prototype.traverse = function(method, path, routes, regexp, filter) {
                 next.matched = true;
                 next.captures = match.slice(1);
                 if (this.recurse && routes === this.routes) {
-                    next.push([ routes.before, routes.on ].filter(Boolean));
-                    next.after = next.after.concat([ routes.after ].filter(Boolean));
+                    next.push([ routes["before"], routes["on"] ].filter(Boolean));
+                    next.after = next.after.concat([ routes["after"] ].filter(Boolean));
                 }
-                return filterRoutes(next);
+                return next;
             }
             next = this.traverse(method, path, routes[r], current);
             if (next.matched) {
@@ -554,7 +473,7 @@ Router.prototype.traverse = function(method, path, routes, regexp, filter) {
                 fns.matched = true;
                 fns.captures = next.captures;
                 fns.after = next.after;
-                return filterRoutes(fns);
+                return fns;
             }
         }
     }
@@ -618,15 +537,14 @@ Router.prototype.insert = function(method, path, route, parent) {
 
 Router.prototype.extend = function(methods) {
     var self = this, len = methods.length, i;
-    function extend(method) {
-        self._methods[method] = true;
-        self[method] = function() {
-            var extra = arguments.length === 1 ? [ method, "" ] : [ method ];
-            self.on.apply(self, extra.concat(Array.prototype.slice.call(arguments)));
-        };
-    }
     for (i = 0; i < len; i++) {
-        extend(methods[i]);
+        (function(method) {
+            self._methods[method] = true;
+            self[method] = function() {
+                var extra = arguments.length === 1 ? [ method, "" ] : [ method ];
+                self.on.apply(self, extra.concat(Array.prototype.slice.call(arguments)));
+            };
+        })(methods[i]);
     }
 };
 
@@ -646,13 +564,10 @@ Router.prototype.mount = function(routes, path) {
     }
     var self = this;
     path = path || [];
-    if (!Array.isArray(path)) {
-        path = path.split(self.delimiter);
-    }
     function insertOrMount(route, local) {
         var rename = route, parts = route.split(self.delimiter), routeType = typeof routes[route], isRoute = parts[0] === "" || !self._methods[parts[0]], event = isRoute ? "on" : rename;
         if (isRoute) {
-            rename = rename.slice((rename.match(new RegExp(self.delimiter)) || [ "" ])[0].length);
+            rename = rename.slice(self.delimiter.length);
             parts.shift();
         }
         if (isRoute && routeType === "object" && !Array.isArray(routes[route])) {
@@ -674,4 +589,4 @@ Router.prototype.mount = function(routes, path) {
 
 
 
-}(typeof process !== "undefined" && process.title ? module : window));
+}(window));

@@ -31,10 +31,6 @@ git pull origin master
 npm update
 ```
 
-## Supported browsers
-
-- Chrome/Chromium (tested)
-
 ## Authors
 
 - [Enrico Marino](http://onirame.no.de)

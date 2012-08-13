@@ -12,37 +12,55 @@
   <header>
     <div id="plasm-bar">
       <a id="plasm-logo">
-        <h1><span>Plasm.js<span><span id="plasm-alpha">&nbsp;&alpha;</span></h1>
+        <h1><span>Plasm.js</span><span class="plasm-alpha">&nbsp;&alpha;</span></h1>
       </a>
       <div id="plasm-navbar">
         <ul>
           <li><a href="https://github.com/cvdlab/plasm.js" id="plasm-link-github">github</a></li>
           <li><a id="plasm-link-documentation">docs</a></li>
-          <li><a id="plasm-link-demo">demo</a></li>
+          <li><a href="showcase.html" id="plasm-link-demo">showcase</a></li>
           <li><a id="plasm-link-about">about</a></li>
         </ul>
       </div>
+    </div>
   </header>
 
   <div id="plasm"></div>
+  <div id="loading">loading…</div>
 
-<div id="plasm-container-about-wrapper">
-  <div id="plasm-container-about" class="plasm-container">
-    <div>
-      <span id="plasm-about-logo">Plasm.js<span><span id="plasm-alpha">&nbsp;&alpha;</span>
-    </div>
-    <div id="plasm-copyright">
-      <p>Plasm.js has been created at <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>, Computational Visual Design Laboratory at the university RomaTre, by Enrico Marino and Federico Spini under the supervision and guidance of <a href="http://paoluzzi.dia.uniroma3.it/">Alberto Paoluzzi</a>, creator of the original PLaSM.</p>
-
-      <p>PLaSM is a functional Programming Language for Symbolic Modeling, based on a dimesion-indipendet geometric kernel.</p>
-
-
-      <p>Copyright (c) 2012 <a href="https://github.com/onirame">Enrico Marino</a> and <a href="https://github.com/spini">Federico Spini</a> for <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>.</p>
+  <div id="plasm-container-about-wrapper">
+    <div id="plasm-container-about" class="plasm-container">
+      <div>
+        <div id="plasm-about-logo"><span>Plasm.js</span><span class="plasm-alpha">&nbsp;&alpha;</span></div>
+      </div>
+      <div id="plasm-about-icon-close" class="icon-close"></div>
+      <div id="plasm-copyright">
+        <p>Plasm.js has been created at <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>, Computational Visual Design Laboratory at the university RomaTre, by Enrico Marino and Federico Spini under the supervision and guidance of <a href="http://paoluzzi.dia.uniroma3.it/">Alberto Paoluzzi</a>, creator of the original PLaSM.</p>
+        <p>PLaSM is a functional Programming Language for Symbolic Modeling, based on a dimesion-indipendet geometric kernel.</p>
+        <p>Copyright (c) 2012 <a href="https://github.com/onirame">Enrico Marino</a> and <a href="https://github.com/spini">Federico Spini</a> for <a href="http://dia.uniroma3.it/~cvdlab">CVD Lab</a>.</p>
+      </div>
     </div>
   </div>
-</div>
+
+<!--   <div id="plasm-container-demo" class="plasm-container">
+    <div id="plasm-container-demo-header">
+      <div id="plasm-container-demo-header-back">Back</div>
+      <div id="plasm-container-demo-header-title">Demo</div>
+      <div id="plasm-container-demo-header-close">Close</div>
+    </div>
+    <div id="plasm-container-demo-tabs">
+      <span>Villas</span>
+      <span>Apple devices</span>
+      <span>Airplains</span>
+      <span>Objects</span>
+      <span>Others</span>
+    </div>
+    <div id="plasm-container-demo-wrapper"></div>
+  </div> -->
+
 
   <div id="plasm-container-documentation" class="plasm-container">
+  <div id="plasm-documentation-icon-close" class="icon-close"></div>
 <h3>
 <a name="bezierselcontrolpoints" class="anchor" href="#bezierselcontrolpoints"><span class="mini-icon mini-icon-link"></span></a><code>BEZIER(sel)(controlpoints)</code>
 </h3>
@@ -2526,25 +2544,13 @@ every other point is used with next two points to form a triangle.</p>
 </blockquote>
   </div>
 
-  <div id="plasm-container-demo" class="plasm-container">
-    <div id="plasm-container-demo-header">
-      <div id="plasm-container-demo-header-back">Back</div>
-      <div id="plasm-container-demo-header-title">Demo</div>
-      <div id="plasm-container-demo-header-close">Close</div>
-    </div>
-    <div id="plasm-container-demo-tabs">
-      <span>Villas</span>
-      <span>Apple devices</span>
-      <span>Airplains</span>
-      <span>Objects</span>
-      <span>Others</span>
-    </div>
-    <div id="plasm-container-demo-wrapper"></div>
-  </div>
 
   <footer>
     <div id="plasm-inspector"></div>
   </footer>
+
+  <script type="text/template" id="template-showcase">
+
 
   <script type="text/template" id="template-showcase">
     {{#showcase}}
@@ -2564,6 +2570,7 @@ every other point is used with next two points to form a triangle.</p>
   <script src="support/jquery.js"></script>
   <script src="support/mustache.js"></script>
   <script src="support/numeric.js"></script>
+  <script src="support/director.js"></script>
   <script src="support/three.js"></script>
   <script src="support/three-detector.js"></script>
   <script src="support/three-frame.js"></script>

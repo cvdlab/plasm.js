@@ -39,8 +39,8 @@ header {
 
 #plasm-logo h1{
   float: left;
-  font-size: 30px; 
-  color: #efefef; 
+  font-size: 30px;
+  color: #efefef;
 }
 
 .plasm-alpha {
@@ -50,12 +50,13 @@ header {
 
 
 #loading {
-  color: red;
+  color: rgb(128,128,128);
   font-size: 26px;
   position: absolute;
-  top: 9px;
-  left: 153px;
+  top: 58%;
+  width: 100%;
   display: none;
+  text-align: center;
 }
 
 footer #plasm-inspector {
@@ -65,7 +66,8 @@ footer #plasm-inspector {
 }
 
 #plasm-navbar {
-    float: right;
+  float: right;
+  margin-top: -2px;
 }
 
 #plasm-navbar ul {

@@ -148,11 +148,13 @@
 
   stick.View.prototype.show = function () {
     this.root.show();
+    this.displayed = true;
     return this;
   };
 
   stick.View.prototype.hide = function () {
     this.root.hide();
+    this.displayed = false;
     return this;
   };
 

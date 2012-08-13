@@ -300,7 +300,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     if ( ! _this.enabled ) return;
 
     event.preventDefault();
-    event.stopPropagation();
+    // event.stopPropagation();
 
     if ( _state === STATE.NONE ) {
       _state = event.button;
@@ -345,7 +345,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     if ( ! _this.enabled ) return;
 
     event.preventDefault();
-    event.stopPropagation();
+    // event.stopPropagation();
 
     _state = STATE.NONE;
 

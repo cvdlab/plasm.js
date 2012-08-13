@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>plasm.js</title>
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/showcase.css">
+  <link rel="stylesheet" href="support/syntaxhighlighter/shCore.css">
+  <link rel="stylesheet" href="support/syntaxhighlighter/shThemeDefault.css">
+</head>
+  <body>
+  <div id="wrapper">
+    <div id="header">
+      <div id="plasm-bar">
+          <h1><a id="plasm-logo" href="index.html"><span>Plasm.js</span><span class="plasm-alpha">&nbsp;&alpha;</span></a><span> showcase</span></h1>
+      </div>
+    </div>
+    <div id="body">
+      <div id="categories">
+        <ul></ul>
+      </div>
+      <div id="showcase-panel"></div>
+      <div id="detail-panel"></div>
+    </div>
+  </div>
+
+  <script type="text/template" id="template-detail">
+    <div class="detail-wrapper">
+      <div class="detail-header">
+        <div class="detail-snapshot-wrapper">
+          <img class="snapshot" src="{{image}}" width="200" height="150" />
+        </div>
+        <div class="detail-info">
+          <p>By <a href="{{author_page}}">{{author_name}}</a></p>
+          <div class="buttons">
+            <a id="button_back" class="detail-button">Back</a>
+            {{#page}}
+            <a id="button_presentation" class="detail-button" href="{{page}}">Presentation page</a>
+            {{/page}}
+            {{#code}}
+            <a id="button_compute" class="detail-button" href="{{compute}}">Compute model</a>
+            {{/code}}
+            {{#data}}
+            <a id="button_show" class="detail-button" href="{{show}}">Show model</a>
+            {{/data}}
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="detail-code">
+<script type="syntaxhighlighter" class="brush: js"><![CDATA[
+{{code}}
+]]></script>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script src="support/jquery.js"></script>
+  <script src="support/mustache.js"></script>
+  <script src="support/director.js"></script>
+  <script src="support/stick.js"></script>
+  <script src="support/syntaxhighlighter/shCore.js"></script>
+  <script src="support/syntaxhighlighter/shBrushJScript.js"></script>
+  <script src="lib/showcase.js"></script>
+
+</body>
+</html>

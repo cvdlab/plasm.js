@@ -317,9 +317,7 @@
       {
         "endpoint": "455353/final",
         "image": "455353/final/snapshot.png",
-        "data": "455353/final/data.json",
         "code": "455353/final/code.js",
-        "node": "455353/final/node.js",
         "author": "pierfrancesco",
         "page": "http://pierfrancesco.github.com/finalProject/"
       },

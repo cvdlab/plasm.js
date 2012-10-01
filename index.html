@@ -2583,8 +2583,12 @@ every other point is used with next two points to form a triangle.</p>
   <script src="lib/plasm-env.js"></script>
 
   <script>
-    p = new Plasm('plasm', 'plasm-inspector');
-    fun.PLASM(p);
+    var p;
+    $(function () {
+      console.log('Starting PLaSM...');
+      p = new Plasm('plasm', 'plasm-inspector');
+      fun.PLASM(p);
+    });
   </script>
 
   <script type="text/javascript">

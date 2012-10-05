@@ -36,6 +36,16 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
   this.object = object;
   this.domElement = ( domElement !== undefined ) ? domElement : document;
 
+  var input =
+  this.input = document.createElement('input');
+  input.setAttribute('id', 'three-trackball-input');
+  input.setAttribute('type', 'text');
+  input.setAttribute('autofocus', 'autofocus');
+  document.body.appendChild(input);
+  input.style.position = 'absolute';
+  input.style.width = '0px';
+  input.style.left = '-1000px';
+
   // API
 
   this.enabled = true;
@@ -355,16 +365,25 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     _zoom = event.wheelDeltaY / 10000;
   }
 
-  this.domElement.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
+  function preventDefault (event) {
+    event.preventDefault();
+  }
+
+  function click (event) {
+    input.focus();
+  }
+
+  this.domElement.addEventListener( 'contextmenu', preventDefault, false );
 
   this.domElement.addEventListener( 'mousemove', mousemove, false );
   this.domElement.addEventListener( 'mousedown', mousedown, false );
   this.domElement.addEventListener( 'mouseup', mouseup, false );
 
   this.domElement.addEventListener( 'mousewheel', wheelZoomCamera, false );
+  this.domElement.addEventListener( 'click', click, false);
 
-  window.addEventListener( 'keydown', keydown, false );
-  window.addEventListener( 'keyup', keyup, false );
+  input.addEventListener( 'keydown', keydown, false );
+  input.addEventListener( 'keyup', keyup, false );
 
   this.resetCamera();
 

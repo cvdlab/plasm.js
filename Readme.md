@@ -33,12 +33,14 @@ npm update
 
 ## Authors
 
-- [Enrico Marino](http://onirame.no.de)
-- [Federico Spini](http://spini.no.de)
+- [Enrico Marino](http://onirame.com)
+- [Federico Spini](http://federicospini.com)
 
 ## Contributors
 
 - Alberto Paoluzzi
+- Francesco Furiani
+- Vittorio Cecchetto
 
 ## License
 

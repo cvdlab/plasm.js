@@ -16,11 +16,11 @@ Transfinite mapping function of genric degree Bezier curve.
 > > `Array` `v`: point of the `domain`.
 > >
 > > #### out
-> > `Number`: the selected coordinate. 
-> 
+> > `Number`: the selected coordinate.
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
 > >
@@ -57,7 +57,7 @@ Get the `d`-boundary of the `model`.
 
 > #### in
 > `Number` `d`: space dimension.
-> 
+>
 > #### out
 > `plasm.Model`: the `d`-boundary of the `model`.
 
@@ -80,7 +80,7 @@ Remove the `object` from the scene graph.
 
 > #### in
 > `plasm.Model` or `plasm.Struct` `object`: the object to cancel.
-> 
+>
 > #### out
 > `plasm.Model` or `plasm.Struct` `object`: the cancelled object.
 
@@ -102,13 +102,13 @@ Create a circle with radius `r`, approximated by `divs` segments.
 
 > #### in
 > `Number` `r`: the radius of the circle.
-> 
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Number` `divs`: the number of segments that approximate the circle.
-> > 
+> >
 > > #### out
 > > `plasm.Model`: the circle with radius `r`, approximated by `divs` segments.
 
@@ -138,7 +138,7 @@ The `profile` curve can be a known profile function, like `BEZIER`, or a custom 
 >
 > > #### in
 > > `Array` `vector`: an array of vector costant components.
-> > 
+> >
 > > #### out
 > > `Function`: mapping of the profile of the cylindrical surface.
 
@@ -150,7 +150,7 @@ The `profile` curve can be a known profile function, like `BEZIER`, or a custom 
 > var ncpVector = [0,0,1];
 > var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
 > var out = MAP(CYLINDRICAL_SURFACE(funProfile)(ncpVector))(domain);
-> DRAW(out); 
+> DRAW(out);
 > ```
 
 - - -
@@ -163,20 +163,20 @@ Clone `object` and color cloned object with `color`.
 
 > #### in
 > `Array` `color`: rgba color components (from `0` to `1`).
-> 
+>
 > - `Number` `r`: red component (from `0` to `1`, `0` by default).
 > - `Number` `g`: green component (from `0` to `1`, `0` by default).
 > - `Number` `b`: blue component (from `0` to `1`, `0` by default).
 > - `Number` `a`: alpha component (from `0` to `1`, `1` by default).
-> 
+>
 > #### out
 > `Function`: an anonymous function.
 >
 > > #### in
 > > `plasm.Model` or `plasm.Struct` `object`: the object to color.
-> > 
+> >
 > > #### out
-> > `plasm.Model` or `plasm.Struct`: the cloned colored object. 
+> > `plasm.Model` or `plasm.Struct`: the cloned colored object.
 
 #### Example
 
@@ -204,7 +204,7 @@ The curve can be a known profile function, like `BEZIER`, or a custom one.
 >
 > > #### in
 > > `Function` `profile`: mapping `Function` of the profile curve.
-> > 
+> >
 > > #### out
 > > `Function`: mapping of the profile of the conical surface.
 
@@ -216,7 +216,7 @@ The curve can be a known profile function, like `BEZIER`, or a custom one.
 > var apex = [0,0,1];
 > var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
 > var out = MAP(CONICAL_SURFACE(apex)(funProfile))(domain);
-> DRAW(out); 
+> DRAW(out);
 > ```
 
 - - -
@@ -229,7 +229,7 @@ Mapping function of a Coons Patch.
 
 > #### in
 > `Array` `controlcurves`: an array of curves mapping functions describing surface's boundaries
-> 
+>
 > #### out
 > `Function`: an anonymous mapping function.
 
@@ -266,7 +266,7 @@ Create a `dim`-dimensional cube.
 
 > #### in
 > `Number` `dim`: dimension of the cube.
-> 
+>
 > #### out
 > `plasm.Model`: a cube with `dim` dimension.
 
@@ -320,11 +320,11 @@ Transfinite mapping function of cubic Hermite curve.
 > > `Array` `v`: point of the `domain`.
 > >
 > > #### out
-> > `Number`: the selected coordinate. 
-> 
+> > `Number`: the selected coordinate.
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
 > >
@@ -388,12 +388,12 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz, ...]`.
 
 > #### in
 > `Array` `dims`: sides length for each dimension of the simplicial complex.
-> 
+>
 > - `Number` `dx`: dimension along x axe
 > - `Number` `dy`: dimension along y axe
 > - `Number` `dz`: dimension along z axe
 > - ...
-> 
+>
 > #### out
 > `plasm.Model`: a cuboidal simplicial complex with dimensions `[dx, dy, dz, ...]`.
 
@@ -403,7 +403,7 @@ Create a cuboidal simplicial complex with dimensions `[dx, dy, dz, ...]`.
 > var dx = 1;
 > var dy = 2;
 > var dz = 3;
-> 
+>
 > var cuboid1 = CUBOID([dx]);
 > DRAW(cuboid1);
 > ```
@@ -426,21 +426,21 @@ Create a cylindrical surface.
 
 > #### in
 > `Array` `dims`: dimensions `[r, h]`.
-> 
+>
 > - `Number` `r`: the radius (`1` by default).
 > - `Number` `h`: the height (`1` by default).
-> 
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `divs`: divisions `[slices, stacks]`.
-> > 
+> >
 > > - `Number` `slices`: slices (`16` by default).
 > > - `Number` `stacks`: stacks (`2` by default).
-> > 
+> >
 > > #### out
-> > `plasm.Model`: a cylindrical surface with radius `r` and height `h`, divided in `slices` and `stacks`. 
+> > `plasm.Model`: a cylindrical surface with radius `r` and height `h`, divided in `slices` and `stacks`.
 
 #### Example
 
@@ -459,18 +459,18 @@ Create a disk surface with radius `r`.
 
 > #### in
 > `Number` `r`: the radius (`1` by default).
-> 
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `divs`: divisions `[slices, stacks]`.
-> > 
+> >
 > > - `Number` `slices`: slices (`16` by default).
 > > - `Number` `stacks`: stacks (`2` by default).
-> > 
+> >
 > > #### out
-> > `plasm.Model`: a disk with radius `r`, divided in `slices` and `stacks`. 
+> > `plasm.Model`: a disk with radius `r`, divided in `slices` and `stacks`.
 
 #### Example
 
@@ -489,7 +489,7 @@ Create a domain.
 
 > #### in
 > `Array` `dims`: dimensions `[dx, dy, dz, ...]`.
-> 
+>
 > - `Array` `dx`: intervals `[start_x, end_x]`
 >   - `Number` `start_x`: x min
 >   - `Number` `end_x`: x max
@@ -500,20 +500,20 @@ Create a domain.
 >   - `Number` `start_z`: z min
 >   - `Number` `end_z`: z max
 > - ...
-> 
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `divs`: divisions `[nx, ny, nz, ...]`.
-> > 
+> >
 > > - `Number` `nx`: division along x axes.
 > > - `Number` `ny`: division along y axes.
 > > - `Number` `nz`: division along z axes.
 > > - ...
-> > 
+> >
 > > #### out
-> > `plasm.Model`: a domain. 
+> > `plasm.Model`: a domain.
 
 #### Example
 
@@ -540,31 +540,31 @@ Draw an object of 3 or less dimensions.
 
 > #### in
 > `plasm.Model` or `plasm.Struct` `object`: the object to draw.
-> 
+>
 > #### out
 > `plasm.Model` or `plasm.Struct` `object`: the object drawn.
 
 - - -
 
-#### `EXPLODE(values)(model)`
+### `EXPLODE(values)(model)`
 
 Explode a `model`.
 
 #### I/O
 > #### in
 > `Array` `values`: `[dx, dy, dz, ...]`
-> 
+>
 > - `Number` `dx`: explosion factor along x axe
 > - `Number` `dy`: explosion factor along y axe
 > - `Number` `dx`: explosion factor along z axe
 > - ...
-> 
-> #### out 
-> `Function`: an anonimous function. 
->   
+>
+> #### out
+> `Function`: an anonimous function.
+>
 > > #### in
 > > `plasm.Model` `model`: the model to explode.
-> >  
+> >
 > > #### out
 > > `plasm.Model`: the model exploded.
 
@@ -577,20 +577,20 @@ Explode a `model`.
 
 - - -
 
-#### `EXTRUDE(hlist)(object)`
+### `EXTRUDE(hlist)(object)`
 
 Extrude an `object`.
 
 #### I/O
 > #### in
 > `Array` `hlist`
-> 
-> #### out 
-> `Function`: an anonimous function. 
->   
+>
+> #### out
+> `Function`: an anonimous function.
+>
 > > #### in
 > > `plasm.Model` or `plasm.Struct` `objetc`: the object to extrude.
-> >  
+> >
 > > #### out
 > > `plasm.Model` or `plasm.Struct` `objetc`: the extruded object.
 
@@ -603,7 +603,7 @@ Extrude an `object`.
 
 - - -
 
-#### `HIDE(object)`
+### `HIDE(object)`
 
 Hide the `object`.
 
@@ -611,7 +611,7 @@ Hide the `object`.
 
 > #### in
 > `plasm.Model` or `plasm.Struct` `objetc`: the object to hide.
-> 
+>
 > #### out
 > `plasm.Model` or `plasm.Struct`: the hidden model.
 
@@ -632,13 +632,13 @@ Create a segment from `0` to `length` divided in `n` parts.
 #### I/O
 > #### in
 > `Number` `length`: the length of the interval.
-> 
-> #### out 
-> `Function`: an anonimous function. 
->   
+>
+> #### out
+> `Function`: an anonimous function.
+>
 > > #### in
 > > `Number` `n`: the number of divisions.
-> >  
+> >
 > > #### out
 > > `plasm.Model`: a segment from `0` to `length` divided in `n` parts.
 
@@ -658,13 +658,13 @@ Return `object` when invoked on `anyObject`.
 
 > #### in
 > `Object` `data`: any `Object`
-> 
+>
 > #### out
 > `Function`: an anonymous function.
 >
 > > #### in
 > > `Object` `anydata`: any `Object` that will be discarded
-> > 
+> >
 > > #### out
 > > `Function`: an anonymous function.
 
@@ -692,11 +692,11 @@ Map a `domain` by a `mapping` function.
 > > `Array` `v`: point of the `domain`.
 > >
 > > #### out
-> > `Array`: the mapped point. 
-> 
+> > `Array`: the mapped point.
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `plasm.Model` `domain`: the domain to map.
 > >
@@ -722,7 +722,7 @@ Map a `domain` by a `mapping` function.
 > ```js
 > var domain = DOMAIN([[0,1]],[0,2*PI]);
 > var mapping = [
->   function (v) { return SIN(v[0]); }, 
+>   function (v) { return SIN(v[0]); },
 >   function (v) { return COS(v[1]); }
 > ]);
 > var model = MAP(mapping)(domain)
@@ -740,10 +740,10 @@ Non-uniform B-Spline.
 > #### in
 > `Number` `degree`: spline degree.
 > `Number` `[totpoints=80]`: total number of spline's points.
-> 
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `knots`: Array of integer describing spline's knots.
 > >
@@ -775,13 +775,13 @@ Transfinite Non-uniform B-Spline.
 
 > #### in
 > `Function` `sel`: selctor function.
-> 
+>
 > #### out
 > `Function`: an anonymous function.
 >
 > > #### in
 > > `Number` `degree`: spline degree.
-> > 
+> >
 > > #### out
 > > `Function`: an anonymous function.
 > >
@@ -830,10 +830,10 @@ Non-uniform Rational B-Spline.
 > #### in
 > `Number` `degree`: spline degree.
 > `Number` `[totpoints=80]`: total number of spline's points.
-> 
+>
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `knots`: Array of integer describing spline's knots.
 > >
@@ -869,7 +869,7 @@ Create a polyline made by `points`.
 >
 > - `Array` `points[i]` `point`: `i`-th point
 >   - `Number` `point[k]`: `k`-th coord of `point`
-> 
+>
 > #### out
 > `plasm.Model`: a polyline made by `points`.
 
@@ -894,7 +894,7 @@ Create a 0D complex.
 >
 > - `Array` `points[i]` `point`: `i`-th point
 >   - `Number` `point[k]`: `k`-th coord of `point`
-> 
+>
 > #### out
 > `plasm.Model`: a polypoint made by `points`.
 
@@ -910,7 +910,7 @@ Create a 0D complex.
 
 ### `PROD1x1(array)`
 
-Return cartesian product of the two models in `array`.  
+Return cartesian product of the two models in `array`.
 Each model must have Rn equals to 1.
 
 #### I/O
@@ -920,7 +920,7 @@ Each model must have Rn equals to 1.
 >
 > - `Array` `array[0]` `model1`: the first operand model
 > - `Array` `array[1]` `model2`: the second operand model
-> 
+>
 > #### out
 > `plasm.Model`: result of the product of the two models
 
@@ -937,9 +937,9 @@ Each model must have Rn equals to 1.
 
 ### `PROD1x2(array)`
 
-Return cartesian product of the two models in `array`.  
-The first model must have Rn equals to 1.  
-The second model must have Rn equals to 2.  
+Return cartesian product of the two models in `array`.
+The first model must have Rn equals to 1.
+The second model must have Rn equals to 2.
 
 #### I/O
 
@@ -948,7 +948,7 @@ The second model must have Rn equals to 2.
 >
 > - `Array` `array[0]` `model1`: the first operand model
 > - `Array` `array[1]` `model2`: the second operand model
-> 
+>
 > #### out
 > `plasm.Model`: result of the product of the two models
 
@@ -965,9 +965,9 @@ The second model must have Rn equals to 2.
 
 ### `PROD2x1(array)`
 
-Return cartesian product of the two models in `array`.  
-The first model must have Rn equals to 2.  
-The second model must have Rn equals to 1.  
+Return cartesian product of the two models in `array`.
+The first model must have Rn equals to 2.
+The second model must have Rn equals to 1.
 
 #### I/O
 
@@ -976,7 +976,7 @@ The second model must have Rn equals to 1.
 >
 > - `Array` `array[0]` `model1`: the first operand model
 > - `Array` `array[1]` `model2`: the second operand model
-> 
+>
 > #### out
 > `plasm.Model`: result of the product of the two models
 
@@ -999,7 +999,7 @@ Create a surface S mapping as profile product between two plane curves A and B (
 
 > #### in
 > `Array` `profiles`: mapping `Function` of the two plane curves profile to product.
-> 
+>
 > #### out
 > `Function`: mapping of the profile product surface
 >
@@ -1011,15 +1011,15 @@ Create a surface S mapping as profile product between two plane curves A and B (
 > var Su0 = BEZIER(S0)([[0,0,0],[2,0,0],[0,0,4],[1,0,5]]);
 > var curve0 = MAP(Su0)(dom1D);
 > DRAW(COLOR([0,0,1])(curve0));
-> 
+>
 > var Su1 = BEZIER(S1)([[0,0,0],[3,-0.5,0],[3,3.5,0],[0,3,0]]);
 > var Su1Draw = BEZIER(S0)([[0,0,0],[3,-0.5,0],[3,3.5,0],[0,3,0]]);
 > var curve1 = MAP(Su1Draw)(dom1D);
 > DRAW(COLOR([1,0,1])(curve1));
-> 
+>
 > var dom2D = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]); // DOMAIN([[0,1],[0,1]])([20,20]);
 > var out = MAP(PROFILEPROD_SURFACE([Su0,Su1]))(dom2D);
-> DRAW(out); 
+> DRAW(out);
 > ```
 
 - - -
@@ -1035,19 +1035,19 @@ Rotate `object` by `angle` on the rotational plane described by `dims`.
 >
 > - `Array` `dims[0]` `dims1`: the first dimension of the rotational plane.
 > - `Array` `dims[1]` `dims2`: the second dimension of the rotational plane.
-> 
+>
 > #### out
 > `Funciton`: an anonymous function.
 >
 > > #### in
 > > `Number` `angle`: rotational angle (in radiant, from `0` to `2π`).
-> > 
+> >
 > > #### out
 > > `Function`: an anonymous function.
-> > 
+> >
 > > > #### in
 > > > `plasm.Model` or `plasm.Struct` `object`: the object to rotate.
-> > > 
+> > >
 > > > #### out
 > > > `plasm.Model` or `plasm.Struct`: the rotated object.
 
@@ -1069,7 +1069,7 @@ Create a rotational surface mapping given the mapping of the profile to rotate.
 
 > #### in
 > `Function` `profile`: mapping of the profile to rotate.
-> 
+>
 > #### out
 > `Function`: mapping of the rotational surface
 >
@@ -1094,7 +1094,7 @@ The curves can either be a known profile function, like `BEZIER`, or a custom on
 
 > #### in
 > `Array` `functions`: mapping `Function` of the two curves.
-> 
+>
 > #### out
 > `Function`: mapping of the profile ruled surface
 >
@@ -1134,19 +1134,19 @@ Scale `model` by `values` along `axis`.
 
 > #### in
 > `Array` `axis`: axis to scale along.
-> 
+>
 > #### out
 > `Function`: an anonymous function.
 >
 > > #### in
 > > `Array` `values`: scaling factors.
-> > 
+> >
 > > #### out
 > > `Function`: an anonymous function.
-> > 
+> >
 > > > #### in
 > > > `plasm.Model` or `plasm.Struct` `object`: the object to scale.
-> > > 
+> > >
 > > > #### out
 > > > `plasm.Model` or `plasm.Struct`: the scaled object.
 
@@ -1169,7 +1169,7 @@ Show a hidden `object`.
 > #### in
 
 > `plasm.Model` or `plasm.Struct` `object`: the object to show.
-> 
+>
 > #### out
 > `plasm.Model` or `plasm.Struct`: the shown model.
 
@@ -1192,7 +1192,7 @@ Create a `dim`-dimensional simplex with sides length equal to 1.
 
 > #### in
 > `Number` `dim`: simplex dimension.
-> 
+>
 > #### out
 > `plasm.Model`: a simplex of dim `dim`.
 
@@ -1212,12 +1212,12 @@ Create a grid simplicial complex.
 #### I/O
 
 > #### in
-> `Array` `quotes`: an array of array of quotes for each dimension of the grid, starting from dimension 0.  
-> Quotes may be both positive and negative: 
-> 
-> - positive ones are actually generated, 
+> `Array` `quotes`: an array of array of quotes for each dimension of the grid, starting from dimension 0.
+> Quotes may be both positive and negative:
+>
+> - positive ones are actually generated,
 > - negative ones are considered as a positive spacing.
-> 
+>
 > #### out
 > `plasm.Model`: a grid simplicial complex.
 
@@ -1238,10 +1238,10 @@ Create a simplicial complex.
 
 > #### in
 > `Array` `points`: an array of points, represented as arrays of coordinates.
-> 
+>
 > #### out
 > `Function`: anonymous function.
-> 
+>
 > > #### in
 > > `Array` `cells`: complex's highest order cells represented as arrays of indices of `points`.
 > >
@@ -1265,12 +1265,12 @@ Extract the `dim`-skeleton of the `model`.
 
 > #### in
 > `Number` `dim`: dimension of the skeleton.
-> 
+>
 > #### out
 > `Function`: anonymous function.
-> 
+>
 > > #### in
-> > `plasm.Model` `model`: model to which extract skeleton. 
+> > `plasm.Model` `model`: model to which extract skeleton.
 > >
 > > #### out
 > > `plasm.Model`: `dim`-skeleton of the `model`.
@@ -1295,7 +1295,7 @@ Create spline curve.
 >
 > #### out
 > `Function`: an anonymous function.
-> 
+>
 > > #### in
 > > `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
 > >
@@ -1318,8 +1318,8 @@ Create spline curve.
 
 ### `STRUCT(items)`
 
-Structure together `plasm.Model` and `plasm.Struct`.  
-If a transformation is encountered in `items`,  
+Structure together `plasm.Model` and `plasm.Struct`.
+If a transformation is encountered in `items`,
 it is applied to all of the following items.
 
 #### I/O
@@ -1340,7 +1340,7 @@ it is applied to all of the following items.
 > var struct = STRUCT([struct1, t, struct1, t, cube1]);
 > ```
 
-- - - 
+- - -
 
 ### `TORUS_SOLID(dims)(divs)`
 
@@ -1349,20 +1349,20 @@ Create a torus solid.
 #### I/O
 > #### in
 > `Array` `dims`: size of the radii `[rMin, rMax]`
-> 
+>
 > - `Number` `rMin`: internal radius (`0.1` by default)
 > - `Number` `rMax`: external radius (`0.9` by default)
-> 
+>
 > #### out
 > `Function`: anonymous function.
-> 
+>
 > > #### in
 > > `Array` `divs`: a triple of approssimation values `[m, n, o]`
-> > 
+> >
 > > - `Number` `m`: (`12` by default)
 > > - `Number` `n`: (`8` by default)
 > > - `Number` `o`: (`8` by default)
-> > 
+> >
 > > #### out
 > > `plasm.Model`: a solid torus.
 
@@ -1383,20 +1383,20 @@ Create a toroidal surface.
 
 > #### in
 > `Array` `dims`: size of the radii `[rMin, rMax]`
-> 
+>
 > - `Number` `rMin`: internal radius (`0.1` by default)
 > - `Number` `rMax`: external radius (`0.9` by default)
-> 
+>
 > #### out
 > `Function`: anonymous function.
-> 
+>
 > > #### in
 > > `Array` `divs`: a couple of approssimation values `[m, n, o]`
-> > 
+> >
 > > - `Number` `m`: slices (`12` by default)
 > > - `Number` `n`: stacks (`8` by default)
-> > 
-> > #### out 
+> >
+> > #### out
 > > `plasm.Model`: a toroidal surface.
 
 #### Example
@@ -1419,16 +1419,16 @@ Clone `model` and translate cloned model by `values` on dimensions `dims`.
 >
 > #### out
 > `Function`: anonymous function.
-> 
+>
 > > #### in
 > > `Array` `values`: an array of `Number` specifying translation quantity for every dimension in `dims`.
-> > 
+> >
 > > #### out
 > > `Function`: anonymous function.
-> > 
+> >
 > > > #### in
 > > > `plasm.Model` or `plasm.Struct` `object`: the object to translate.
-> > > 
+> > >
 > > > #### out
 > > > `plasm.Model` or `plasm.Struct`: the translated object.
 
@@ -1523,8 +1523,8 @@ Create a triangle domain using three points as vertices. Every edge is subdivide
 
 ### `TRIANGLE_FAN(points)`
 
-Create a tiangle fan: first point is the center of the fan,  
-center point is used with next two points to form a triangle.  
+Create a tiangle fan: first point is the center of the fan,
+center point is used with next two points to form a triangle.
 Every successive point is used with center point and the previuos point to form a triangle.
 
 #### I/O
@@ -1547,7 +1547,7 @@ Every successive point is used with center point and the previuos point to form 
 
 ### `TRIANGLE_STRIP(points)`
 
-Create a tiangle strip: first three points made a triangle,  
+Create a tiangle strip: first three points made a triangle,
 every other point is used with next two points to form a triangle.
 
 #### I/O

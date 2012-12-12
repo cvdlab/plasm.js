@@ -18,6 +18,9 @@ header {
   left: 0px;
   width: 100%;
   height: 100%;
+  position: absolute;
+  /*width: 100%;*/
+  /*height: 100%;*/
 }
 
 #plasm-bar {
@@ -147,7 +150,8 @@ footer #plasm-inspector {
 }
 
 #plasm-container-documentation {
-  top: 40px;
+  position: fixed;
+  top: 37px;
   right: 0px;
   width: 560px;
   bottom: 0px;

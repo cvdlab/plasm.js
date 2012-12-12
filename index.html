@@ -292,7 +292,7 @@ The <code>profile</code> curve can be a known profile function, like <code>BEZIE
 <span class="kd">var</span> <span class="nx">ncpVector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span>
 <span class="kd">var</span> <span class="nx">funProfile</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
 <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">CYLINDRICAL_SURFACE</span><span class="p">(</span><span class="nx">funProfile</span><span class="p">)(</span><span class="nx">ncpVector</span><span class="p">))(</span><span class="nx">domain</span><span class="p">);</span>
-<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span> 
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
 </pre>
 </div>
 
@@ -398,7 +398,7 @@ The curve can be a known profile function, like <code>BEZIER</code>, or a custom
 <span class="kd">var</span> <span class="nx">apex</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span>
 <span class="kd">var</span> <span class="nx">funProfile</span> <span class="o">=</span> <span class="nx">BEZIER</span><span class="p">(</span><span class="nx">S0</span><span class="p">)([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]);</span>
 <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">CONICAL_SURFACE</span><span class="p">(</span><span class="nx">apex</span><span class="p">)(</span><span class="nx">funProfile</span><span class="p">))(</span><span class="nx">domain</span><span class="p">);</span>
-<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span> 
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
 </pre>
 </div>
 
@@ -947,9 +947,9 @@ The curve can be a known profile function, like <code>BEZIER</code>, or a custom
 <p><code>plasm.Model</code> or <code>plasm.Struct</code> <code>object</code>: the object drawn.</p>
 </blockquote>
 
-<hr><h4>
+<hr><h3>
 <a name="explodevaluesmodel" class="anchor" href="#explodevaluesmodel"><span class="mini-icon mini-icon-link"></span></a><code>EXPLODE(values)(model)</code>
-</h4>
+</h3>
 
 <p>Explode a <code>model</code>.</p>
 
@@ -1002,9 +1002,9 @@ The curve can be a known profile function, like <code>BEZIER</code>, or a custom
 
 </blockquote>
 
-<hr><h4>
+<hr><h3>
 <a name="extrudehlistobject" class="anchor" href="#extrudehlistobject"><span class="mini-icon mini-icon-link"></span></a><code>EXTRUDE(hlist)(object)</code>
-</h4>
+</h3>
 
 <p>Extrude an <code>object</code>.</p>
 
@@ -1048,9 +1048,9 @@ The curve can be a known profile function, like <code>BEZIER</code>, or a custom
 
 </blockquote>
 
-<hr><h4>
+<hr><h3>
 <a name="hideobject" class="anchor" href="#hideobject"><span class="mini-icon mini-icon-link"></span></a><code>HIDE(object)</code>
-</h4>
+</h3>
 
 <p>Hide the <code>object</code>.</p>
 
@@ -1244,7 +1244,7 @@ The curve can be a known profile function, like <code>BEZIER</code>, or a custom
 <div class="highlight">
 <pre><span class="kd">var</span> <span class="nx">domain</span> <span class="o">=</span> <span class="nx">DOMAIN</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="nx">PI</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">mapping</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">SIN</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="p">},</span> 
+  <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">SIN</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="p">},</span>
   <span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">COS</span><span class="p">(</span><span class="nx">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="p">}</span>
 <span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">mapping</span><span class="p">)(</span><span class="nx">domain</span><span class="p">)</span>
@@ -1717,7 +1717,7 @@ The second model must have Rn equals to 1.  </p>
 
 <span class="kd">var</span> <span class="nx">dom2D</span> <span class="o">=</span> <span class="nx">PROD1x1</span><span class="p">([</span><span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">16</span><span class="p">),</span><span class="nx">INTERVALS</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">16</span><span class="p">)]);</span> <span class="c1">// DOMAIN([[0,1],[0,1]])([20,20]);</span>
 <span class="kd">var</span> <span class="nx">out</span> <span class="o">=</span> <span class="nx">MAP</span><span class="p">(</span><span class="nx">PROFILEPROD_SURFACE</span><span class="p">([</span><span class="nx">Su0</span><span class="p">,</span><span class="nx">Su1</span><span class="p">]))(</span><span class="nx">dom2D</span><span class="p">);</span>
-<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span> 
+<span class="nx">DRAW</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
 </pre>
 </div>
 
@@ -2597,11 +2597,11 @@ every other point is used with next two points to form a triangle.</p>
     _gaq.push(['_trackPageview']);
 
     (function() {
-      var ga = document.createElement('script'); 
-      ga.type = 'text/javascript'; 
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
       ga.async = true;
       ga.src = 'http://www.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; 
+      var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(ga, s);
     })();
   </script>

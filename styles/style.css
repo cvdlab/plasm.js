@@ -1,3 +1,7 @@
+body, html {
+  height: 100%;
+}
+
 body {
   overflow: hidden;
 }
@@ -14,9 +18,6 @@ header {
 }
 
 #plasm {
-  top: 0px;
-  left: 0px;
-  width: 100%;
   height: 100%;
 }
 
@@ -122,7 +123,7 @@ footer #plasm-inspector {
 }
 
 #plasm-about-logo {
-  font-size: 30px; 
+  font-size: 30px;
   color: #efefef;
   text-shadow: 0 0 1px rgb(155,225,85);
   margin-bottom: 10px;
@@ -147,7 +148,8 @@ footer #plasm-inspector {
 }
 
 #plasm-container-documentation {
-  top: 40px;
+  position: fixed;
+  top: 37px;
   right: 0px;
   width: 560px;
   bottom: 0px;

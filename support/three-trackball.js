@@ -114,11 +114,11 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     } else {
       mouseOnBall.z = Math.sqrt( 1.0 - length * length );
     }
-    _eye.copy( _this.object.position ).subSelf( _this.target );
+    _eye.copy( _this.object.position ).sub( _this.target );
 
     var projection = _this.object.up.clone().setLength( mouseOnBall.y );
-    projection.addSelf( _this.object.up.clone().crossSelf( _eye ).setLength( mouseOnBall.x ) );
-    projection.addSelf( _eye.setLength( mouseOnBall.z ) );
+    projection.add( _this.object.up.clone().cross( _eye ).setLength( mouseOnBall.x ) );
+    projection.add( _eye.setLength( mouseOnBall.z ) );
 
     return projection;
 
@@ -128,7 +128,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     var angle = Math.acos( _rotateStart.dot( _rotateEnd ) / _rotateStart.length() / _rotateEnd.length() );
 
     if ( angle ) {
-      var axis = ( new THREE.Vector3() ).cross( _rotateStart, _rotateEnd ).normalize()
+      var axis = ( new THREE.Vector3() ).crossVectors( _rotateStart, _rotateEnd ).normalize()
         , quaternion = new THREE.Quaternion();
       angle *= _this.rotateSpeed;
       quaternion.setFromAxisAngle( axis, -angle );
@@ -159,13 +159,13 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
     if ( _pan.lengthSq() ) {
       _pan.multiplyScalar( _eye.length() * _this.panSpeed );
 
-      var pan = _eye.clone().crossSelf( _this.object.up ).setLength( _pan.x );
-      pan.addSelf( _this.object.up.clone().setLength( _pan.y ) );
+      var pan = _eye.clone().cross( _this.object.up ).setLength( _pan.x );
+      pan.add( _this.object.up.clone().setLength( _pan.y ) );
 
-      _this.object.position.addSelf( pan );
-      _this.target.addSelf( pan );
+      _this.object.position.add( pan );
+      _this.target.add( pan );
 
-      light.position.addSelf( pan );
+      light.position.add( pan );
 
       _pan = new THREE.Vector3();
     }
@@ -177,13 +177,13 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
         _this.object.position.setLength( _this.maxDistance );
       }
       if ( _eye.lengthSq() < _this.minDistance * _this.minDistance ) {
-        _this.object.position.add( _this.target, _eye.setLength( _this.minDistance ) );
+        _this.object.position.addVectors( _this.target, _eye.setLength( _this.minDistance ) );
       }
     }
   };
 
   this.update = function() {
-    _eye.copy( _this.object.position ).subSelf( _this.target );
+    _eye.copy( _this.object.position ).sub( _this.target );
 
     if ( !_this.noRotate ) {
       _this.rotateCamera();
@@ -197,7 +197,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
       _this.panCamera();
     }
 
-    _this.object.position.add( _this.target, _eye );
+    _this.object.position.addVectors( _this.target, _eye );
     light.position.copy(_this.object.position);
     _this.checkDistances();
     _this.object.lookAt( _this.target );
@@ -213,8 +213,8 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
       _this.object.up = resetUp.clone();
       _this.object.matrix = resetMatrix.clone();
       light.matrix = resetMatrix.clone();
-      _this.object.rotation.setRotationFromMatrix( _this.object.matrix );
-      light.rotation.setRotationFromMatrix( light.matrix );
+      _this.object.rotation.setFromRotationMatrix( _this.object.matrix );
+      light.rotation.setFromRotationMatrix( light.matrix );
 
       _this.target = new THREE.Vector3();
       _eye = new THREE.Vector3();
@@ -249,7 +249,7 @@ THREE.EnhancedTrackballLightControls = function ( object, scene, domElement ) {
   this.viewAll = function() {
     var centroid = scene.getCentroid()
       , boundingRadius = scene.getBoundingRadius()
-      , vector = (new THREE.Vector3(0,0, boundingRadius)).addSelf(resetPosition)
+      , vector = (new THREE.Vector3(0,0, boundingRadius)).add(resetPosition)
       ;
 
     _this.placeCamera(vector, centroid);

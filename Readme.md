@@ -14,7 +14,7 @@ install [Node.js](http://nodejs.org/)
 
 ### install
 
-type in a terminal, from your workspace directory
+from your workspace directory, type in a terminal 
 
 ```
 git clone git@github.com:cvdlab/plasm.js.git

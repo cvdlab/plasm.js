@@ -115,6 +115,94 @@
     "bioteam": {
       "name": "BIO Team",
       "page": "https://github.com/cvdlab-cg/258942/tree/master/finalproject"
+    },
+    "h4ergo": {
+      "name": "Giovanni Pace",
+      "page": "https://github.com/h4ergo"
+    },
+    "rfenarol": {
+      "name": "Roberto Fenaroli",
+      "page": "https://github.com/rfenarol"
+    },
+    "vfede": {
+      "name": "Federico Violante",
+      "page": "https://github.com/vfede"
+    },
+    "octawizard": {
+      "name": "Roberto Manca",
+      "page": "https://github.com/octawizard"
+    },
+    "pollaiolo": {
+      "name": "Francesco Maria Maglia",
+      "page": "https://github.com/pollaiolo"
+    },
+    "AlessandroGiacomini": {
+      "name": "Alessandro Giacomini",
+      "page": "https://github.com/AlessandroGiacomini"
+    },
+    "AlessandroGiacomini": {
+      "name": "Alessandro Giacomini",
+      "page": "https://github.com/AlessandroGiacomini"
+    },
+    "miccia4": {
+      "name": "Matteo Cannaviccio",
+      "page": "https://github.com/miccia4"
+    },
+    "G4br13l3": {
+      "name": "Gabriele Ponzi",
+      "page": "https://github.com/G4br13l3"
+    },
+    "dod91": {
+      "name": "Claudio Petrini",
+      "page": "https://github.com/dod91"
+    },
+    "stederob": {
+      "name": "Stefania De Roberto",
+      "page": "https://github.com/stederob"
+    },
+    "m4rc090": {
+      "name": "Marco Coluzza",
+      "page": "https://github.com/m4rc090"
+    },
+    "francesco-dipi": {
+      "name": "Francesco Di Paolo",
+      "page": "https://github.com/francesco-dipi"
+    },
+    "raff0z": {
+      "name": "Raffaele Vacchiano",
+      "page": "https://github.com/raff0z"
+    },
+    "RobertaR": {
+      "name": "Roberta Romano",
+      "page": "https://github.com/RobertaR"
+    },
+    "Pausa90": {
+      "name": "Andrea Iuliano",
+      "page": "https://github.com/Pausa90"
+    },
+    "Phoenyx89": {
+      "name": "Alessio Pasquini",
+      "page": "https://github.com/Phoenyx89"
+      },
+    "m4v3r1ck": {
+      "name": "Federico Mione",
+      "page": "https://github.com/m4v3r1ck"
+    },
+    "federicopast": {
+      "name": "Federico Pastori",
+      "page": "https://github.com/federicopast"
+    },
+    "l4nz10": {
+      "name": "Valerio Lanziani",
+      "page": "https://github.com/l4nz10"
+    },
+    "ft225": {
+      "name": "Matteo Pisani",
+      "page": "https://github.com/ft225"
+    },
+    "eleonoracappelli": {
+      "name": "Eleonora Cappelli",
+      "page": "https://github.com/eleonoracappelli"
     }
   },
   "categories": {
@@ -293,6 +381,14 @@
         "code": "454591/showcase/code.js",
         "node": "454591/showcase/node.js",
         "author": "RdL87"
+      },
+      {
+        "endpoint": "427610/showcase",
+        "image": "427610/showcase/snapshot.jpeg",
+        "data": "427610/showcase/data.json",
+        "code": "427610/showcase/code.js",
+        "node": "427610/showcase/node.js",
+        "author": "dod91"
       }
     ],
     "biologics": [
@@ -327,6 +423,138 @@
         "code": "bioteam/final/code.js",
         "author": "bioteam",
         "page": "http://noemibiancone.github.com/finalproject/"
+      }
+    ],
+    "furnitures": [
+      {
+        "endpoint": "465288/final",
+        "image": "465288/final/snapshot.jpg",
+        "data": "465288/final/data.json",
+        "code": "465288/final/code.js",
+        "node": "465288/final/node.js",
+        "author": "rfenarol",
+        "page": "http://rfenarol.github.io/CG-final-project/"
+      },
+      {
+        "endpoint": "281308/final",
+        "image": "281308/final/snapshot.jpg",
+        "data": "281308/final/data.json",
+        "code": "281308/final/code.js",
+        "node": "281308/final/node.js",
+        "author": "vfede",
+        "page": "http://vfede.github.io/cvdlab-cg-final-project/"
+      },
+      {
+        "endpoint": "418681/final",
+        "image": "418681/final/snapshot.jpg",
+        "data": "418681/final/data.json",
+        "code": "418681/final/code.js",
+        "node": "418681/final/node.js",
+        "author": "AlessandroGiacomini",
+        "page": "http://alessandrogiacomini.github.io/"
+      },
+      {
+        "endpoint": "418681/final",
+        "image": "418681/final/snapshot.jpg",
+        "data": "418681/final/data.json",
+        "code": "418681/final/code.js",
+        "node": "418681/final/node.js",
+        "author": "AlessandroGiacomini",
+        "page": "http://alessandrogiacomini.github.io/"
+      },
+      {
+        "endpoint": "427610/final",
+        "image": "427610/final/snapshot.jpg",
+        "data": "427610/final/data.json",
+        "code": "427610/final/code.js",
+        "node": "427610/final/node.js",
+        "author": "dod91",
+        "page": "http://dod91.github.io/pages/"
+      }
+    ],
+    "vehicles": [
+      {
+        "endpoint": "465288/showcase",
+        "image": "465288/showcase/snapshot.jpg",
+        "data": "465288/showcase/data.json",
+        "code": "465288/showcase/code.js",
+        "node": "465288/showcase/node.js",
+        "author": "rfenarol"
+      },
+      {
+        "endpoint": "403248/showcase",
+        "image": "403248/showcase/snapshot.jpg",
+        "data": "403248/showcase/data.json",
+        "code": "403248/showcase/code.js",
+        "node": "403248/showcase/node.js",
+        "author": "miccia4"
+      },
+      {
+        "endpoint": "417229/showcase",
+        "image": "417229/showcase/snapshot.jpg",
+        "data": "417229/showcase/data.json",
+        "code": "417229/showcase/code.js",
+        "node": "417229/showcase/node.js",
+        "author": "G4br13l3"
+      },
+      {
+        "endpoint": "281308/showcase",
+        "image": "281308/showcase/snapshot.jpg",
+        "data": "281308/showcase/data.json",
+        "code": "281308/showcase/code.js",
+        "node": "281308/showcase/node.js",
+        "author": "vfede"
+      },
+      {
+        "endpoint": "430013/showcase",
+        "image": "430013/showcase/snapshot.jpeg",
+        "data": "430013/showcase/data.json",
+        "code": "430013/showcase/code.js",
+        "node": "430013/showcase/node.js",
+        "author": "RobertaR"
+      },
+      {
+        "endpoint": "419367/showcase",
+        "image": "419367/showcase/snapshot.jpeg",
+        "data": "419367/showcase/data.json",
+        "code": "419367/showcase/code.js",
+        "node": "419367/showcase/node.js",
+        "author": "federicopast"
+      },
+      {
+        "endpoint": "403248/final",
+        "image": "403248/final/snapshot.jpg",
+        "data": "403248/final/data.json",
+        "code": "403248/final/code.js",
+        "node": "403248/final/node.js",
+        "author": "miccia4",
+        "page":"http://miccia4.github.io/"
+      }
+    ],
+    "gaming": [
+      {
+        "endpoint": "426271/showcase",
+        "image": "426271/showcase/snapshot.jpeg",
+        "data": "426271/showcase/data.json",
+        "code": "426271/showcase/code.js",
+        "node": "426271/showcase/node.js",
+        "author": "m4rc090"
+      },
+      {
+        "endpoint": "428800/showcase",
+        "image": "428800/showcase/snapshot.jpg",
+        "data": "428800/showcase/data.json",
+        "code": "428800/showcase/code.js",
+        "node": "428800/showcase/node.js",
+        "author": "raff0z"
+      },
+      {
+        "endpoint": "281744/showcase",
+        "image": "281744/showcase/snapshot.jpg",
+        "data": "281744/showcase/data.json",
+        "code": "281744/showcase/code.js",
+        "node": "281744/showcase/node.js",
+        "author": "ft225"
       }
     ],
     "others": [
@@ -418,11 +646,102 @@
         "author": "lcristiano"
       },
       {
+        "endpoint": "465479/showcase",
+        "image": "465479/showcase/snapshot.jpg",
+        "data": "465479/showcase/data.json",
+        "code": "465479/showcase/code.js",
+        "node": "465479/showcase/node.js",
+        "author": "h4ergo"
+      },
+      {
+        "endpoint": "415870/showcase",
+        "image": "415870/showcase/snapshot.jpeg",
+        "data": "415870/showcase/data.json",
+        "code": "415870/showcase/code.js",
+        "node": "415870/showcase/node.js",
+        "author": "octawizard"
+      },
+      {
+        "endpoint": "407842/showcase",
+        "image": "407842/showcase/snapshot.jpg",
+        "data": "407842/showcase/data.json",
+        "code": "407842/showcase/code.js",
+        "node": "407842/showcase/node.js",
+        "author": "pollaiolo"
+      },
+      {
+        "endpoint": "429006/showcase",
+        "image": "429006/showcase/snapshot.jpg",
+        "data": "429006/showcase/data.json",
+        "code": "429006/showcase/code.js",
+        "node": "429006/showcase/node.js",
+        "author": "stederob"
+      },
+      {
+        "endpoint": "419447/showcase",
+        "image": "419447/showcase/snapshot.jpg",
+        "data": "419447/showcase/data.json",
+        "code": "419447/showcase/code.js",
+        "node": "419447/showcase/node.js",
+        "author": "l4nz10"
+      },
+      {
+        "endpoint": "427098/showcase",
+        "image": "427098/showcase/snapshot.jpeg",
+        "data": "427098/showcase/data.json",
+        "code": "427098/showcase/code.js",
+        "node": "427098/showcase/node.js",
+        "author": "Pausa90"
+      },
+      {
+        "endpoint": "416886/showcase",
+        "image": "416886/showcase/snapshot.jpeg",
+        "data": "416886/showcase/data.json",
+        "code": "416886/showcase/code.js",
+        "node": "416886/showcase/node.js",
+        "author": "Phoenyx89"
+      },
+      {
+        "endpoint": "428286/showcase",
+        "image": "428286/showcase/snapshot.jpeg",
+        "data": "428286/showcase/data.json",
+        "code": "428286/showcase/code.js",
+        "node": "428286/showcase/node.js",
+        "author": "eleonoracappelli"
+      },
+      {
         "endpoint": "454863/final",
         "image": "454863/final/snapshot.jpeg",
         "code": "454863/final/code.js",
         "author": "lcristiano",
         "page": "http://lcristiano.github.com/Vite-Aerea/"
+      },
+      {
+        "endpoint": "266392/final",
+        "image": "266392/final/snapshot.jpg",
+        "data": "266392/final/data.json",
+        "code": "266392/final/code.js",
+        "node": "266392/final/node.js",
+        "author": "m4v3r1ck",
+        "page": "http://m4v3r1ck.github.io/"
+      },
+      {
+        "endpoint": "413937/final",
+        "image": "413937/final/snapshot.jpg",
+        "data": "413937/final/data.json",
+        "code": "413937/final/code.js",
+        "node": "413937/final/node.js",
+        "author": "francesco-dipi",
+        "page": "http://francesco-dipi.github.io/cvdlab_final-project/"
+      },
+      {
+        "endpoint": "430013/final",
+        "image": "430013/final/snapshot.jpg",
+        "data": "430013/final/data.json",
+        "code": "430013/final/code.js",
+        "node": "430013/final/node.js",
+        "author": "RobertaR",
+        "page": "https://robertar.github.io/"
       },
       {
         "endpoint": "453906/hw2",

@@ -200,6 +200,30 @@
       "name": "Matteo Pisani",
       "page": "https://github.com/ft225"
     },
+    "antonellogatto": {
+      "name": "Antonello Gatto",
+      "page": "https://github.com/antonellogatto"
+    },
+    "leo989": {
+      "name": "Leonardo Coaccioli",
+      "page": "https://github.com/leo989"
+    },
+    "V1LL0": {
+      "name": "Valerio Cestarelli",
+      "page": "https://github.com/V1LL0"
+    },
+    "Fuskia": {
+      "name": "Silvia Di Nardo",
+      "page": "https://github.com/Fuskia"
+    },
+    "carlodemedio": {
+      "name": "Carlo De Medio",
+      "page": "https://github.com/carlodemedio"
+    },
+    "sjcalcky": {
+      "name": "Stefano Calcaterra",
+      "page": "https://github.com/sjcalcky"
+    },
     "eleonoracappelli": {
       "name": "Eleonora Cappelli",
       "page": "https://github.com/eleonoracappelli"
@@ -383,6 +407,14 @@
         "author": "RdL87"
       },
       {
+        "endpoint": "418405/showcase",
+        "image": "418405/showcase/snapshot.jpeg",
+        "data": "418405/showcase/data.json",
+        "code": "418405/showcase/code.js",
+        "node": "418405/showcase/node.js",
+        "author": "antonellogatto"
+      },
+      {
         "endpoint": "427610/showcase",
         "image": "427610/showcase/snapshot.jpeg",
         "data": "427610/showcase/data.json",
@@ -461,6 +493,50 @@
         "node": "418681/final/node.js",
         "author": "AlessandroGiacomini",
         "page": "http://alessandrogiacomini.github.io/"
+      },
+      {
+        "endpoint": "426052/final",
+        "image": "426052/final/snapshot.jpg",
+        "data": "426052/final/data.json",
+        "code": "426052/final/code.js",
+        "node": "426052/final/node.js",
+        "author": "Fuskia",
+        "page": "http://fuskia.github.io/final-project"
+      },
+      {
+        "endpoint": "416886/final",
+        "image": "416886/final/snapshot.jpg",
+        "data": "416886/final/data.json",
+        "code": "416886/final/code.js",
+        "node": "416886/final/node.js",
+        "author": "Phoenyx89",
+        "page": "http://phoenyx89.github.io/"
+      },
+      {
+        "endpoint": "405769/final",
+        "image": "405769/final/snapshot.jpg",
+        "data": "405769/final/data.json",
+        "code": "405769/final/code.js",
+        "node": "405769/final/node.js",
+        "author": "sjcalcky",
+        "page": "http://sjcalcky.github.io/CG_final_project/"
+      },
+      {
+        "endpoint": "419367/final",
+        "image": "419367/final/snapshot.jpg",
+        "data": "419367/final/data.json",
+        "code": "419367/final/code.js",
+        "node": "419367/final/node.js",
+        "author": "federicopast",
+        "page": "http://federicopast.github.io/cv_final_project/"
+      },
+       {
+        "endpoint": "427098/final",
+        "image": "427098/final/snapshot.jpg",
+        "data": "427098/final/data.json",
+        "code": "427098/final/code.js",
+        "node": "427098/final/node.js",
+        "author": "Pausa90"
       },
       {
         "endpoint": "427610/final",
@@ -547,6 +623,22 @@
         "code": "428800/showcase/code.js",
         "node": "428800/showcase/node.js",
         "author": "raff0z"
+      },
+      {
+        "endpoint": "418681/showcase",
+        "image": "418681/showcase/snapshot.jpeg",
+        "data": "418681/showcase/data.json",
+        "code": "418681/showcase/code.js",
+        "node": "418681/showcase/node.js",
+        "author": "AlessandroGiacomini"
+      },
+      {
+        "endpoint": "429459/showcase",
+        "image": "429459/showcase/snapshot.jpeg",
+        "data": "429459/showcase/data.json",
+        "code": "429459/showcase/code.js",
+        "node": "429459/showcase/node.js",
+        "author": "V1LL0"
       },
       {
         "endpoint": "281744/showcase",
@@ -708,6 +800,46 @@
         "code": "428286/showcase/code.js",
         "node": "428286/showcase/node.js",
         "author": "eleonoracappelli"
+      },
+      {
+        "endpoint": "418196/showcase",
+        "image": "418196/showcase/snapshot.jpg",
+        "data": "418196/showcase/data.json",
+        "code": "418196/showcase/code.js",
+        "node": "418196/showcase/node.js",
+        "author": "leo989"
+      },
+      {
+        "endpoint": "266886/showcase",
+        "image": "266886/showcase/snapshot.jpeg",
+        "data": "266886/showcase/data.json",
+        "code": "266886/showcase/code.js",
+        "node": "266886/showcase/node.js",
+        "author": "carlodemedio"
+      },
+      {
+        "endpoint": "426052/showcase",
+        "image": "426052/showcase/snapshot.jpeg",
+        "data": "426052/showcase/data.json",
+        "code": "426052/showcase/code.js",
+        "node": "426052/showcase/node.js",
+        "author": "Fuskia"
+      },
+      {
+        "endpoint": "413937/showcase",
+        "image": "413937/showcase/snapshot.jpeg",
+        "data": "413937/showcase/data.json",
+        "code": "413937/showcase/code.js",
+        "node": "413937/showcase/node.js",
+        "author": "francesco-dipi"
+      },
+      {
+        "endpoint": "405769/showcase",
+        "image": "405769/showcase/snapshot.jpg",
+        "data": "405769/showcase/data.json",
+        "code": "405769/showcase/code.js",
+        "node": "405769/showcase/node.js",
+        "author": "sjcalcky"
       },
       {
         "endpoint": "454863/final",

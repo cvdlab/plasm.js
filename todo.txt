@@ -1,0 +1,15 @@
+issues
+
+_ il viewer ha alcuni comandi che rispondono alla pressione di un tasto (es. 'r' resetta la vista). Quando si premono tali tasti in scrittura nel pannello code, il viewer reagisce di conseguenza poichè gli eventi keyup/keydown sono registrati sul document. Una possibile soluzionepotrebbe essere quella di eliminare l'innesco via tasto introducendo contemporaneamente un tasto apposito nella toolbar.
+
+_ il parser marked non produce un html compatibile con md.css (prelevato da github)
+
+improvements
+
+_ pulire l'hash in caso nella funzione clear e nella funzione play
+_ aminamzioni di apertura chiusura pannello code
+_ hover sui pulsanti della toolbar
+_ tooltips o pannello informativo sugli shortcuts da tastiera
+_ eval del codice eseguito in try/catch con notifica di eventuali errori
+_ pannello di output di esecuzione del codice
+_ aggiungere un livello box di ricerca sulle keys in docs.html

@@ -1,0 +1,38 @@
+#list {
+  flex: 1 6 20%;
+  order: 0;
+  overflow: scroll;
+  background-color: #f2f2f0;
+}
+
+#description {
+  flex: 3 1 80%;
+  order: 0;
+}
+
+.label {
+  padding-left: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  cursor: pointer;
+  font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-size: 16px;
+  font-weight: 800;
+  /*line-height: 1.6;*/
+  background-color: #f2f2f0;
+}
+
+.label.selected,
+.label.selected:hover {
+  background-color: #FFFFFF;
+}
+
+.label:hover {
+  background-color: #BDECB6;
+}
+
+.docs {
+  padding-left: 8px;
+  padding-top: 8px;
+  overflow: scroll;
+}

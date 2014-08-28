@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Plasm.js docs</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/docs.css">
+    <link rel="stylesheet" href="styles/md.css">
+
+  </head>
+  <body>
+    <div id="row-container">
+      <div id="navbar">
+        <div id="bar">
+          <div id="title">Plasm.js docs</div>
+          <div id="links">
+            <ul>
+              <li><a target="_blank" href="index.html">editor</a></li>
+              <li><a target="_blank" href="showcase.html">showcase</a></li>
+              <li><a target="_blank" href="https://github.com/cvdlab/plasm.js">github</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="col-container">
+        <div id="list"></div>
+        <div id="description" class="docs"></div>
+      </div>
+    </div>
+
+    <!-- <div id="copyright">CVDLAB © 2013-2014</div> -->
+    <div id="made">made with ♥ in Rome, Italy @ <a target="_blank" href="http://cvdlab.org">CVDLAB</a></div>
+
+
+<template id="translate" data-label="T" data-keys="t translate" type="text/x-markdown">
+### Translate
+
+### `T(axis)(values)(model)`
+
+Clone `model` and translate the cloned model by `values` along `axis`
+
+#### I/O
+
+> **&rArr;** `Array` `axis`: an array of `Number` specifying which dimensions translate
+>
+> **&lArr;** `Function`: anonymous function
+>
+> > **&rArr;** `Array` `values`: an array of `Number` specifying translation quantity for every dimension in `dims`
+> >
+> > **&lArr;** `Function`: anonymous function
+> >
+> > > **&rArr;** `plasm.Model` or `plasm.Struct` `object`: the object to translate
+> > >
+> > > **&lArr;** `plasm.Model` or `plasm.Struct`: the translated object
+
+#### Example
+
+```js
+c = CUBE(3)
+DRAW(c)
+```
+
+```js
+c1 = T([1,2])([2,3])(c)
+DRAW(c1)
+```
+</template>
+
+<template id="rotate" data-label="R" data-keys="r rotate" type="text/x-markdown">
+### Rotate
+
+### `R(axis)(angle)(model)`
+
+Clone `model` and rotate the cloned model by `angle` on the plane described by `axis`
+
+#### I/O
+
+> **&rArr;** `Array` `axis`: rotational plane axis (in 3D `[1,2]`, `[1,3]` or `[2,3]`)
+>
+> **&lArr;** `Funciton`: an anonymous function
+>
+> > **&rArr;** `Number` `angle`: rotational angle (in radiant, from `0` to `2π`)
+> >
+> > **&lArr;** `Function`: an anonymous function
+> >
+> > > **&rArr;** `plasm.Model` or `plasm.Struct` `object`: the object to rotate
+> > >
+> > > **&lArr;** `plasm.Model` or `plasm.Struct`: the rotated object
+
+#### Example
+
+```js
+c = CUBE(3)
+DRAW(c)
+```
+
+```js
+c1 = R([1,2])(PI/4)(c)
+DRAW(c1)
+```
+</template>
+
+<template id="scale" data-label="S" data-keys="s scale" type="text/x-markdown">
+### Scale
+
+### `S(axis)(values)(model)`
+
+Clone `model` and scale the cloned model by `values` along `axis`
+
+#### I/O
+
+> **&rArr;** `Array` `axis`: axis to scale along
+>
+> **&lArr;** `Function`: an anonymous function
+>
+> > **&rArr;** `Array` `values`: scaling factors
+> >
+> > **&lArr;** `Function`: an anonymous function
+> >
+> > > **&rArr;** `plasm.Model` or `plasm.Struct` `object`: the object to scale
+> > >
+> > > **&lArr;** `plasm.Model` or `plasm.Struct`: the scaled object
+
+#### Example
+
+```js
+c = CUBE(3)
+DRAW(c)
+```
+
+```js
+c1 = S([1,2])([10,15])(c)
+DRAW(c1)
+```
+</template>
+
+<template id="struct" data-label="STRUCT" data-keys="struct" type="text/x-markdown">
+### Struct
+
+#### `STRUCT(items)`
+
+Create a struct of items.  
+If a transformation is encountered in items,  
+it is applied to all of the following items.
+
+#### I/O
+
+> **&rArr;** `Array` `items`: an array of `Model` or `Struct` or `Function`
+> 
+> **&lArr;** `Struct`: the struct.
+
+#### Example
+
+```js
+var cube1 = CUBE(3);
+var t = T([0])([1.5]);
+var cube2 = t(cube1);
+var struct1 = STRUCT([cube1, cube2]);
+DRAW(struct1);
+```
+
+```js
+var cube1 = CUBE(3);
+var t = T([0])([1.5]);
+var struct1 = STRUCT([cube1, t, cube1]);
+DRAW(struct1);
+```
+</template>
+
+<template id="extrude" data-label="EXTRUDE" data-keys="extrude" type="text/x-markdown">
+### Extrude
+
+#### `EXTRUDE(quotes)(object)`
+
+Extrude an object
+
+#### I/O
+
+> **&rArr;** `Array` `quotes`: a list of quotes of extrusion
+> 
+> **&lArr;** `Function`: an anonimous function
+> 
+> > **&rArr;** `Model` or `Struct` `object`: the object to extrude
+> > 
+> > **&lArr;** `Model` or `Struct` the object extruded 
+
+#### Example
+
+```js
+var model = SIMPLEX(1);
+var extruded = EXTRUDE([1])(model);
+DRAW(extruded);
+```
+</template>
+
+
+
+
+</template>
+
+<template id="domain" data-label="DOMAIN" data-keys="domain" type="text/x-markdown">
+### Domain
+
+### `DOMAIN(dims)(divs)`
+
+Create a domain.
+
+#### I/O
+
+> **&rArr;** `Array` `dims`: dimensions `[dx, dy, dz, ...]`.
+>
+> > `Array` `dx`: intervals `[start_x, end_x]`
+> > > `Number` `start_x`: *x* min
+> > > `Number` `end_x`: *x* max
+> >
+> > `Array` `dy`: intervals `[start_y, end_y]`
+> > > `Number` `start_y`: *y* min
+> > > `Number` `end_y`: *y* max
+> >
+> > `Array` `dz`: intervals `[start_z, end_z]`
+> > > `Number` `start_z`: *z* min
+> > > `Number` `end_z`: *z* max
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `divs`: divisions `[nx, ny, nz, ...]`.
+> >
+> > > `Number` `nx`: division along x axes.
+> > > `Number` `ny`: division along y axes.
+> > > `Number` `nz`: division along z axes.
+> >
+> > **&lArr;** `plasm.Model`: a domain.
+
+#### Example
+
+```js
+var domain1 = DOMAIN([[0, PI])([32]);
+DRAW(domain1);
+```
+
+```js
+var domain2 = DOMAIN([[0, PI], [0,1]])([32, 2]);
+DRAW(domain2);
+```
+
+```js
+var domain3 = DOMAIN([[0, PI], [0,1], [0, 0.5]])([32, 2, 5]);
+DRAW(domain3);
+```
+</template>
+
+<template id="map" data-label="MAP" data-keys="map" type="text/x-markdown">
+### Map
+
+#### MAP(mapping)(domain)
+
+Map a domain by a mapping function.
+
+#### I/O
+
+> **&rArr;** `Function` or `Array<Function>` mapping: the mapping function or an array of mapping functions
+> 
+> > **&rArr;** `Array` `v`: point of the domain to map
+> > 
+> > **&lArr;** `Array`: the mapped point.
+> 
+> **&lArr;** `Function`: an anonymous function.
+> 
+> > **&rArr;** `plasm.Model` `domain`: the domain to map.
+> >
+> > **&rArr;** `plasm.Model`: the mapped domain.
+
+#### Example
+
+```js
+var domain = DOMAIN([[0, 2*PI]])([32]);
+var mapping = function (v) { return [SIN(v[0]), COS(v[1])]; });
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+```js
+var domain = DOMAIN([[0, 2*PI]])([32]);
+var mapping = [
+  function (v) { return [SIN(v[0])]; },
+  function (v) { return [COS(v[1])]; }
+];
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+- - -
+
+#### Example - Bisector
+
+```js
+var domain = DOMAIN([[0, 5]])([10]);
+var mapping = function (v) { return [v[0], v[0]] };
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+```js
+var domain = DOMAIN([[0, 5]])([10]);
+var fx = function (v) { return [v[0]]; };
+var fy = function (v) { return [v[0]]; };
+mappings = [fx, fy];
+var model = MAP(mappings)(domain);
+DRAW(model);
+```
+
+- - -
+
+#### Example - Sin
+
+```js
+var domain = DOMAIN([[0, 2*PI]])([36]);
+var mapping = function (v) { return [v[0], SIN(V[0])]; };
+var model = MAP(mapping)(domain);
+DRAW(model1);
+```
+
+```js
+var fx = function (v) { return [v[0]]; };
+var fy = function (v) { return [SIN(V[0])]; };
+var mappings = [fx, fy];
+var model = MAP(mappings)(domain);
+DRAW(model);
+```
+
+- - -
+
+#### Example - Cos
+
+```js
+var domain = DOMAIN([[0, 2*PI]])([36]);
+var mapping = function (v) { return [v[0], COS(V[0])]; };
+var model = MAP(mapping)(domain);
+DRAW(model1);
+```
+
+```js
+var fx = function (v) { return [v[0]]; };
+var fy = function (v) { return [COS(V[0])]; };
+var mappings = [fx, fy];
+var model = MAP(mappings)(domain);
+DRAW(model);
+```
+
+#### Example - Circle
+
+```js
+var domain = DOMAIN([[0, 2*PI]])([36]);
+var mapping = function (v) { return [COS(V[0]), SIN(V[0])]; };
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+```js
+var domain = DOMAIN([[0, 2*PI]])([36]);
+var circle = function (r) {
+  return  function (v) {
+    return [r * COS(V[0]), r * SIN(V[0])];
+  };
+};
+var mapping = circle(3);
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+- - -
+
+#### Example - Sphere
+
+```js
+var domain = DOMAIN([[0, PI], [0, 2*PI]])([24,36]);
+var mapping = function (v) {
+  var a = v[0];
+  var b = v[1];
+  return [SIN(a)*COS(b), SIN(a)*SIN(b), COS(a)];
+};
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+```js
+var domain = DOMAIN([[0, PI], [0, 2*PI]])([24,36]);
+var sphere = function (r) {
+  return function (v) {
+    var a = v[0];
+    var b = v[1];
+    return [r*SIN(a)*COS(b), r*SIN(a)*SIN(b), r*COS(a)];
+  };
+};
+var mapping = sphere(2);
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+
+- - -
+
+#### Example - Torus
+
+```js
+var domain = DOMAIN([[0, 2*PI],[0, 2*PI]])([36,72]);
+var torus = function (R, r) {
+  return function (v) {
+    var a = v[0];
+    var b = v[1];
+
+    var u = (r * COS(a) + R) * COS(b);
+    var v = (r * COS(a) + R) * SIN(b);
+    var w = (r * SIN(a));
+
+    return [u,v,w];
+  };
+};
+var mapping = torus(3,1);
+var model = MAP(mapping)(domain);
+DRAW(model);
+```
+</template>
+
+
+
+
+<template id="bezier" data-label="BEZIER" data-keys="bezier" type="text/x-markdown">
+### Bezier
+
+### `BEZIER(sel)(controlpoints)`
+Transfinite mapping function of genric degree Bezier curve.
+
+#### I/O
+
+> **&rArr;** `Function` `selector`: domain coordinate selector function.
+>
+> > **&rArr;** `Array` `v`: point of the `domain`.
+> >
+> > **&lArr;** `Number`: the selected coordinate.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `Function`: an anonymous mapping function.
+
+#### Example
+
+```js
+var domain = INTERVALS(1)(32);
+var controls = [[-0,0],[1,0],[1,1],[2,1],[3,1]];
+var mapping = BEZIER(S0)(controls);
+var curve = MAP(mapping)(domain);
+DRAW(curve);
+```
+
+```js
+var domain = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
+var c0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
+var c1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+var c2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+var c3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+var surface = MAP(BEZIER(S1)([c0,c1,c2,c3]))(domain);
+DRAW(surface);
+```
+</template>
+
+<template id="cubic_hermite" data-label="CUBIC_HERMITE" data-keys="cubic hermite" type="text/x-markdown">
+### Cubic Hermite
+
+### `CUBIC_HERMITE(selector)(controlpoints)`
+
+Transfinite mapping function of cubic Hermite curve.
+
+#### I/O
+
+> **&rArr;** `Function` `selector`: domain coordinate selector function.
+>
+> > **&rArr;** `Array` `v`: point of the `domain`.
+> >
+> > **&lArr;** `Number`: the selected coordinate.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `Function`: an anonymous mapping function.
+
+#### Example
+
+```js
+var domain = INTERVALS(1)(20);
+var controls = [[1,0],[1,1],[ -1, 1],[ 1,0]];
+var mapping = CUBIC_HERMITE(S0)(controls);
+var curve = MAP(mapping)(domain);
+DRAW(curve);
+```
+
+```js
+var domain = PROD1x1([INTERVALS(1)(14),INTERVALS(1)(14)]);
+var c1 = CUBIC_HERMITE(S0)([[1,0,0],[0,1,0],[0,3,0],[-3,0,0]]);
+var c2 = CUBIC_HERMITE(S0)([[0.5,0,0],[0,0.5,0],[0,1,0],[-1,0,0]]);
+var mapping = CUBIC_HERMITE(S1)([c1,c2,[1,1,1],[-1,-1,-1]]);
+var surface = MAP(sur3)(domain);
+DRAW(surface);
+```
+</template>
+
+<template id="nubspline" data-label="NUBSPLINE" data-keys="nubspline" type="text/x-markdown">
+### NUBSpline
+
+### `NUBSLINE(degree)(knots)(controls)`
+
+Non-uniform B-Spline.
+
+#### I/O
+
+> **&rArr;** `Number` `degree`: spline degree.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `knots`: Array of integer describing spline's knots.
+> >
+> > **&lArr;** `Function`: an anonymous function.
+> >
+> > > **&rArr;** `Array` `controls`: Array of integer describing spline's control points.
+> > >
+> > > **&lArr;** `plasm.Model`: non uniform spline.
+
+#### Example
+
+```js
+var controls = [[0,0],[-1,2],[1,4],[2,3],[1,1],[1,2],[2.5,1],[2.5,3],[4,4],[5,0]];
+var knots = [0,0,0,0,1,2,3,4,5,6,7,7,7,7];
+var nubspline = NUBSPLINE(3)(knots)(controls);
+DRAW(nubspline);
+```
+</template>
+
+<template id="nubs" data-label="NUBS" data-keys="nubs" type="text/x-markdown">
+### NUBS
+
+### `NUBS(sel)(degree)(knots)(controls)`
+
+Transfinite Non-uniform B-Spline.
+
+#### I/O
+
+> **&rArr;** `Function` `sel`: selctor function.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Number` `degree`: spline degree.
+> >
+> > **&lArr;** `Function`: an anonymous function.
+> >
+> > > **&rArr;** `Array` `knots`: Array of integer describing spline's knots.
+> > >
+> > > **&lArr;** `Function`: an anonymous function.
+> > >
+> > > > **&rArr;** `Array` `controls`: Array of integer describing spline's control points.
+> > > >
+> > > > **&lArr;** `plasm.Model`: non uniform spline.
+
+#### Example
+
+```js
+var domain = INTERVALS(1)(20);
+var controls = [[0,0],[-1,2],[1,4],[2,3],[1,1],[1,2],[2.5,1],[2.5,3],[4,4],[5,0]];
+var nubs = NUBS(S0)(3)([0,0,0,0,1,2,3,4,5,6,7,7,7,7])(controls);
+var model = MAP(nubs)(domain);
+DRAW(model);
+```
+
+```js
+var domain = DOMAIN([[0,1],[0,1]])([30,30]);
+var b0 = BEZIER(S0)([[0,0,0],[5,-10,0],[10,0,0]]);
+var b1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+var b2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+var b3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+var controls = [b0,b1,b2,b3];
+var nubs = NUBS(S1)(3)([0,0,0,0,7,7,7,7])(controls);
+var model = MAP(nubs)(domain);
+DRAW(model);
+```
+</template>
+
+<template id="nurbsline" data-label="NURBSLINE" data-keys="nurbsline" type="text/x-markdown">
+### NURBSline
+
+### `NURBSLINE(degree)(knots)(controls)`
+
+Non-uniform Rational B-Spline.
+
+#### I/O
+
+> **&rArr;**  `Number` `degree`: spline degree.
+>
+> **&lArr;**  `Function`: an anonymous function.
+>
+> > **&rArr;**  `Array` `knots`: Array of integer describing spline's knots.
+> >
+> > **&lArr;**  `Function`: an anonymous function.
+> >
+> > > **&rArr;**  `Array` `controls`: Array of integer describing spline's control points.
+> > >
+> > > **&lArr;**  `plasm.Model`: non uniform rational spline.
+
+#### Example
+
+```js
+var p = SQRT(2)/2.0;
+var controls = [[-1,0,1], [-p,p,p], [0,1,1], [p,p,p], [1,0,1], [p,-p,p], [0,-1,1], [-p,-p,p], [-1,0,1]];
+var knots = [0,0,0,1,1,2,2,3,3,4,4,4];
+var nurbs = NURBSPLINE(2)(knots)(controls);
+DRAW(nurbs);
+```
+</template>
+
+<template id="spline" data-label="SPLINE" data-keys="spline" type="text/x-markdown">
+### Spline
+
+### `SPLINE(curve)(controlpoints)`
+
+Create spline curve.
+
+#### I/O
+
+> **&rArr;** `Function` `curve`: spline curve generator function, such as the result of application of `CUBIC_UBSPLINE` or `CUBIC_CARDINAL` to a domain.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `plasm.Struct`: the spline.
+
+#### Example
+
+```js
+var domain = INTERVALS(1)(20);
+var controlpoints = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+var splineCardinal = COLOR([1,0,0])(SPLINE(CUBIC_CARDINAL(domain))(controlpoints));
+var splineCubic = COLOR([0,1,0])(SPLINE(CUBIC_UBSPLINE(domain))(controlpoints));
+var points = SIMPLICIAL_COMPLEX(controlpoints)([[0],[1],[2],[3],[4],[5],[6],[7],[8],[9]]);
+var out = STRUCT([splineCardinal,splineCubic,points]);
+DRAW(out);
+```
+</template>
+
+<template id="cubic_cardinal" data-label="CUBIC_CARDINAL" data-keys="cubic cardinal" type="text/x-markdown">
+### Cubic Cardinal
+
+### `CUBIC_CARDINAL(domain)`
+
+Tranfinite Cubic cardinal splines curve generator function on `domain`.
+
+#### I/O
+
+> **&rArr;** `plasm.Model` `domain`: domain of the generator function.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `plasm.Model`: a spline segment.
+
+#### Example
+
+```js
+var domain = INTERVALS(1)(20);
+var controls = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+var spline = SPLINE(CUBIC_CARDINAL(domain))(controlpoints);
+DRAW(spline);
+```
+</template>
+
+<template id="cubic_ubspline" data-label="CUBIC_UBSPLINE" data-keys="cubic ubspline" type="text/x-markdown">
+### Cubic UBSpline
+
+### `CUBIC_UBSPLINE(domain)`
+
+Tranfinite cubic uniform B-splines curve generator function on `domain`.
+
+#### I/O
+
+> **&rArr;** `plasm.Model` `domain`: domain of the generator function.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `plasm.Model`: a spline segment.
+
+#### Example
+
+```js
+var domain = INTERVALS(1)(20);
+var controls = [[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],[7,2],[6,-2],[2,-3]];
+var spline = SPLINE(CUBIC_UBSPLINE(domain))(controlpoints);
+DRAW(spline);
+```
+
+
+
+
+
+</template>
+
+<template id="bezier_surface" data-label="BEZIER (surface)" data-keys="bezier surface" type="text/x-markdown">
+### Bezier (surface)
+
+### `BEZIER(sel)(controlpoints)`
+
+Transfinite mapping function of genric degree Bezier surface.
+
+#### I/O
+
+> **&rArr;** `Function` `selector`: domain coordinate selector function.
+>
+> > **&rArr;** `Array` `v`: point of the `domain`.
+> >
+> > **&lArr;** `Number`: the selected coordinate.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `Function`: an anonymous mapping function.
+
+#### Example
+
+```js
+var domain = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
+var c0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
+var c1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+var c2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+var c3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+var surface = MAP(BEZIER(S1)([c0,c1,c2,c3]))(domain);
+DRAW(surface);
+```
+</template>
+
+<template id="cubic_hermite_surface" data-label="CUBIC_HERMITE (surface)" data-keys="cubic hermite surface" type="text/x-markdown">
+### Cubic Hermite (surface)
+
+### `CUBIC_HERMITE(selector)(controlpoints)`
+
+Transfinite mapping function of cubic Hermite surface.
+
+#### I/O
+
+> **&rArr;** `Function` `selector`: domain coordinate selector function.
+>
+> > **&rArr;** `Array` `v`: point of the `domain`.
+> >
+> > **&lArr;** `Number`: the selected coordinate.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `controlpoints`: an array of points and curve mapping functions describing curve control points.
+> >
+> > **&lArr;** `Function`: an anonymous mapping function.
+
+#### Example
+
+```js
+var domain = PROD1x1([INTERVALS(1)(14),INTERVALS(1)(14)]);
+var c1 = CUBIC_HERMITE(S0)([[1,0,0],[0,1,0],[0,3,0],[-3,0,0]]);
+var c2 = CUBIC_HERMITE(S0)([[0.5,0,0],[0,0.5,0],[0,1,0],[-1,0,0]]);
+var mapping = CUBIC_HERMITE(S1)([c1,c2,[1,1,1],[-1,-1,-1]]);
+var surface = MAP(sur3)(domain);
+DRAW(surface);
+```
+</template>
+
+<template id="nubs_surface" data-label="NUBS (surface)" data-keys="nubs surface" type="text/x-markdown">
+### NUBS (surface)
+
+### `NUBS(sel)(degree)(knots)(controls)`
+
+Transfinite Non-uniform B-Spline surface.
+
+#### I/O
+
+> **&rArr;** `Function` `sel`: selctor function.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Number` `degree`: spline degree.
+> >
+> > **&lArr;** `Function`: an anonymous function.
+> >
+> > > **&rArr;** `Array` `knots`: Array of integer describing spline's knots.
+> > >
+> > > **&lArr;** `Function`: an anonymous function.
+> > >
+> > > > **&rArr;** `Array` `controls`: Array of integer describing spline's control points.
+> > > >
+> > > > **&lArr;** `plasm.Model`: non uniform spline.
+
+#### Example
+
+```js
+var domain = DOMAIN([[0,1],[0,1]])([30,30]);
+var b0 = BEZIER(S0)([[0,0,0],[5,-10,0],[10,0,0]]);
+var b1 = BEZIER(S0)([[0,2,0],[8,3,0],[9,2,0]]);
+var b2 = BEZIER(S0)([[0,4,1],[7,5,-1],[8,5,1],[12,4,0]]);
+var b3 = BEZIER(S0)([[0,6,0],[9,6,3],[10,6,-1]]);
+var controls = [b0,b1,b2,b3];
+var nubs = NUBS(S1)(3)([0,0,0,0,7,7,7,7])(controls);
+var model = MAP(nubs)(domain);
+DRAW(model);
+```
+</template>
+
+<template id="ruled_surface" data-label="RULED_SURFACE" data-keys="ruled surface" type="text/x-markdown">
+### Ruled surface
+
+### `RULED_SURFACE(profiles)`
+
+Create a ruled surface S mapping between two profile curves A and B (in `profiles`).
+The curves can either be a known profile function, like `BEZIER`, or a custom one (see examples).
+
+#### I/O
+
+> **&rArr;** `Array` `functions`: mapping `Function` of the two curves.
+>
+> **&lArr;** `Function`: mapping of the profile ruled surface
+
+#### Example
+
+```js
+// Hyperbolic paraboloid
+var dom2D = T([0,1])([-1,-1])( PROD1x1([INTERVALS(2)(10),INTERVALS(2)(10)]) );
+var funAlfa = function(pt) { return [ pt[0], pt[0], 0 ]; };
+var funBeta = function(pt) { return [ 1, -1, pt[0] ]; };
+var out = MAP(RULED_SURFACE([funAlfa,funBeta]))(dom2D);
+DRAW(out);
+```
+
+```js
+// Linear interpolation of curves: surface connecting a Bézier curve and a portion of a circle
+var dom2D = PROD1x1([INTERVALS(1)(50),INTERVALS(1)(50)]);
+var funAlfa = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+var funBeta = function(curveFun) {
+  return function(pt) {
+    var pAlfa = curveFun(pt);
+    return [ 
+      COS( PI * (3/2) * pt[0] ) - pAlfa[0], 
+      SIN( PI * (3/2) * pt[0] ) - pAlfa[1], 
+      1 - pAlfa[2] 
+    ];
+  };
+};
+var mapping = RULED_SURFACE([funAlfa,funBeta(funAlfa)]);
+var out = MAP(mapping)(dom2D);
+DRAW(out);
+```
+</template>
+
+<template id="cylindrical_surface" data-label="CYLINDRICAL_SURFACE" data-keys="cylindrical surface" type="text/x-markdown">
+### Cylindrical surface
+
+### `CYLINDRICAL_SURFACE(profile)(vector)`
+
+Create a specific ruled surface where  
+`vector` is the direction of the lines  
+`profile` is the non-complanar section curve  
+that can be a known profile function (e.g. `BEZIER`, ...)
+
+#### I/O
+
+> **&rArr;** `Function` `profile`: mapping `Function` of the profile curve.
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Array` `vector`: an array of vector costant components.
+> >
+> > **&lArr;** `Function`: mapping of the profile of the cylindrical surface.
+
+
+#### Example
+
+```js
+var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
+var ncpVector = [0,0,1];
+var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+var out = MAP(CYLINDRICAL_SURFACE(funProfile)(ncpVector))(domain);
+DRAW(out);
+```
+</template>
+
+<template id="conical_surface" data-label="CONICAL_SURFACE" data-keys="conical surface" type="text/x-markdown">
+### Conical surface
+
+### `CONICAL_SURFACE(apex)(profile)`
+
+Create a conical surface between a vertex (`apex`) and a `profile` curve.  
+The curve can be a known profile function, like `BEZIER`, or a custom one.
+
+#### I/O
+
+> **&rArr;** `Array` `apex`: the cone's vertex (an array of coordinates).
+>
+> **&lArr;** `Function`: an anonymous function.
+>
+> > **&rArr;** `Function` `profile`: mapping `Function` of the profile curve.
+> >
+> > **&lArr;** `Function`: mapping of the profile of the conical surface.
+
+
+#### Example
+
+```js
+var domain = PROD1x1([INTERVALS(1)(20),INTERVALS(1)(6)]);
+var apex = [0,0,1];
+var funProfile = BEZIER(S0)([[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0]]);
+var out = MAP(CONICAL_SURFACE(apex)(funProfile))(domain);
+DRAW(out);
+```
+</template>
+
+<template id="rotational_surface" data-label="ROTATIONAL_SURFACE" data-keys="rotational surface" type="text/x-markdown">
+## Rotational surface
+
+### `ROTATIONAL_SURFACE(profile)`
+
+Create a rotational surface mapping given the mapping of the profile to rotate.
+
+#### I/O
+
+> **&rArr;** `Function` `profile`: mapping of the profile to rotate.
+>
+> **&lArr;** `Function`: mapping of the rotational surface
+
+#### Example
+
+```js
+var domain = DOMAIN([[0,1],[0,2*PI]])([20,20]);
+var profile = BEZIER(S0)([[0,0,0],[3,0,3],[3,0,5],[0,0,7]]);
+var mapping = ROTATIONAL_SURFACE(profile);
+var surface = MAP(mapping)(domain);
+```
+</template>
+
+<template id="profileprod_surface" data-label="PROFILEPROD_SURFACE" data-keys="profileprod surface" type="text/x-markdown">
+### Profileprod surface
+
+### `PROFILEPROD_SURFACE(profiles)`
+
+Create a surface S mapping as profile product between two plane curves A and B (in `profiles`)
+
+#### I/O
+
+> **&rArr;** `Array` `profiles`: mapping `Function` of the two plane curves profile to product.
+>
+> **&lArr;** `Function`: mapping of the profile product surface
+
+#### Example
+
+```js
+var domain_1 = INTERVALS(1)(32);
+var domain_2 = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]); // DOMAIN([[0,1],[0,1]])([20,20]);
+
+var controls_a = [[0,0,0],[2,0,0],[0,0,4],[1,0,5]];
+var mapping_a = BEZIER(S0)(controls_a);
+var curve_a = MAP(mapping_a)(domain1);
+DRAW(COLOR([1,0,1])(curve0));
+
+var controls_b = [[0,0,0],[3,-0.5,0],[3,3.5,0],[0,3,0]];
+var mapping_b = BEZIER(S1)(controls_b);
+var curve_b = MAP(mapping_b)(domain_1);
+DRAW(COLOR([1,1,0])(curve_b));
+
+var mapping_b0 = BEZIER(S0)(controls_b);
+var curve_b0 = MAP(mapping_b0)(domain_1);
+DRAW(COLOR([1,1,0])(curve_b));
+
+var mapping_c = PROFILEPROD_SURFACE([mapping_a,mapping_b]);
+var surface = MAP(mapping_c)(domain_2);
+DRAW(surface);
+```
+</template>
+
+<template id="coons_patch" data-label="COONS_PATCH" data-keys="coons patch" type="text/x-markdown">
+### Coons patch
+
+### `COONS_PATCH(controlpoints)`
+
+Mapping function of a Coons Patch.
+
+#### I/O
+
+> **&rArr;** `Array` `controlcurves`: an array of curves mapping functions describing surface's boundaries
+>
+> **&lArr;** `Function`: an anonymous mapping function.
+
+#### Example
+
+```js
+var dom1D = INTERVALS(1)(32);
+var dom2D = PROD1x1([INTERVALS(1)(16),INTERVALS(1)(16)]);
+var Su0 = BEZIER(S0)([[0,0,0],[10,0,0]]);
+var curve0 = MAP(Su0)(dom1D);
+DRAW(curve0);
+
+var Su1 = BEZIER(S0)([[0,10,0],[2.5,10,3],[5,10,-3],[7.5,10,3],[10,10,0]]);
+var curve1 = MAP(Su1)(dom1D);
+DRAW(curve1);
+
+var control2 = [[0,0,0],[0,0,3],[0,10,3],[0,10,0]];
+var Sv0 = BEZIER(S1)(control2);
+var curve2 = MAP(BEZIER(S0)(control2))(dom1D);
+DRAW(curve2);
+
+var control3 = [[10,0,0],[10,5,3],[10,10,0]];
+var Sv1 = BEZIER(S1)(control3);
+var curve3 = MAP( BEZIER(S0)(control3))(dom1D);
+DRAW(curve3);
+
+var out = MAP(COONS_PATCH([Su0,Su1,Sv0,Sv1]))(dom2D);
+DRAW(out);
+```
+</template>
+
+<template id="triangle_domain" data-label="TRIANGLE_DOMAIN" data-keys="triangle domain" type="text/x-markdown">
+### Triangle domain
+
+### `TRIANGLE_DOMAIN(n, points)`
+
+Create a triangle domain using three points as vertices. Every edge is subdivided in n parts.
+
+#### I/O
+
+> **&rArr;** `Number` `n`: number of subdivisions for every edge
+> **&rArr;** `Array` `points`: an array of points, represented as arrays of coordinates.
+>
+> **&lArr;** `plasm.Model`: a triangle domain.
+
+#### Example
+
+```js
+var domTRI = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+DRAW(domTRI);
+DRAW(SKELETON(1)(domTRI));
+```
+</template>
+
+<template id="triangular_coons_patch" data-label="TRIANGULAR_COONS_PATCH" data-keys="triangular coons patch" type="text/x-markdown">
+### Triangular Coons patch
+
+### `TRIANGULAR_COONS_PATCH(controlcurves)`
+
+Create a triangular Coons patch interpolating three control curves
+
+#### I/O
+
+> **&rArr;** `Array` `curves`: an array of three curves
+>
+> **&lArr;** instance of `plasm.Model`: a triangular Coons patch.
+
+#### Example
+
+```js
+var dom1D = INTERVALS(1)(32);
+var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+var Cab0 = BEZIER(S0)([[10,0,0],[6,0,3],[3,0,3],[0,0,0]]);
+DRAW(MAP(Cab0)(dom1D));
+var Cbc0 = BEZIER(S0)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+var Cbc1 = BEZIER(S1)([[10,0,0],[10,2,4],[8,8,-4],[2,10,4],[0,10,0]]);
+DRAW(MAP(Cbc0)(dom1D));
+var Cca0 = BEZIER(S0)([[0,10,0],[0,6,-5],[0,3,5],[0,0,0]]);
+DRAW(MAP(Cca0)(dom1D));
+var out = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+DRAW(out);
+DRAW(SKELETON(1)(out));
+```
+
+```js
+var dom1D = INTERVALS(1)(32);
+var dom2D = TRIANGLE_DOMAIN(32, [[1,0,0],[0,1,0],[0,0,1]]);
+var Cab0 = BEZIER(S0)([[0,2,0],[-2,2,0],[-2,0,0],[-2,-2,0],[0,-2,0]]);
+DRAW(MAP(Cab0)(dom1D));
+
+var Cbc0 = BEZIER(S0)([[0,2,0],[-1,2,0],[-1,1,1],[-1,0,2],[0,0,2]]);
+var Cbc1 = BEZIER(S1)([[0,2,0],[-1,2,0],[-1,1,1],[-1,0,2],[0,0,2]]);
+DRAW(MAP(Cbc0)(dom1D));
+
+var Cca0 = BEZIER(S0)([[0,0,2],[-1,0,2],[-1,-1,1],[-1,-2,0],[0,-2,0]]);
+DRAW(MAP(Cca0)(dom1D));
+
+var out1 = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+DRAW(out1);
+DRAW(SKELETON(1)(out1));
+
+var Cab0 = BEZIER(S0)([[0,-2,0],[2,-2,0],[2,0,0],[2,2,0],[0,2,0]]);
+DRAW(MAP(Cab0)(dom1D));
+
+var Cbc0 = BEZIER(S0)([[0,-2,0],[1,-2,0],[1,-1,1],[1,0,2],[0,0,2]]);
+var Cbc1 = BEZIER(S1)([[0,-2,0],[1,-2,0],[1,-1,1],[1,0,2],[0,0,2]]);
+DRAW(MAP(Cbc0)(dom1D));
+
+var Cca0 = BEZIER(S0)([[0,0,2],[1,0,2],[1,1,1],[1,2,0],[0,2,0]]);
+DRAW(MAP(Cca0)(dom1D));
+
+var out2 = MAP(TRIANGULAR_COONS_PATCH([Cab0,Cbc1,Cca0]))(dom2D);
+DRAW(out2);
+DRAW(SKELETON(1)(out2));
+```
+</template>
+
+<template id="tmpl-list">
+  <div class="label" data-id="{{=it.id}}">{{=it.label}}</div>
+</template>
+
+<script src="support/doT.js"></script>
+<script src="support/marked.js"></script>
+
+<script>
+  marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: true,
+    sanitize: true,
+    smartLists: true,
+    smartypants: true
+  });
+  var tmpl = {
+    list: doT.template(document.querySelector('#tmpl-list').innerHTML)
+  };
+  var doc_nodes = document.querySelectorAll('template[type="text/x-markdown"]');
+  var list = document.querySelector('#list');
+  var description = document.querySelector('#description');
+  var docs = {};
+  var list_html = '';
+  var ids;
+  var selected;
+
+  Array.prototype.forEach.call(doc_nodes, function (doc) {
+    var id = doc.getAttribute('id');
+    var label = doc.getAttribute('data-label');
+    var keys = doc.getAttribute('data-keys').split(' ');
+    var description_el = document.createElement('div');
+    var label_html = tmpl.list({
+      label: label,
+      id: id
+    });
+
+    description_el.innerHTML = marked(doc.innerHTML);
+    docs[id] = {
+      id: id,
+      label: label,
+      keys: keys,
+      description_el: description_el
+    };
+
+    list_html += label_html;
+  });
+
+  list.innerHTML = list_html;
+  
+  ids = Object.keys(docs);
+  ids.forEach(function (id) {
+    var doc = docs[id];
+    var label_el = document.querySelector('[data-id="'+id+'"]');
+    doc.label_el = label_el;
+    label_el.addEventListener('click', function (e) {
+      description.innerHTML = '';
+      description.appendChild(doc.description_el);
+      
+      if (selected) {
+        selected.className = selected.className.replace(/\bselected\b/gi, '');
+      }
+      label_el.className += ' selected ';
+      selected = label_el;
+    });
+  });
+</script>
+
+</body>
+</html>
